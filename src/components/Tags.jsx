@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux'
 import TagSearchInput from './tags/TagSearchInput';
 import TagAddNew from './tags/TagAddNew';
 import TagSearchList from './tags/TagSearchList';
 
-class Tags extends React.Component {
+export default class Tags extends Component {
 
   constructor() {
     super();
@@ -53,4 +54,9 @@ class Tags extends React.Component {
   }
 }
 
-export default Tags;
+Tags.propTypes = {
+  allTags: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string
+  }))
+};

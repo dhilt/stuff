@@ -1,4 +1,3 @@
-var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -35,7 +34,8 @@ module.exports = {
 			inject: 'body'
 		}),
 		new webpack.ProvidePlugin({
-		    'window.fetch': 'exports?self.fetch!whatwg-fetch'
-        })
-	]	
+			'window.fetch': 'exports?self.fetch!whatwg-fetch'
+			//'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+		})
+	]
 };
