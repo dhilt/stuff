@@ -1,26 +1,12 @@
-import React from 'react';
+import React, {PropTypes} from 'react'
 
-class TagSearchInput extends React.Component {
-	constructor() {
-		super();
-		this.state = {
-			searchString: ''
-		}
-		this.handleChange = this.handleChange.bind(this);
-	}
-  	handleChange (event) {
-  		this.setState({searchString: event.target.value});
-  		this.props.onChange(event.target.value );
-  	}
-	render() {
-		return <div className="tagSearchInput">
-				<input
-					value={this.state.searchString}
-					onChange={this.handleChange}
-				/>
-		</div>;
-	}
-}
+const TagSearchInput = ({onChange}) => (
+	<input
+		onChange={(e) => onChange(e.target.value)}/>
+);
 
+TagSearchInput.propTypes = {
+	onChange: PropTypes.func.isRequired
+};
 
-export default TagSearchInput;
+export default TagSearchInput

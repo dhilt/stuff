@@ -1,20 +1,20 @@
-import React from 'react';
+import React, {PropTypes} from 'react'
 
-class Tags extends React.Component {
-	getTagList() {
-		return this.props.tagList || [];
-	}
-	render() {
-		return <div className="tagSearchList">
-			{this.getTagList().map(entry =>
-				<button
-					key={entry.id}
-					onClick={() => this.props.onSelect(entry)}>
-					{entry.name}
-				</button>
-			)}
-		</div>;
-	}
-}
+const Tags = ({tagList}) => (
+	<ul>
+		{tagList.map(entry =>
+			<li key={entry.id}>
+				{entry.name}
+			</li>
+		)}
+	</ul>
+);
 
-export default Tags;
+Tags.propTypes = {
+	tagList: PropTypes.arrayOf(PropTypes.shape({
+		id: PropTypes.number,
+		name: PropTypes.string
+	}))
+};
+
+export default Tags

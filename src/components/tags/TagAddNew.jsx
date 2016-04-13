@@ -1,11 +1,17 @@
-import React from 'react';
+import React, {PropTypes} from 'react'
 
-class TagAddNew extends React.Component {
-	render() {
-		return <div className="tagAddNew">
-				<button onClick={this.props.onClick} disabled={!!this.props.disabled}> + </button>
-		</div>;
-	}
-}
+const TagAddNew = ({onClick, disabled}) => (
+	<div className="tagAddNew">
+		<button
+			onClick={onClick}
+			disabled={!!disabled}> +
+		</button>
+	</div>
+);
 
-export default TagAddNew;
+TagAddNew.propTypes = {
+	onClick: PropTypes.func.isRequired,
+	disabled: PropTypes.bool.isRequired
+};
+
+export default TagAddNew
