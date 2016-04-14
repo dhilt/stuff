@@ -8,7 +8,11 @@ export default {
 			.catch(err => console.log(err));
 	},
 
-	addTag(payload, cb, timeout) {
-		setTimeout(() => cb(), timeout || TIMEOUT)
+	newTag(payload, cb, timeout) {
+		alert(payload);
+		fetch('/api/newTag', { name: payload })
+			.then(res => res.json())
+			.then(resJson => cb(resJson))
+			.catch(err => console.log(err));
 	}
 }

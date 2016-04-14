@@ -4,58 +4,28 @@ import TagSearchInput from './tags/TagSearchInput';
 import TagAddNew from './tags/TagAddNew';
 import TagSearchList from './tags/TagSearchList';
 
+
 export default class Tags extends Component {
 
-	constructor() {
-		super();
-		this.state = {
-			found: [],
-			newTagName: '',
-			canAddNewTag: false
-		};
-		this.onSearchInputChange = this.onSearchInputChange.bind(this);
-		this.addNewTag = this.addNewTag.bind(this);
-	}
-
-	onSearchInputChange(searchString) {
-		let found = [];
-		let canAddNewTag = false;
-		if (searchString) {
-			canAddNewTag = true;
-			this.props.allTags.forEach(tag => {
-				if (tag.name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1) {
-					found.push(tag);
-				}
-				if (canAddNewTag && tag.name.toLowerCase() === searchString.toLowerCase()) {
-					canAddNewTag = false;
-				}
-			});
-		}
-		this.setState({
-			found: found,
-			newTagName: searchString,
-			canAddNewTag: canAddNewTag
-		});
-	}
-
-	addNewTag() {
-		if (!this.state.canAddNewTag) {
-			return;
-		}
-		alert(this.state.newTagName);
-	}
-
 	render() {
+		const { foundTags, onSearchInputChange, canAddNewTag, onAddNewTagClick } = this.props
 		return <div className="tags">
-			{<TagSearchInput onChange={this.onSearchInputChange}/>}
-			{<TagAddNew onClick={this.addNewTag} disabled={!this.state.canAddNewTag}/>}
-			{<TagSearchList tagList={this.state.found}/>}
+			{<TagSearchInput onChange={onSearchInputChange}/>}
+			{<TagAddNew onClick={onAddNewTagClick} disabled={!canAddNewTag}/>}
+			{<TagSearchList tagList={foundTags}/>}
 		</div>;
 	}
 }
 
 Tags.propTypes = {
+	onSearchInputChange: PropTypes.func,
+	canAddNewTag: PropTypes.bool,
+	onAddNewTagClick: PropTypes.func,
 	allTags: PropTypes.arrayOf(PropTypes.shape({
+		id: PropTypes.number,
+		name: PropTypes.string
+	})),
+	foundTags: PropTypes.arrayOf(PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string
 	}))

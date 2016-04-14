@@ -6,7 +6,7 @@ const TagSearchInput = ({onChange}) => (
 );
 
 TagSearchInput.propTypes = {
-	onChange: PropTypes.func.isRequired
+	onChange: PropTypes.func
 };
 
 export default TagSearchInput

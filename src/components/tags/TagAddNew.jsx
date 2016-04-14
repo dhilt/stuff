@@ -10,8 +10,8 @@ const TagAddNew = ({onClick, disabled}) => (
 );
 
 TagAddNew.propTypes = {
-	onClick: PropTypes.func.isRequired,
-	disabled: PropTypes.bool.isRequired
+	onClick: PropTypes.func,
+	disabled: PropTypes.bool
 };
 
 export default TagAddNew
