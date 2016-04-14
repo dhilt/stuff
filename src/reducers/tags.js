@@ -9,25 +9,34 @@ const initialState = {
 
 export default function tags(state = initialState, action) {
 	switch (action.type) {
+
 		case actionTypes.receiveAllTags:
+			return Object.assign({}, state, {all: action.tags});
+
+		case actionTypes.changeSearchInput:
+			let filteredTags = action.searchString ? state.all.filter(tag => tag.name.toLowerCase().indexOf(action.searchString.toLowerCase()) !== -1) : [];
 			return Object.assign({},
-				state, { all: action.tags }
-			);
-		case actionTypes.receiveFoundTags:
-			return Object.assign({},
-				state, { 
-					found: action.tags,
+				state, {
+					found: filteredTags,
 					newTagName: action.searchString,
-					canAddNewTag: action.searchString && !action.tags.find( t => t.name.toLowerCase() === action.searchString.toLowerCase()) 
+					canAddNewTag: !!action.searchString && !filteredTags.find(t => t.name.toLowerCase() === action.searchString.toLowerCase())
 				}
 			);
+
 		case actionTypes.addNewTag:
-			return [
-		        ...state, {
-		        	id: action.id,
-		        	name: action.name
-		        }
-      		];
+			return Object.assign({},
+				state, {
+					all: [
+						...state.all, {
+							id: action.id,
+							name: action.name
+						}
+					],
+					newTagName: '',
+					canAddNewTag: false
+				}
+			);
+
 		default:
 			return initialState;
 	}
