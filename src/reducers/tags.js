@@ -28,8 +28,8 @@ export default function tags(state = initialState, action) {
 				state, {
 					all: [
 						...state.all, {
-							id: action.id,
-							name: action.name
+							id: action.tag.id,
+							name: action.tag.name
 						}
 					],
 					newTagName: '',

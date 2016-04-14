@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleware = require('webpack-hot-middleware');
+var bodyParser = require('webpack-body-parser');
 
 var config = require('./../webpack.config');
 var mockData = require('./mockData.json');
@@ -8,19 +9,35 @@ var mockData = require('./mockData.json');
 var app = new (require('express'))();
 var port = 5007;
 
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
 var compiler = webpack(config);
-app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
+app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath}));
 app.use(webpackHotMiddleware(compiler));
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
 	res.sendFile(__dirname + '/dist/index.html')
 });
 
-app.get("/api/tags", function(req, res) {
+app.get("/api/tags", function (req, res) {
 	res.send(mockData.tags);
 });
 
-app.listen(port, function(error) {
+app.post("/api/newTag", function (req, res) {
+	var tmp = req.body;
+	var maxId = 0;
+	for (var id, i = mockData.tags.length - 1; i >= 0; i--) {
+		if ((id = parseInt(mockData.tags[i].id, 10)) > maxId) {
+			maxId = id;
+		}
+	}
+	tmp.id = maxId + 1;
+	mockData.tags.push(tmp);
+	res.send(tmp);
+});
+
+app.listen(port, function (error) {
 	if (error) {
 		console.error(error);
 	} else {
