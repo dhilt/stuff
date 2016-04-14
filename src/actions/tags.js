@@ -1,14 +1,8 @@
-import apiTags from './api/tags'
+import {tagsActionTypes} from './_types'
+import apiTags from './../api/tags'
 
-export let tagsActionTypes = {
-	receiveAllTags: 'RECEIVE_ALL_TAGS',
-	changeSearchInput: 'CHANGE_SEARCH_INPUT',
-	addNewTag: 'ADD_NEW_TAG',
-	receiveFoundTags: 'RECEIVE_FOUND_TAGS'
-};
-
-export let tagsActions = {
-	getAllTags: () => {
+export default {
+	getAllTags() {
 		return dispatch => {
 			apiTags.getAllTags(tags =>
 				dispatch({
@@ -19,16 +13,16 @@ export let tagsActions = {
 		}
 	},
 
-	searchTags: (searchString) => {
+	searchTags(searchString) {
 		return (dispatch) => {
 			dispatch({
-				type: tagsActionTypes.changeSearchInput,
+				type: tagsActionTypes.searchTags,
 				searchString: searchString
 			})
 		}
 	},
 
-	addNewTag: () => {
+	addNewTag() {
 		return (dispatch, getState) => {
 			apiTags.newTag(getState().tags.newTagName, tag =>
 				dispatch({

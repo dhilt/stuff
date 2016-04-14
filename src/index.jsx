@@ -5,7 +5,7 @@ import {Provider} from 'react-redux'
 import logger from 'redux-logger'
 import thunk from 'redux-thunk'
 import reducer from './reducers'
-import {tagsActions} from './actions'
+import tagsActions from './actions/tags'
 import App from './components/App';
 
 const middleware = [thunk, logger()];

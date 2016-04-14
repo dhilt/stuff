@@ -4,9 +4,9 @@ import TagSearchInput from './tags/TagSearchInput';
 import TagAddNew from './tags/TagAddNew';
 import TagSearchList from './tags/TagSearchList';
 
-const Tags = ({foundTags, onSearchInputChange, canAddNewTag, onAddNewTagClick}) => (
+const Tags = ({foundTags, onSearchInputChange, searchString, canAddNewTag, onAddNewTagClick}) => (
 	<div className="tags">
-		{<TagSearchInput onChange={onSearchInputChange}/>}
+		{<TagSearchInput searchString={searchString} onChange={onSearchInputChange}/>}
 		{<TagAddNew onClick={onAddNewTagClick} disabled={!canAddNewTag}/>}
 		{<TagSearchList tagList={foundTags}/>}
 	</div>
@@ -21,6 +21,7 @@ Tags.propTypes = {
 		id: PropTypes.number,
 		name: PropTypes.string
 	})),
+	searchString: PropTypes.string,
 	onSearchInputChange: PropTypes.func,
 	canAddNewTag: PropTypes.bool,
 	onAddNewTagClick: PropTypes.func

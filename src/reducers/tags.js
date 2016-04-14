@@ -1,4 +1,4 @@
-import {tagsActionTypes as actionTypes} from './../actions';
+import {tagsActionTypes} from './../actions/_types';
 
 const initialState = {
 	all: [],
@@ -10,11 +10,12 @@ const initialState = {
 export default function tags(state = initialState, action) {
 	switch (action.type) {
 
-		case actionTypes.receiveAllTags:
+		case tagsActionTypes.receiveAllTags:
 			return Object.assign({}, state, {all: action.tags});
 
-		case actionTypes.changeSearchInput:
+		case tagsActionTypes.searchTags:
 			let filteredTags = action.searchString ? state.all.filter(tag => tag.name.toLowerCase().indexOf(action.searchString.toLowerCase()) !== -1) : [];
+			filteredTags.sort((a, b) => a.name.localeCompare(b.name));
 			return Object.assign({},
 				state, {
 					found: filteredTags,
@@ -23,7 +24,7 @@ export default function tags(state = initialState, action) {
 				}
 			);
 
-		case actionTypes.addNewTag:
+		case tagsActionTypes.addNewTag:
 			return Object.assign({},
 				state, {
 					all: [
@@ -32,6 +33,7 @@ export default function tags(state = initialState, action) {
 							name: action.tag.name
 						}
 					],
+					found: [],
 					newTagName: '',
 					canAddNewTag: false
 				}
