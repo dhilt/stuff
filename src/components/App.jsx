@@ -1,10 +1,24 @@
 import React from 'react';
-import Tags from './../containers/Tags';
+import {Link} from 'react-router'
 
-const App = () => (
-	<div>
-		<Tags />
-	</div>
-);
+class App extends React.Component {
+
+	render() {
+		return (
+			<div>
+				<div>
+					<ul>
+						<li><Link to="/">index</Link></li>
+						<li><Link to="/items">items</Link></li>
+						<li><Link to="/tags">tags</Link></li>
+					</ul>
+				</div>
+				<div>
+					{this.props.children}
+				</div>
+			</div>
+		)
+	}
+}
 
 export default App;

@@ -1,7 +1,7 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import tagsActions from './../actions/tags';
-import TagsComponent from './../components/Tags';
+import tagsActions from './../actions/tags'
+import TagsComponent from './../components/Tags'
 
 const mapStateToProps = (state) => {
 	return {
@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		onSearchInputChange: (searchString) => {
 			dispatch(tagsActions.searchTags(searchString))
-		},		
+		},
 		onAddNewTagClick: () => {
 			dispatch(tagsActions.addNewTag())
 		}

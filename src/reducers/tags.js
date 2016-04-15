@@ -40,6 +40,6 @@ export default function tags(state = initialState, action) {
 			);
 
 		default:
-			return initialState;
+			return Object.assign({}, state);
 	}
 }
