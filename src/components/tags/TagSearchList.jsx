@@ -3,8 +3,8 @@ import React, {PropTypes} from 'react'
 const Tags = ({tagList, onSelect}) => (
 	<ul>
 		{tagList.map(entry =>
-			<li key={entry.id} onClick={onSelect()}>
-				{entry.name}
+			<li key={entry.id} onClick={() => onSelect(entry)}>
+				{entry.name} {entry.changed ? '*' : ''}
 			</li>
 		)}
 	</ul>

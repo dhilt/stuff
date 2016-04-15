@@ -9,10 +9,11 @@ import thunk from 'redux-thunk'
 import reducer from './reducers'
 import tagsActions from './actions/tags'
 
-import App from './components/App';
-import Index from './components/Index';
-import Tags from './containers/Tags';
-import Items from './containers/Items';
+import App from './components/App'
+import Index from './components/Index'
+import Tags from './containers/Tags'
+import Tag from './containers/Tag'
+import Items from './containers/Items'
 
 const store = createStore(
 	reducer,

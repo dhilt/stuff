@@ -43,6 +43,22 @@ export default function tags(state = initialState, action) {
 		case tagsActionTypes.selectTag:
 			return Object.assign({}, state, {selected: action.tag});
 
+		case tagsActionTypes.changeSelectedTagName:
+			return Object.assign({}, 
+				state, {
+					selected: Object.assign({}, state.selected, { name: action.newTagName })
+				}
+			);
+
+		case tagsActionTypes.acceptSelectedTagChanges:
+			let changedTag = Object.assign({}, action.tag, { changed: true });
+			return Object.assign({}, 
+				state, {
+					all: state.all.map(tag => tag.id === action.tag.id ? action.tag : tag),
+					found: state.found.map(tag => tag.id === action.tag.id ? changedTag : tag)
+				}
+			);
+
 		default:
 			return Object.assign({}, state);
 	}

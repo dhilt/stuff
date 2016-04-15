@@ -37,6 +37,19 @@ app.post("/api/newTag", function (req, res) {
 	res.send(tmp);
 });
 
+app.post("/api/editTag", function (req, res) {
+	var editTag = req.body;
+	var result = {};
+	for (var id, i = mockData.tags.length - 1; i >= 0; i--) {
+		if (mockData.tags[i].id === editTag.id) {
+			mockData.tags[i].name = editTag.name;
+			result = editTag;
+			break;
+		}
+	}
+	res.send(result);
+});
+
 app.listen(port, function (error) {
 	if (error) {
 		console.error(error);
