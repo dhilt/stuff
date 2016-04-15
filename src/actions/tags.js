@@ -42,20 +42,20 @@ export default {
 		}
 	},
 
-	changeSelectedTagName(name) {
+	changeTag(tag) {
 		return (dispatch) => {
 			dispatch({
-				type: tagsActionTypes.changeSelectedTagName,
-				newTagName: name
+				type: tagsActionTypes.changeTag,
+				tag: tag
 			})
 		}
 	},
 
-	acceptSelectedTagChanges() {
+	applyTagChange() {
 		return (dispatch, getState) => {
-			apiTags.editTag(getState().tags.selected, tag =>
+			apiTags.editTag(getState().tags.changed, tag =>
 				dispatch({
-					type: tagsActionTypes.acceptSelectedTagChanges,
+					type: tagsActionTypes.applyTagChange,
 					tag: tag
 				})
 			)

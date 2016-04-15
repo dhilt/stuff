@@ -6,17 +6,19 @@ import TagComponent from './../components/Tag'
 
 const mapStateToProps = (state) => {
 	return {
-		tag: state.tags.selected
+		originalTag: state.tags.selected,
+		changedTag: state.tags.changed
 	}
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onChange: (newName) => {
-			dispatch(tagsActions.changeSelectedTagName(newName));
+		onChange: (tag) => {
+			console.log(tag.name);
+			dispatch(tagsActions.changeTag(tag));
 		},
 		acceptChanges: () => {
-			dispatch(tagsActions.acceptSelectedTagChanges());
+			dispatch(tagsActions.applyTagChange());
 			browserHistory.push(`/tags`);
 		}
 	}

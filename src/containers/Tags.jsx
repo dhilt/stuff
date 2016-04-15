@@ -10,7 +10,8 @@ const mapStateToProps = (state) => {
 		foundTags: state.tags.found,
 		searchString: state.tags.newTagName,
 		canAddNewTag: state.tags.canAddNewTag,
-		selectedTag: state.tags.selected
+		selectedTag: state.tags.selected,
+		changedTag: state.tags.changed
 	}
 };
 

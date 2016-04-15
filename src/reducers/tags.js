@@ -5,7 +5,8 @@ const initialState = {
 	found: [],
 	newTagName: '',
 	canAddNewTag: false,
-	selected: null
+	selected: null,
+	changed: null
 };
 
 export default function tags(state = initialState, action) {
@@ -41,21 +42,20 @@ export default function tags(state = initialState, action) {
 			);
 		
 		case tagsActionTypes.selectTag:
-			return Object.assign({}, state, {selected: action.tag});
+			return Object.assign({}, state, {selected: action.tag}, {changed: action.tag});
 
-		case tagsActionTypes.changeSelectedTagName:
-			return Object.assign({}, 
-				state, {
-					selected: Object.assign({}, state.selected, { name: action.newTagName })
-				}
-			);
+		case tagsActionTypes.changeTag:
+			return Object.assign({}, state, {
+				changed: Object.assign({}, state.changed, action.tag)
+			});
 
-		case tagsActionTypes.acceptSelectedTagChanges:
+		case tagsActionTypes.applyTagChange:
 			let changedTag = Object.assign({}, action.tag, { changed: true });
 			return Object.assign({}, 
 				state, {
 					all: state.all.map(tag => tag.id === action.tag.id ? action.tag : tag),
-					found: state.found.map(tag => tag.id === action.tag.id ? changedTag : tag)
+					found: state.found.map(tag => tag.id === action.tag.id ? changedTag : tag),
+					changed: null
 				}
 			);
 

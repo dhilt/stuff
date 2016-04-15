@@ -1,15 +1,20 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux'
 
-const Tag = ({tag, onChange, acceptChanges}) => (
-	<div className="tags">
-		<input value={tag.name} onChange={(e) => onChange(e.target.value)} />
+const Tag = ({originalTag, changedTag, onChange, acceptChanges}) => (
+	<div className="tag">
+		<div>Here you can change "{originalTag.name}"'s name</div>
+		<input value={changedTag.name} onChange={(e) => onChange({ name: e.target.value }) } />
 		<button onClick={acceptChanges}>Accept</button>
 	</div>
 );
 
 Tag.propTypes = {
-	tag: PropTypes.shape({
+	originalTag: PropTypes.shape({
+		id: PropTypes.number,
+		name: PropTypes.string
+	}),
+	changedTag: PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string
 	}),

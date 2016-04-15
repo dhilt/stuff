@@ -3,6 +3,6 @@ export let tagsActionTypes = {
 	searchTags: 'SEARCH_TAGS',
 	addNewTag: 'ADD_NEW_TAG',
 	selectTag: 'SELECT_TAG',
-	changeSelectedTagName: 'CHANGE_SELECTED_TAG_NAME',
-	acceptSelectedTagChanges: 'ACCEPT_SELECTED_TAG_CHANGES'
+	changeTag: 'CHANGE_TAG',
+	applyTagChange: 'APPLY_TAG_CHANGE'
 };
