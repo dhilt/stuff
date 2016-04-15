@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react'
 
-const Tags = ({tagList}) => (
+const Tags = ({tagList, onSelect}) => (
 	<ul>
 		{tagList.map(entry =>
-			<li key={entry.id}>
+			<li key={entry.id} onClick={onSelect()}>
 				{entry.name}
 			</li>
 		)}
@@ -14,7 +14,8 @@ Tags.propTypes = {
 	tagList: PropTypes.arrayOf(PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string
-	}))
+	})),
+	onSelect: PropTypes.func
 };
 
 export default Tags

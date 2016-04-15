@@ -4,7 +4,8 @@ const initialState = {
 	all: [],
 	found: [],
 	newTagName: '',
-	canAddNewTag: false
+	canAddNewTag: false,
+	selected: null
 };
 
 export default function tags(state = initialState, action) {
@@ -38,6 +39,9 @@ export default function tags(state = initialState, action) {
 					canAddNewTag: false
 				}
 			);
+		
+		case tagsActionTypes.selectTag:
+			return Object.assign({}, state, {selected: action.tag});
 
 		default:
 			return Object.assign({}, state);

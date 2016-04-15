@@ -32,6 +32,7 @@ ReactDOM.render(
 				<IndexRoute component={Index}/>
 				<Route path="items" component={Items}/>
 				<Route path="tags" component={Tags}/>
+				<Route path="tags/:id" component={Tag}/>
 			</Route>
 		</Router>
 	</Provider>,

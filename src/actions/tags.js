@@ -31,5 +31,14 @@ export default {
 				})
 			)
 		}
+	},
+	
+	selectTag(tag) {
+		return (dispatch) => {
+			dispatch({
+				type: tagsActionTypes.selectTag,
+				tag: tag
+			})
+		}
 	}
 };
