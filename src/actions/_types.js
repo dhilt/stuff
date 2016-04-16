@@ -4,5 +4,6 @@ export let tagsActionTypes = {
 	addNewTag: 'ADD_NEW_TAG',
 	selectTag: 'SELECT_TAG',
 	changeTag: 'CHANGE_TAG',
-	applyTagChange: 'APPLY_TAG_CHANGE'
+	cancelTagChanges: 'CANCEL_TAG_CHANGES',
+	applyTagChanges: 'APPLY_TAG_CHANGES'
 };

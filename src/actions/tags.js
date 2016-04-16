@@ -51,11 +51,19 @@ export default {
 		}
 	},
 
-	applyTagChange() {
+	cancelTagChanges() {
+		return (dispatch) => {
+			dispatch({
+				type: tagsActionTypes.cancelTagChanges
+			})
+		}
+	},
+
+	applyTagChanges() {
 		return (dispatch, getState) => {
 			apiTags.editTag(getState().tags.changed, tag =>
 				dispatch({
-					type: tagsActionTypes.applyTagChange,
+					type: tagsActionTypes.applyTagChanges,
 					tag: tag
 				})
 			)

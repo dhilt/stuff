@@ -2,23 +2,28 @@
   "tags": [
     {
       "id": 1,
-      "name": "Tag1"
+      "name": "Tag1",
+      "description": "Description for tag with id = 1"
     },
     {
       "id": 2,
-      "name": "Tag2"
+      "name": "Tag2",
+      "description": "Description for tag with id = 2"
     },
     {
       "id": 3,
-      "name": "Tag3"
+      "name": "Tag3",
+      "description": "Description for tag with id = 3"
     },
     {
       "id": 4,
-      "name": "My1"
+      "name": "My1",
+      "description": "Description for tag with id = 4"
     },
     {
       "id": 5,
-      "name": "My2"
+      "name": "My2",
+      "description": "Description for tag with id = 5"
     }
   ]
 }

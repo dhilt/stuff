@@ -29,12 +29,7 @@ export default function tags(state = initialState, action) {
 		case tagsActionTypes.addNewTag:
 			return Object.assign({},
 				state, {
-					all: [
-						...state.all, {
-							id: action.tag.id,
-							name: action.tag.name
-						}
-					],
+					all: [...state.all, action.tag],
 					found: [],
 					newTagName: '',
 					canAddNewTag: false
@@ -49,7 +44,12 @@ export default function tags(state = initialState, action) {
 				changed: Object.assign({}, state.changed, action.tag)
 			});
 
-		case tagsActionTypes.applyTagChange:
+		case tagsActionTypes.cancelTagChanges:
+			return Object.assign({}, state, {
+				changed: null
+			});
+
+		case tagsActionTypes.applyTagChanges:
 			let changedTag = Object.assign({}, action.tag, { changed: true });
 			return Object.assign({}, 
 				state, {

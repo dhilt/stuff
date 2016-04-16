@@ -1,12 +1,10 @@
 import React, {PropTypes} from 'react'
 
 const TagAddNew = ({onClick, disabled}) => (
-	<div className="tagAddNew">
-		<button
-			onClick={onClick}
-			disabled={!!disabled}> +
-		</button>
-	</div>
+	<button className="tagAddNew"
+		onClick={onClick}
+		disabled={!!disabled}> +
+	</button>
 );
 
 TagAddNew.propTypes = {

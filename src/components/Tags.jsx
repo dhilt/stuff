@@ -6,9 +6,9 @@ import TagSearchList from './tags/TagSearchList';
 
 const Tags = ({foundTags, onSearchInputChange, searchString, canAddNewTag, onAddNewTagClick, onSelectTag}) => (
 	<div className="tags">
-		{<TagSearchInput searchString={searchString} onChange={onSearchInputChange}/>}
-		{<TagAddNew onClick={onAddNewTagClick} disabled={!canAddNewTag}/>}
-		{<TagSearchList tagList={foundTags} onSelect={onSelectTag}/>}
+		<TagSearchInput searchString={searchString} onChange={onSearchInputChange}/>
+		<TagAddNew onClick={onAddNewTagClick} disabled={!canAddNewTag}/>
+		<TagSearchList tagList={foundTags} onSelect={onSelectTag}/>
 	</div>
 );
 

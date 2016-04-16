@@ -33,6 +33,7 @@ app.post("/api/newTag", function (req, res) {
 		}
 	}
 	tmp.id = maxId + 1;
+	tmp.description = "";
 	mockData.tags.push(tmp);
 	res.send(tmp);
 });

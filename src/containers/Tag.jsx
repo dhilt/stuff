@@ -13,12 +13,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onChange: (tag) => {
-			console.log(tag.name);
+		doChange: (tag) => {
 			dispatch(tagsActions.changeTag(tag));
 		},
+		cancelChanges: () => {
+			dispatch(tagsActions.cancelTagChanges());
+			browserHistory.push(`/tags`);
+		},
 		acceptChanges: () => {
-			dispatch(tagsActions.applyTagChange());
+			dispatch(tagsActions.applyTagChanges());
 			browserHistory.push(`/tags`);
 		}
 	}
