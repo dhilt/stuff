@@ -17,11 +17,15 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(tagsActions.changeTag(tag));
 		},
 		cancelChanges: () => {
-			dispatch(tagsActions.cancelTagChanges());
+			dispatch(tagsActions.cancelTagChanges()); 
 			browserHistory.push(`/tags`);
 		},
 		acceptChanges: () => {
 			dispatch(tagsActions.applyTagChanges());
+			browserHistory.push(`/tags`);
+		},
+		deleteTag: () => {
+			dispatch(tagsActions.deleteTag());
 			browserHistory.push(`/tags`);
 		}
 	}

@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-const TagProperty = ({property, type, originalTag, changedTag, doChange}) => {
+const Property = ({property, type, originalTag, changedTag, doChange}) => {
 	
 	let pasteInputElement = () => {
 		switch (type) {
@@ -28,7 +28,7 @@ const TagProperty = ({property, type, originalTag, changedTag, doChange}) => {
 	);
 };
 
-TagProperty.propTypes = {
+Property.propTypes = {
 	originalTag: PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string,
@@ -40,7 +40,7 @@ TagProperty.propTypes = {
 		description: PropTypes.string
 	}),
 	property: PropTypes.string,
-	doChange: PropTypes.func
+	doChange: PropTypes.func.isRequired
 };
 
-export default TagProperty
+export default Property

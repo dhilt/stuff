@@ -12,14 +12,17 @@ let canAccept = (src, target) => {
 	return false;
 };
 
-const TagControls = ({originalTag, changedTag, cancelChanges, acceptChanges}) => (
+const Controls = ({originalTag, changedTag, cancelChanges, acceptChanges, deleteTag}) => (
 	<div className="controls">
 		<button onClick={cancelChanges}>Cancel</button>
+		{
+			changedTag.id ? <button onClick={deleteTag}>Delete</button> : null
+		}
 		<button disabled={!canAccept(originalTag, changedTag)} onClick={acceptChanges}>Accept</button>
 	</div>
 );
 
-TagControls.propTypes = {
+Controls.propTypes = {
 	originalTag: PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string,
@@ -30,8 +33,9 @@ TagControls.propTypes = {
 		name: PropTypes.string,
 		description: PropTypes.string
 	}),
-	cancelChanges: PropTypes.func,
-	acceptChanges: PropTypes.func
+	cancelChanges: PropTypes.func.isRequired,
+	acceptChanges: PropTypes.func.isRequired,
+	deleteTag: PropTypes.func.isRequired
 };
 
-export default TagControls
+export default Controls

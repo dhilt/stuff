@@ -65,5 +65,16 @@ export default {
 				})
 			)
 		}
+	},
+
+	deleteTag() {
+		return (dispatch, getState) => {
+			apiTags.deleteTag(getState().tags.edited.id, result =>
+				dispatch({
+					type: tagsActionTypes.deleteTag,
+					id: result.id
+				})
+			)
+		}
 	}
 };

@@ -1,14 +1,14 @@
 import React, {PropTypes} from 'react'
 
-const TagSearchInput = ({searchString, onChange}) => (
+const SearchInput = ({searchString, onChange}) => (
 	<input
 		value={searchString}
 		onChange={(e) => onChange(e.target.value)}/>
 );
 
-TagSearchInput.propTypes = {
+SearchInput.propTypes = {
 	searchString: PropTypes.string,
-	onChange: PropTypes.func
+	onChange: PropTypes.func.isRequired
 };
 
-export default TagSearchInput
+export default SearchInput

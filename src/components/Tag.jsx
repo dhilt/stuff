@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
-import TagProperty from './tag/TagProperty';
-import TagControls from './tag/TagControls';
+import TagProperty from './tag/Property';
+import Controls from './tag/Controls';
 
-const Tag = ({originalTag, changedTag, doChange, cancelChanges, acceptChanges}) => (
+const Tag = ({originalTag, changedTag, doChange, cancelChanges, acceptChanges, deleteTag}) => (
 	<div className="tag">
 		<div className="intro">
 			{ changedTag.id ? "Here you can change \"" + originalTag.name + "\" tag" : "Here you can create a new tag" }
@@ -13,8 +13,8 @@ const Tag = ({originalTag, changedTag, doChange, cancelChanges, acceptChanges}) 
 		<TagProperty property="description" type="textarea"
 								 originalTag={originalTag} changedTag={changedTag} doChange={doChange}/>
 
-		<TagControls originalTag={originalTag} changedTag={changedTag}
-								 cancelChanges={cancelChanges} acceptChanges={acceptChanges}/>
+		<Controls originalTag={originalTag} changedTag={changedTag}
+								 cancelChanges={cancelChanges} acceptChanges={acceptChanges} deleteTag={deleteTag}/>
 	</div>
 );
 
@@ -29,9 +29,10 @@ Tag.propTypes = {
 		name: PropTypes.string,
 		description: PropTypes.string
 	}),
-	doChange: PropTypes.func,
-	cancelChanges: PropTypes.func,
-	acceptChanges: PropTypes.func
+	doChange: PropTypes.func.isRequired,
+	cancelChanges: PropTypes.func.isRequired,
+	acceptChanges: PropTypes.func.isRequired,
+	deleteTag: PropTypes.func.isRequired
 };
 
 export default Tag

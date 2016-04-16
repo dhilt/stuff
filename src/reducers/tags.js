@@ -9,8 +9,11 @@ const initialState = {
 	edited: null
 };
 
+let canAddNewTag = (nameStr, found) => !!nameStr && !found.find(t => t.name.toLowerCase() === nameStr.toLowerCase());
+
 export default function tags(state = initialState, action) {
 	let changedTag = null;
+	let found = [];
 	
 	switch (action.type) {
 
@@ -18,13 +21,13 @@ export default function tags(state = initialState, action) {
 			return Object.assign({}, state, {all: action.tags});
 
 		case tagsActionTypes.searchTags:
-			let filteredTags = action.searchString ? state.all.filter(tag => tag.name.toLowerCase().indexOf(action.searchString.toLowerCase()) !== -1) : [];
-			filteredTags.sort((a, b) => a.name.localeCompare(b.name));
+			found = action.searchString ? state.all.filter(tag => tag.name.toLowerCase().indexOf(action.searchString.toLowerCase()) !== -1) : [];
+			found.sort((a, b) => a.name.localeCompare(b.name));
 			return Object.assign({},
 				state, {
-					found: filteredTags,
+					found: found,
 					newTagName: action.searchString,
-					canAddNewTag: !!action.searchString && !filteredTags.find(t => t.name.toLowerCase() === action.searchString.toLowerCase())
+					canAddNewTag: canAddNewTag(action.searchString, found)
 				}
 			);
 
@@ -51,7 +54,7 @@ export default function tags(state = initialState, action) {
 
 		case tagsActionTypes.receiveAddedTag:
 			changedTag = Object.assign({}, action.tag, { edited: true });
-			let found = [...state.found, Object.assign({}, action.tag, { edited: true })];
+			found = [...state.found, Object.assign({}, action.tag, { edited: true })];
 			found.sort((a, b) => a.name.localeCompare(b.name));
 			return Object.assign({}, 
 				state, {
@@ -70,6 +73,18 @@ export default function tags(state = initialState, action) {
 					found: state.found.map(tag => tag.id === action.tag.id ? changedTag : tag),
 					selected: changedTag,
 					edited: null
+				}
+			);
+
+		case tagsActionTypes.deleteTag:
+			found = state.found.filter(tag => tag.id !== action.id);
+			return Object.assign({},
+				state, {
+					all: state.all.filter(tag => tag.id !== action.id),
+					found: found,
+					selected: null,
+					edited: null,
+					canAddNewTag: canAddNewTag(state.newTagName, found)
 				}
 			);
 

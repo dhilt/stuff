@@ -54,12 +54,25 @@ app.post("/api/editTag", function (req, res) {
 		result.isNew = true;
 	}
 	else {
-		for (var id, i = mockData.tags.length - 1; i >= 0; i--) {
+		for (var i = mockData.tags.length - 1; i >= 0; i--) {
 			if (mockData.tags[i].id === editTag.id) {
 				mockData.tags[i].name = editTag.name;
 				result.tag = editTag;
 				break;
 			}
+		}
+	}
+	res.send(result);
+});
+
+app.post("/api/deleteTag", function (req, res) {
+	var tagId = req.body.id;
+	var result = {};
+	for (var i = mockData.tags.length - 1; i >= 0; i--) {
+		if (mockData.tags[i].id === tagId) {
+			result.id = tagId;
+			mockData.tags.splice(i, 1);
+			break;
 		}
 	}
 	res.send(result);

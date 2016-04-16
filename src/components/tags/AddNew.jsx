@@ -1,15 +1,15 @@
 import React, {PropTypes} from 'react'
 
-const TagAddNew = ({onClick, disabled}) => (
+const AddNew = ({onClick, disabled}) => (
 	<button className="tagAddNew"
 		onClick={onClick}
 		disabled={!!disabled}> +
 	</button>
 );
 
-TagAddNew.propTypes = {
-	onClick: PropTypes.func,
+AddNew.propTypes = {
+	onClick: PropTypes.func.isRequired,
 	disabled: PropTypes.bool
 };
 
-export default TagAddNew
+export default AddNew
