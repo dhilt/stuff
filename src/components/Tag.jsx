@@ -1,6 +1,8 @@
-import React, {PropTypes} from 'react';
-import TagProperty from './tag/Property';
-import Controls from './tag/Controls';
+import React, {PropTypes} from 'react'
+import TagProperty from './tag/Property'
+import Controls from './tag/Controls'
+
+require('../styles/modules/tag.scss');
 
 const Tag = ({originalTag, changedTag, doChange, cancelChanges, acceptChanges, deleteTag}) => (
 	<div className="tag">

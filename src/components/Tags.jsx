@@ -1,7 +1,9 @@
-import React, {PropTypes} from 'react';
-import SearchInput from './tags/SearchInput';
-import AddNew from './tags/AddNew';
-import SearchList from './tags/SearchList';
+import React, {PropTypes} from 'react'
+import SearchInput from './tags/SearchInput'
+import AddNew from './tags/AddNew'
+import SearchList from './tags/SearchList'
+
+require('../styles/modules/tags.scss');
 
 const Tags = ({foundTags, onSearchInputChange, searchString, canAddNewTag, onAddNewTagClick, onSelectTag}) => (
 	<div className="tags">
