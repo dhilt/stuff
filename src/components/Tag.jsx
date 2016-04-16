@@ -1,57 +1,33 @@
 import React, {PropTypes} from 'react';
-import {connect} from 'react-redux'
-
-let props = ['id', 'name', 'description'];
-let canAccept = (src, target) => {
-	if(!target.name)
-		return false;
-	if(!src || !target.id)
-		return true;
-	for (let prop of props)
-		if(src[prop] !== target[prop])
-			return true;
-	return false;
-};
+import TagProperty from './tag/TagProperty';
+import TagControls from './tag/TagControls';
 
 const Tag = ({originalTag, changedTag, doChange, cancelChanges, acceptChanges}) => (
 	<div className="tag">
-		<div>
+		<div className="intro">
 			{ changedTag.id ? "Here you can change \"" + originalTag.name + "\" tag" : "Here you can create a new tag" }
 		</div>
 
-		<div className="property">
-			<input 
-				value={changedTag.name} 
-				onChange={(e) => doChange({ name: e.target.value }) } />
-			<button 
-				disabled={!changedTag.id || changedTag.name === originalTag.name}
-				onClick={ () => doChange({ name: originalTag.name }) }>Revert</button>
-		</div>
+		<TagProperty property="name" type="input"
+								 originalTag={originalTag} changedTag={changedTag} doChange={doChange}/>
+		<TagProperty property="description" type="textarea"
+								 originalTag={originalTag} changedTag={changedTag} doChange={doChange}/>
 
-		<div className="property">
-			<textarea 
-				value={changedTag.description} 
-				onChange={(e) => doChange({ description: e.target.value }) } />
-			<button 
-				disabled={!changedTag.id || changedTag.description === originalTag.description}
-				onClick={ () => doChange({ description: originalTag.description }) }>Revert</button>
-		</div>
-
-		<div className="controls">
-			<button onClick={cancelChanges}>Cancel</button>
-			<button disabled={!canAccept(originalTag, changedTag)} onClick={acceptChanges}>Accept</button>
-		</div>
+		<TagControls originalTag={originalTag} changedTag={changedTag}
+								 cancelChanges={cancelChanges} acceptChanges={acceptChanges}/>
 	</div>
 );
 
 Tag.propTypes = {
 	originalTag: PropTypes.shape({
 		id: PropTypes.number,
-		name: PropTypes.string
+		name: PropTypes.string,
+		description: PropTypes.string
 	}),
 	changedTag: PropTypes.shape({
 		id: PropTypes.number,
-		name: PropTypes.string
+		name: PropTypes.string,
+		description: PropTypes.string
 	}),
 	doChange: PropTypes.func,
 	cancelChanges: PropTypes.func,

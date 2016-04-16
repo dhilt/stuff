@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import {connect} from 'react-redux'
 import TagSearchInput from './tags/TagSearchInput';
 import TagAddNew from './tags/TagAddNew';
 import TagSearchList from './tags/TagSearchList';
