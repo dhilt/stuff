@@ -24,28 +24,42 @@ app.get("/api/tags", function (req, res) {
 	res.send(mockData.tags);
 });
 
-app.post("/api/newTag", function (req, res) {
-	var tmp = req.body;
+var generateNewTag =  function(newTag) {
+	if(newTag.id) {
+		return newTag;
+	}
 	var maxId = 0;
 	for (var id, i = mockData.tags.length - 1; i >= 0; i--) {
-		if ((id = parseInt(mockData.tags[i].id, 10)) > maxId) {
-			maxId = id;
+		if (mockData.tags[i].id > maxId) {
+			maxId = mockData.tags[i].id;
 		}
 	}
-	tmp.id = maxId + 1;
-	tmp.description = "";
-	mockData.tags.push(tmp);
-	res.send(tmp);
+	newTag.id = maxId + 1;
+	if(!newTag.description) {
+		newTag.description = "";
+	}
+	mockData.tags.push(newTag);
+	return newTag;
+};
+
+app.post("/api/newTag", function (req, res) {
+	res.send(generateNewTag(req.body));
 });
 
 app.post("/api/editTag", function (req, res) {
 	var editTag = req.body;
 	var result = {};
-	for (var id, i = mockData.tags.length - 1; i >= 0; i--) {
-		if (mockData.tags[i].id === editTag.id) {
-			mockData.tags[i].name = editTag.name;
-			result = editTag;
-			break;
+	if(!editTag.id) {
+		result.tag = generateNewTag(editTag);
+		result.isNew = true;
+	}
+	else {
+		for (var id, i = mockData.tags.length - 1; i >= 0; i--) {
+			if (mockData.tags[i].id === editTag.id) {
+				mockData.tags[i].name = editTag.name;
+				result.tag = editTag;
+				break;
+			}
 		}
 	}
 	res.send(result);

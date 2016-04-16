@@ -22,14 +22,11 @@ export default {
 		}
 	},
 
-	addNewTag() {
+	newTag() {
 		return (dispatch, getState) => {
-			apiTags.newTag(getState().tags.newTagName, tag =>
-				dispatch({
-					type: tagsActionTypes.addNewTag,
-					tag: tag
-				})
-			)
+			dispatch({
+				type: tagsActionTypes.newTag
+			})
 		}
 	},
 	
@@ -61,10 +58,10 @@ export default {
 
 	applyTagChanges() {
 		return (dispatch, getState) => {
-			apiTags.editTag(getState().tags.changed, tag =>
+			apiTags.editTag(getState().tags.edited, result =>
 				dispatch({
-					type: tagsActionTypes.applyTagChanges,
-					tag: tag
+					type: result.isNew ? tagsActionTypes.receiveAddedTag : tagsActionTypes.receiveChangedTag,
+					tag: result.tag
 				})
 			)
 		}

@@ -4,7 +4,7 @@ const Tags = ({tagList, onSelect}) => (
 	<ul>
 		{tagList.map(entry =>
 			<li key={entry.id} onClick={() => onSelect(entry)}>
-				{entry.name} {entry.changed ? '*' : ''}
+				{entry.name} {entry.edited ? '*' : ''}
 			</li>
 		)}
 	</ul>

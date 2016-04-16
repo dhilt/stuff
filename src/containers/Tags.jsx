@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
 		searchString: state.tags.newTagName,
 		canAddNewTag: state.tags.canAddNewTag,
 		selectedTag: state.tags.selected,
-		changedTag: state.tags.changed
+		editedTag: state.tags.edited
 	}
 };
 
@@ -21,7 +21,8 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(tagsActions.searchTags(searchString));
 		},
 		onAddNewTagClick: () => {
-			dispatch(tagsActions.addNewTag());
+			dispatch(tagsActions.newTag());
+			browserHistory.push(`/tags/new`);
 		},
 		onSelectTag: (tag) => {
 			dispatch(tagsActions.selectTag(tag));
