@@ -6,7 +6,7 @@ export default {
 		return dispatch => {
 			apiTags.getAllTags(tags =>
 				dispatch({
-					type: tagsActionTypes.receiveAllTags,
+					type: tagsActionTypes.receiveAll,
 					tags: tags
 				})
 			)
@@ -16,7 +16,7 @@ export default {
 	searchTags(searchString) {
 		return (dispatch) => {
 			dispatch({
-				type: tagsActionTypes.searchTags,
+				type: tagsActionTypes.search,
 				searchString: searchString
 			})
 		}
@@ -25,7 +25,7 @@ export default {
 	newTag() {
 		return (dispatch, getState) => {
 			dispatch({
-				type: tagsActionTypes.newTag
+				type: tagsActionTypes.new
 			})
 		}
 	},
@@ -33,7 +33,7 @@ export default {
 	selectTag(tag) {
 		return (dispatch) => {
 			dispatch({
-				type: tagsActionTypes.selectTag,
+				type: tagsActionTypes.select,
 				tag: tag
 			})
 		}
@@ -42,7 +42,7 @@ export default {
 	changeTag(tag) {
 		return (dispatch) => {
 			dispatch({
-				type: tagsActionTypes.changeTag,
+				type: tagsActionTypes.change,
 				tag: tag
 			})
 		}
@@ -51,7 +51,7 @@ export default {
 	cancelTagChanges() {
 		return (dispatch) => {
 			dispatch({
-				type: tagsActionTypes.cancelTagChanges
+				type: tagsActionTypes.cancelChanges
 			})
 		}
 	},
@@ -60,7 +60,7 @@ export default {
 		return (dispatch, getState) => {
 			apiTags.pushTag(getState().tags.edited, result =>
 				dispatch({
-					type: result.isNew ? tagsActionTypes.receiveAddedTag : tagsActionTypes.receiveChangedTag,
+					type: result.isNew ? tagsActionTypes.receiveAdded : tagsActionTypes.receiveChanged,
 					tag: result.tag
 				})
 			)
@@ -71,7 +71,7 @@ export default {
 		return (dispatch, getState) => {
 			apiTags.deleteTag(getState().tags.edited.id, result =>
 				dispatch({
-					type: tagsActionTypes.deleteTag,
+					type: tagsActionTypes.delete,
 					id: result.id
 				})
 			)

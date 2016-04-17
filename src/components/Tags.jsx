@@ -5,11 +5,11 @@ import SearchList from './tags/SearchList'
 
 require('../styles/modules/tags.scss');
 
-const Tags = ({foundTags, onSearchInputChange, searchString, canAddNewTag, onAddNewTagClick, onSelectTag, editedTag}) => (
+const Tags = ({foundTags, onSearchInputChange, searchString, canAddNew, onAddNewTagClick, onSelectTag, editedTag}) => (
 	<div className="tags">
 		<div className="searchControls">
 			<SearchInput searchString={searchString} onChange={onSearchInputChange}/>
-			<AddNew onClick={onAddNewTagClick} disabled={!canAddNewTag}/>
+			<AddNew onClick={onAddNewTagClick} disabled={!canAddNew}/>
 		</div>
 		{
 			searchString ?
@@ -27,7 +27,7 @@ Tags.propTypes = {
 	})).isRequired,
 	searchString: PropTypes.string,
 	onSearchInputChange: PropTypes.func.isRequired,
-	canAddNewTag: PropTypes.bool,
+	canAddNew: PropTypes.bool,
 	onAddNewTagClick: PropTypes.func.isRequired,
 	onSelectTag: PropTypes.func.isRequired,
 	editedTag: PropTypes.shape({
