@@ -1,6 +1,7 @@
 export let tagsActionTypes = {
 	receiveAll: 'RECEIVE_ALL_TAGS',
 	search: 'SEARCH_TAGS',
+	receiveFound: 'RECEIVE_FOUND_TAGS',
 	new: 'NEW_TAG',
 	select: 'SELECT_TAG',
 	change: 'CHANGE_TAG',
@@ -13,6 +14,7 @@ export let tagsActionTypes = {
 
 export let itemsActionTypes = {
 	receiveAll: 'RECEIVE_ALL_ITEMS',
+	receiveFound: 'RECEIVE_FOUND_ITEMS',
 	search: 'SEARCH_ITEMS',
 	new: 'NEW_ITEM',
 	select: 'SELECT_ITEM',

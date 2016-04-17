@@ -1,33 +1,39 @@
-export const commonStuffInitialState = {
-	all: [],
-	found: [],
-	searchString: '',
-	canAddNew: false,
-	selected: null,
-	edited: null
-};
+export function getCommonStuffInitialState() {
+	return {
+		found: [],
+		searchString: '',
+		canAddNew: false,
+		selected: null,
+		edited: null
+	}
+}
 
 let canAddNew = (nameStr, found) => !!nameStr && !found.find(t => t.name.toLowerCase() === nameStr.toLowerCase());
 
 export function commonStuffReducer(actionTypes, state, action) {
-		
+
 	let found;
 
 	switch (action.type) {
 
 		case actionTypes.receiveAll:
-			return Object.assign({}, state, {all: action.tags});
+			return Object.assign({}, state, {all: action.all});
 
 		case actionTypes.search:
-			found = action.searchString ? state.all.filter(tag => tag.name.toLowerCase().indexOf(action.searchString.toLowerCase()) !== -1) : [];
-			found.sort((a, b) => a.name.localeCompare(b.name));
 			return Object.assign({},
 				state, {
-					found: found,
 					searchString: action.searchString,
-					canAddNew: canAddNew(action.searchString, found),
+					canAddNew: false,
 					selected: null,
 					edited: null
+				}
+			);
+		
+		case actionTypes.receiveFound:
+			return Object.assign({},
+				state, {
+					found: action.found,
+					canAddNew: canAddNew(state.searchString, action.found)
 				}
 			);
 
@@ -40,11 +46,11 @@ export function commonStuffReducer(actionTypes, state, action) {
 			);
 
 		case actionTypes.select:
-			return Object.assign({}, state, {selected: action.tag}, {edited: action.tag});
+			return Object.assign({}, state, {selected: action.selected}, {edited: action.selected});
 
 		case actionTypes.change:
 			return Object.assign({}, state, {
-				edited: Object.assign({}, state.edited, action.tag)
+				edited: Object.assign({}, state.edited, action.edited)
 			});
 
 		case actionTypes.cancelChanges:
@@ -56,20 +62,20 @@ export function commonStuffReducer(actionTypes, state, action) {
 		case actionTypes.receiveAdded:
 			return Object.assign({},
 				state, {
-					all: [...state.all, action.tag],
-					found: [action.tag, ...state.found],
+					all: [...state.all, action.result],
+					found: [action.result, ...state.found],
 					selected: null,
-					edited: Object.assign({}, action.tag, {isNew: true})
+					edited: Object.assign({}, action.result, {isNew: true})
 				}
 			);
 
 		case actionTypes.receiveChanged:
 			return Object.assign({},
 				state, {
-					all: state.all.map(tag => tag.id === action.tag.id ? action.tag : tag),
-					found: state.found.map(tag => tag.id === action.tag.id ? action.tag : tag),
+					all: state.all.map(tag => tag.id === action.result.id ? action.result : tag),
+					found: state.found.map(tag => tag.id === action.result.id ? action.result : tag),
 					selected: null,
-					edited: action.tag
+					edited: action.result
 				}
 			);
 

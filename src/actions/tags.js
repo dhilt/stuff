@@ -7,7 +7,7 @@ export default {
 			apiTags.getAllTags(tags =>
 				dispatch({
 					type: tagsActionTypes.receiveAll,
-					tags: tags
+					all: tags
 				})
 			)
 		}
@@ -22,8 +22,19 @@ export default {
 		}
 	},
 
-	newTag() {
+	receiveFoundTags(searchString) {
 		return (dispatch, getState) => {
+			let found = searchString ? getState().tags.all.filter(tag => tag.name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1) : [];
+			found.sort((a, b) => a.name.localeCompare(b.name));
+			dispatch({
+				type: tagsActionTypes.receiveFound,
+				found: found
+			})
+		}
+	},
+
+	newTag() {
+		return (dispatch) => {
 			dispatch({
 				type: tagsActionTypes.new
 			})
@@ -34,7 +45,7 @@ export default {
 		return (dispatch) => {
 			dispatch({
 				type: tagsActionTypes.select,
-				tag: tag
+				selected: tag
 			})
 		}
 	},
@@ -43,7 +54,7 @@ export default {
 		return (dispatch) => {
 			dispatch({
 				type: tagsActionTypes.change,
-				tag: tag
+				edited: tag
 			})
 		}
 	},
@@ -61,7 +72,7 @@ export default {
 			apiTags.pushTag(getState().tags.edited, result =>
 				dispatch({
 					type: result.isNew ? tagsActionTypes.receiveAdded : tagsActionTypes.receiveChanged,
-					tag: result.tag
+					result: result.tag
 				})
 			)
 		}
