@@ -42,22 +42,18 @@ var generateNewTag =  function(newTag) {
 	return newTag;
 };
 
-app.post("/api/newTag", function (req, res) {
-	res.send(generateNewTag(req.body));
-});
-
-app.post("/api/editTag", function (req, res) {
-	var editTag = req.body;
+app.post("/api/pushTag", function (req, res) {
+	var pushTag = req.body;
 	var result = {};
-	if(!editTag.id) {
-		result.tag = generateNewTag(editTag);
+	if(!pushTag.id) {
+		result.tag = generateNewTag(pushTag);
 		result.isNew = true;
 	}
 	else {
 		for (var i = mockData.tags.length - 1; i >= 0; i--) {
-			if (mockData.tags[i].id === editTag.id) {
-				mockData.tags[i].name = editTag.name;
-				result.tag = editTag;
+			if (mockData.tags[i].id === pushTag.id) {
+				mockData.tags[i].name = pushTag.name;
+				result.tag = pushTag;
 				break;
 			}
 		}

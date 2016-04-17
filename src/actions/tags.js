@@ -58,7 +58,7 @@ export default {
 
 	applyTagChanges() {
 		return (dispatch, getState) => {
-			apiTags.editTag(getState().tags.edited, result =>
+			apiTags.pushTag(getState().tags.edited, result =>
 				dispatch({
 					type: result.isNew ? tagsActionTypes.receiveAddedTag : tagsActionTypes.receiveChangedTag,
 					tag: result.tag

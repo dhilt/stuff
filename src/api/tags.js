@@ -6,22 +6,7 @@ export default {
 			.catch(err => console.log(err));
 	},
 
-	newTag(newTagName, cb) {
-		let data = {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({name: newTagName})
-		};
-		fetch('/api/newTag', data)
-			.then(res => res.json())
-			.then(resJson => cb(resJson))
-			.catch(err => console.log(err));
-	},
-
-	editTag(tag, cb) {
+	pushTag(tag, cb) {
 		let data = {
 			method: 'POST',
 			headers: {
@@ -30,7 +15,7 @@ export default {
 			},
 			body: JSON.stringify(tag)
 		};
-		fetch('/api/editTag', data)
+		fetch('/api/pushTag', data)
 			.then(res => res.json())
 			.then(resJson => cb(resJson))
 			.catch(err => console.log(err));

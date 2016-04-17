@@ -2,14 +2,14 @@ import React, {PropTypes} from 'react'
 
 require('../../styles/modules/tags/searchList.scss');
 
-const SearchList = ({tagList, onSelect}) => (
+const SearchList = ({tagList, onSelect, editedTag}) => (
 	<div className="searchList">
 		{ tagList.length ?
 			<ul>
 				{tagList.map(entry =>
-					<li>
+					<li key={entry.id}>
 						<span onClick={() => onSelect(entry)}>
-							{entry.name} {entry.edited ? '*' : ''}
+							{entry.name} {editedTag && entry.id === editedTag.id ? '*' : ''}
 						</span>
 					</li>
 				)}
@@ -26,8 +26,12 @@ SearchList.propTypes = {
 		id: PropTypes.number,
 		name: PropTypes.string,
 		description: PropTypes.string
-	})),
-	onSelect: PropTypes.func.isRequired
+	})).isRequired,
+	onSelect: PropTypes.func.isRequired,
+	editedTag: PropTypes.shape({
+		id: PropTypes.number,
+		isNew: PropTypes.bool
+	})
 };
 
 export default SearchList
