@@ -1,0 +1,17 @@
+@import '../../mixins';
+
+.searchList {
+	.notFoundCaption {
+		@include caption();
+	}
+
+	ul {
+		margin-left: 20px;
+	}
+	li {
+		cursor: default;
+		span:hover {
+			color: #c00;
+		}
+	}
+}

@@ -26,6 +26,8 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 store.dispatch(tagsActions.getAllTags());
 
+require('./styles/index.scss');
+
 ReactDOM.render(
 	<Provider store={store}>
 		<Router history={history}>

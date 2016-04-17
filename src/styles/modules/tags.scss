@@ -1,3 +1,10 @@
+@import '../mixins';
+
 .tags {
-  color: #121212;
+	.searchControls {
+		margin-bottom: 15px;
+	}
+	.startSearchCaption {
+		@include caption();
+	}
 }

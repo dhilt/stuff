@@ -7,12 +7,14 @@ require('../styles/modules/tags.scss');
 
 const Tags = ({foundTags, onSearchInputChange, searchString, canAddNewTag, onAddNewTagClick, onSelectTag}) => (
 	<div className="tags">
-		<SearchInput searchString={searchString} onChange={onSearchInputChange}/>
-		<AddNew onClick={onAddNewTagClick} disabled={!canAddNewTag}/>
+		<div className="searchControls">
+			<SearchInput searchString={searchString} onChange={onSearchInputChange}/>
+			<AddNew onClick={onAddNewTagClick} disabled={!canAddNewTag}/>
+		</div>
 		{
 			searchString ?
 				<SearchList tagList={foundTags} onSelect={onSelectTag}/> :
-				<div>Please start search tags...</div>
+				<div className="startSearchCaption">Please start search tags...</div>
 		}
 	</div>
 );
