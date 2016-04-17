@@ -1,10 +1,10 @@
-import {getCommonStuffInitialState, commonStuffReducer} from './common';
-import {tagsActionTypes} from './../actions/_types';
+import {getCommonInitialState, commonReducer} from './common'
+import {tagsActionTypes} from './../actions/_types'
 
-let initialState = Object.assign({}, getCommonStuffInitialState(), {
+let initialState = Object.assign({}, getCommonInitialState(), {
 	all: []
 });
 
 export default function tags(state = initialState, action) {
-	return commonStuffReducer(tagsActionTypes, state, action);
+	return commonReducer(tagsActionTypes, state, action);
 }

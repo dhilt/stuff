@@ -1,6 +1,6 @@
-import {commonStuffInitialState, commonStuffReducer} from './common';
-import {itemsActionTypes} from './../actions/_types';
+import {commonInitialState, commonReducer} from './common'
+import {itemsActionTypes} from './../actions/_types'
 
-export default function items(state = commonStuffInitialState, action) {
-	return commonStuffReducer(itemsActionTypes, state, action);
+export default function items(state = commonInitialState, action) {
+	return commonReducer(itemsActionTypes, state, action);
 }

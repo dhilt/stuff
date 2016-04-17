@@ -1,11 +1,9 @@
 import {tagsActionTypes} from './_types'
 import apiTags from './../api/tags'
-import {commonActions} from './common'
+import getCommonActions from './common'
 
-let actions = commonActions(tagsActionTypes, apiTags, 'tags');
-
-actions = Object.assign({}, actions, {
-	getAll: () => {
+export default Object.assign({}, getCommonActions(tagsActionTypes, apiTags, 'tags'), {
+	getAll() {
 		return dispatch => {
 			apiTags.getAll(tags =>
 				dispatch({
@@ -15,6 +13,4 @@ actions = Object.assign({}, actions, {
 			)
 		}	
 	}
-});
-
-export default actions;
+})

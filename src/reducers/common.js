@@ -1,4 +1,4 @@
-export function getCommonStuffInitialState() {
+export function getCommonInitialState() {
 	return {
 		found: [],
 		searchString: '',
@@ -10,7 +10,7 @@ export function getCommonStuffInitialState() {
 
 let canAddNew = (nameStr, found) => !!nameStr && !found.find(t => t.name.toLowerCase() === nameStr.toLowerCase());
 
-export function commonStuffReducer(actionTypes, state, action) {
+export function commonReducer(actionTypes, state, action) {
 
 	let found;
 

@@ -1,7 +1,5 @@
-export function commonActions (actionTypes, api, stateToken) {
-
+export default function getCommonActions(actionTypes, api, stateToken) {
 	return {
-
 		search: (searchString) => {
 			return (dispatch) => {
 				dispatch({
@@ -78,4 +76,4 @@ export function commonActions (actionTypes, api, stateToken) {
 			}
 		}
 	}
-};
+}
