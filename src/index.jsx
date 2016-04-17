@@ -24,7 +24,7 @@ const store = createStore(
 );
 const history = syncHistoryWithStore(browserHistory, store);
 
-store.dispatch(tagsActions.getAllTags());
+store.dispatch(tagsActions.getAll());
 
 require('./styles/index.scss');
 

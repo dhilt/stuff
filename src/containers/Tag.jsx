@@ -14,18 +14,18 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		doChange: (tag) => {
-			dispatch(tagsActions.changeTag(tag));
+			dispatch(tagsActions.change(tag));
 		},
 		cancelChanges: () => {
-			dispatch(tagsActions.cancelTagChanges()); 
+			dispatch(tagsActions.cancelChanges()); 
 			browserHistory.push(`/tags`);
 		},
 		acceptChanges: () => {
-			dispatch(tagsActions.applyTagChanges());
+			dispatch(tagsActions.applyChanges());
 			browserHistory.push(`/tags`);
 		},
 		deleteTag: () => {
-			dispatch(tagsActions.deleteTag());
+			dispatch(tagsActions.delete());
 			browserHistory.push(`/tags`);
 		}
 	}

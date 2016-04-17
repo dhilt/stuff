@@ -1,19 +1,19 @@
 export default {
-	getAllTags(cb) {
+	getAll(cb) {
 		fetch('/api/tags')
 			.then(res => res.json())
 			.then(resJson => cb(resJson))
 			.catch(err => console.log(err));
 	},
 
-	pushTag(tag, cb) {
+	push(item, cb) {
 		let data = {
 			method: 'POST',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(tag)
+			body: JSON.stringify(item)
 		};
 		fetch('/api/pushTag', data)
 			.then(res => res.json())
@@ -21,14 +21,14 @@ export default {
 			.catch(err => console.log(err));
 	},
 
-	deleteTag(tagId, cb) {
+	delete(id, cb) {
 		let data = {
 			method: 'POST',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({id: tagId})
+			body: JSON.stringify({id: id})
 		};
 		fetch('/api/deleteTag', data)
 			.then(res => res.json())

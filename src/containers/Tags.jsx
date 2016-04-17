@@ -18,15 +18,15 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onSearchInputChange: (searchString) => {
-			dispatch(tagsActions.searchTags(searchString));
-			dispatch(tagsActions.receiveFoundTags(searchString));
+			dispatch(tagsActions.search(searchString));
+			dispatch(tagsActions.receiveFound(searchString));
 		},
 		onAddNewTagClick: () => {
-			dispatch(tagsActions.newTag());
+			dispatch(tagsActions.new());
 			browserHistory.push(`/tags/new`);
 		},
 		onSelectTag: (tag) => {
-			dispatch(tagsActions.selectTag(tag));
+			dispatch(tagsActions.select(tag));
 			browserHistory.push(`/tags/${tag.id}`);
 		}
 	}
