@@ -1,6 +1,10 @@
-import {commonInitialState, commonReducer} from './common'
+import {getCommonInitialState, commonReducer} from './common'
 import {itemsActionTypes} from './../actions/_types'
 
-export default function items(state = commonInitialState, action) {
+let initialState = Object.assign({}, getCommonInitialState(), {
+
+});
+
+export default function items(state = initialState, action) {
 	return commonReducer(itemsActionTypes, state, action);
 }
