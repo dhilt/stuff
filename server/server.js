@@ -79,15 +79,15 @@ app.post("/api/deleteTag", function (req, res) {
 
 //-------items-------//
 
-app.get("/api/items", function (req, res) {
+app.post("/api/items", function (req, res) {
 	var searchString = req.body.searchString;
-	var found = [];
+	var result = [];
 	for (var i = mockData.items.length - 1; i >= 0; i--) {
 		if (mockData.items[i].name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1) {
-			found.push(mockData.items[i]);
+			result.push(mockData.items[i]);
 		}
 	}
-	res.send({ found: found });
+	res.send(result);
 });
 
 var generateNewItem =  function(newItem) {
