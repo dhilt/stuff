@@ -7,6 +7,7 @@ import TagsComponent from './../components/Tags'
 const mapStateToProps = (state) => {
 	return {
 		allTags: state.tags.all,
+		searching: state.tags.searching,
 		foundTags: state.tags.found,
 		searchString: state.tags.searchString,
 		canAddNew: state.tags.canAddNew,

@@ -5,7 +5,7 @@ import SearchList from './tags/SearchList'
 
 require('../styles/modules/tags.scss');
 
-const Tags = ({foundTags, onSearchInputChange, searchString, canAddNew, onAddNewTagClick, onSelectTag, editedTag}) => (
+const Tags = ({searching, foundTags, onSearchInputChange, searchString, canAddNew, onAddNewTagClick, onSelectTag, editedTag}) => (
 	<div className="tags">
 		<div className="searchControls">
 			<SearchInput searchString={searchString} onChange={onSearchInputChange}/>
@@ -13,13 +13,14 @@ const Tags = ({foundTags, onSearchInputChange, searchString, canAddNew, onAddNew
 		</div>
 		{
 			searchString ?
-				<SearchList tagList={foundTags} onSelect={onSelectTag} editedTag={editedTag}/> :
+				<SearchList searching={searching} tagList={foundTags} onSelect={onSelectTag} editedTag={editedTag}/> :
 				<div className="startSearchCaption">Please start search tags...</div>
 		}
 	</div>
 );
 
 Tags.propTypes = {
+	searching: PropTypes.bool,
 	foundTags: PropTypes.arrayOf(PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string,

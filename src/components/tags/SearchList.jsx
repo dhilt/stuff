@@ -2,9 +2,9 @@ import React, {PropTypes} from 'react'
 
 require('../../styles/modules/tags/searchList.scss');
 
-const SearchList = ({tagList, onSelect, editedTag}) => (
+const SearchList = ({searching, tagList, onSelect, editedTag}) => (
 	<div className="searchList">
-		{ tagList.length ?
+		{ tagList.length ? (
 			<ul>
 				{tagList.map(entry =>
 					<li key={entry.id}>
@@ -13,15 +13,22 @@ const SearchList = ({tagList, onSelect, editedTag}) => (
 						</span>
 					</li>
 				)}
-			</ul> :
-			<div className="notFoundCaption">
-				No tags found...
-			</div>
+			</ul> 
+			) : (
+			searching ?
+				<div className="searchingCaption">
+					searching...
+				</div> :
+				<div className="notFoundCaption">
+					No tags found...
+				</div>
+			)
 		}
 	</div>
 );
 
 SearchList.propTypes = {
+	searching: PropTypes.bool,
 	tagList: PropTypes.arrayOf(PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string,

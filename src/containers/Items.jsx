@@ -6,6 +6,7 @@ import ItemsComponent from './../components/Items'
 
 const mapStateToProps = (state) => {
 	return {
+		searching: state.items.searching,
 		found: state.items.found,
 		searchString: state.items.searchString,
 		canAddNew: state.items.canAddNew,

@@ -1,5 +1,6 @@
 export function getCommonInitialState() {
 	return {
+		searching: false,
 		found: [],
 		searchString: '',
 		canAddNew: false,
@@ -22,6 +23,8 @@ export function commonReducer(actionTypes, state, action) {
 		case actionTypes.search:
 			return Object.assign({},
 				state, {
+					searching: true,
+					found: [],
 					searchString: action.searchString,
 					canAddNew: false,
 					selected: null,
@@ -32,6 +35,7 @@ export function commonReducer(actionTypes, state, action) {
 		case actionTypes.receiveFound:
 			return Object.assign({},
 				state, {
+					searching: false,
 					found: action.found,
 					canAddNew: canAddNew(state.searchString, action.found)
 				}
