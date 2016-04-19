@@ -6,8 +6,8 @@ import TagComponent from './../components/Tag'
 
 const mapStateToProps = (state) => {
 	return {
-		originalTag: state.tags.selected,
-		changedTag: state.tags.edited
+		original: state.tags.selected,
+		changed: state.tags.edited
 	}
 };
 
@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(tagsActions.applyChanges());
 			browserHistory.push(`/tags`);
 		},
-		deleteTag: () => {
+		remove: () => {
 			dispatch(tagsActions.delete());
 			browserHistory.push(`/tags`);
 		}

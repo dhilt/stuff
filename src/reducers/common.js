@@ -28,7 +28,7 @@ export function getCommonStateChanges(actionTypes, state, action, hasAll = true)
 				edited: null
 			};
 			break;
-		
+
 		case actionTypes.receiveFound:
 			stateChanges = {
 				searching: false,
@@ -41,27 +41,27 @@ export function getCommonStateChanges(actionTypes, state, action, hasAll = true)
 			stateChanges = {
 				edited: {name: state.searchString},
 				selected: null
-			}
+			};
 			break;
 
 		case actionTypes.select:
 			stateChanges = {
 				selected: action.selected,
 				edited: action.selected
-			}
+			};
 			break;
 
 		case actionTypes.change:
 			stateChanges = {
 				edited: Object.assign({}, state.edited, action.edited)
-			}
+			};
 			break;
 
 		case actionTypes.cancelChanges:
 			stateChanges = {
 				selected: null,
 				edited: null
-			}
+			};
 			break;
 
 		case actionTypes.receiveAdded:
@@ -71,32 +71,32 @@ export function getCommonStateChanges(actionTypes, state, action, hasAll = true)
 				edited: action.result
 			};
 			stateChanges.edited.isNew = true;
-			if(hasAll) {
+			if (hasAll) {
 				stateChanges.all = [...state.all, action.result];
 			}
 			break;
 
 		case actionTypes.receiveChanged:
 			stateChanges = {
-				found: state.found.map(tag => tag.id === action.result.id ? action.result : tag),
+				found: state.found.map(entity => entity.id === action.result.id ? action.result : entity),
 				selected: null,
 				edited: action.result
 			};
-			if(hasAll) {
-				stateChanges.all = state.all.map(tag => tag.id === action.result.id ? action.result : tag);
+			if (hasAll) {
+				stateChanges.all = state.all.map(entity => entity.id === action.result.id ? action.result : entity);
 			}
 			break;
 
 		case actionTypes.delete:
-			found = state.found.filter(tag => tag.id !== action.id);
+			found = state.found.filter(entity => entity.id !== action.id);
 			stateChanges = {
 				found: found,
 				canAddNew: canAddNew(state.searchString, found),
 				selected: null,
 				edited: null
 			};
-			if(hasAll) {
-				stateChanges.all = state.all.filter(tag => tag.id !== action.id);
+			if (hasAll) {
+				stateChanges.all = state.all.filter(entity => entity.id !== action.id);
 			}
 			break;
 	}

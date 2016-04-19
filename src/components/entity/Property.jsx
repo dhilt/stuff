@@ -1,16 +1,16 @@
 import React, {PropTypes} from 'react';
 
-const Property = ({property, type, originalTag, changedTag, doChange}) => {
+const Property = ({property, type, original, changed, doChange}) => {
 	
 	let pasteInputElement = () => {
 		switch (type) {
 			case "textarea":
 				return (<textarea
-					value={changedTag[property]}
+					value={changed[property]}
 					onChange={(e) => doChange({[property]: e.target.value})}/>);
 			case "input":
 				return (<input
-					value={changedTag[property]}
+					value={changed[property]}
 					onChange={(e) => doChange({[property]: e.target.value})}/>);
 		}
 	};
@@ -21,20 +21,20 @@ const Property = ({property, type, originalTag, changedTag, doChange}) => {
 			{pasteInputElement()}
 
 			<button
-				disabled={!changedTag.id || changedTag[property] === originalTag[property]}
-				onClick={ () => doChange({ [property]: originalTag[property] }) }>Revert
+				disabled={!changed.id || changed[property] === original[property]}
+				onClick={ () => doChange({ [property]: original[property] }) }>Revert
 			</button>
 		</div>
 	);
 };
 
 Property.propTypes = {
-	originalTag: PropTypes.shape({
+	original: PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string,
 		description: PropTypes.string
 	}),
-	changedTag: PropTypes.shape({
+	changed: PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string,
 		description: PropTypes.string

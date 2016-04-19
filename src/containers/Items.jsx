@@ -26,7 +26,7 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		onSelect: (item) => {
 			dispatch(itemsActions.select(item));
-			browserHistory.push(`/items/${items.id}`);
+			browserHistory.push(`/items/${item.id}`);
 		}
 	}
 };

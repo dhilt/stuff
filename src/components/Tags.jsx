@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
-import SearchInput from './list/SearchInput'
-import AddNew from './list/AddNew'
-import SearchList from './list/SearchList'
+import SearchInput from './entityList/SearchInput'
+import AddNew from './entityList/AddNew'
+import SearchList from './entityList/SearchList'
 
 require('../styles/modules/tags.scss');
 

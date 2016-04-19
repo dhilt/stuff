@@ -1,4 +1,4 @@
-export default function getCommonActions(actionTypes, api, stateToken) {
+export default function getCommonActions(actionTypes, api, tokens) {
 	return {
 
 		new: () => {
@@ -9,20 +9,20 @@ export default function getCommonActions(actionTypes, api, stateToken) {
 			}
 		},
 		
-		select: (tag) => {
+		select: (selected) => {
 			return (dispatch) => {
 				dispatch({
 					type: actionTypes.select,
-					selected: tag
+					selected: selected
 				})
 			}
 		},
 
-		change: (tag) => {
+		change: (edited) => {
 			return (dispatch) => {
 				dispatch({
 					type: actionTypes.change,
-					edited: tag
+					edited: edited
 				})
 			}
 		},
@@ -37,10 +37,10 @@ export default function getCommonActions(actionTypes, api, stateToken) {
 
 		applyChanges: () => {
 			return (dispatch, getState) => {
-				api.push(getState()[stateToken].edited, result =>
+				api.push(getState()[tokens.state].edited, result =>
 					dispatch({
 						type: result.isNew ? actionTypes.receiveAdded : actionTypes.receiveChanged,
-						result: result.tag
+						result: result[tokens.entity]
 					})
 				)
 			}
@@ -48,7 +48,7 @@ export default function getCommonActions(actionTypes, api, stateToken) {
 
 		delete: () => {
 			return (dispatch, getState) => {
-				api.delete(getState()[stateToken].edited.id, result =>
+				api.delete(getState()[tokens.state].edited.id, result =>
 					dispatch({
 						type: actionTypes.delete,
 						id: result.id

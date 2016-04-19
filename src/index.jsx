@@ -11,9 +11,10 @@ import tagsActions from './actions/tags'
 
 import App from './components/App'
 import Index from './components/Index'
+import Items from './containers/Items'
+import Item from './containers/Item'
 import Tags from './containers/Tags'
 import Tag from './containers/Tag'
-import Items from './containers/Items'
 
 const store = createStore(
 	reducer,
@@ -34,6 +35,7 @@ ReactDOM.render(
 			<Route path="/" component={App}>
 				<IndexRoute component={Index}/>
 				<Route path="items" component={Items}/>
+				<Route path="items/:id" component={Item}/>
 				<Route path="tags" component={Tags}/>
 				<Route path="tags/new" component={Tag}/>
 				<Route path="tags/:id" component={Tag}/>
