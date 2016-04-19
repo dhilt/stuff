@@ -15,7 +15,10 @@ export default function items(state = initialState, action) {
 
 		case itemsActionTypes.setItemTags:
 			stateChanges = {
-				edited: Object.assign({}, state.edited, {tags: action.itemTags})
+				edited: Object.assign({}, state.edited, {tags: action.itemTags}),
+				searchTagsString: '',
+				searchingTags: false,
+				foundTags: []
 			};
 			break;
 

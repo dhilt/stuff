@@ -11,7 +11,7 @@ export function getCommonInitialState() {
 
 let canAddNew = (nameStr, found) => !!nameStr && !found.find(t => t.name.toLowerCase() === nameStr.toLowerCase());
 
-export function getCommonStateChanges(actionTypes, state, action, hasAll = true) {
+export function getCommonStateChanges(actionTypes, state, action, isTagEntity = true) {
 
 	let stateChanges = {};
 	let found;
@@ -42,6 +42,9 @@ export function getCommonStateChanges(actionTypes, state, action, hasAll = true)
 				edited: {name: state.searchString},
 				selected: null
 			};
+			if (!isTagEntity) {
+				stateChanges.edited.tags = [];
+			}
 			break;
 
 		case actionTypes.select:
@@ -71,7 +74,7 @@ export function getCommonStateChanges(actionTypes, state, action, hasAll = true)
 				edited: action.result
 			};
 			stateChanges.edited.isNew = true;
-			if (hasAll) {
+			if (isTagEntity) {
 				stateChanges.all = [...state.all, action.result];
 			}
 			break;
@@ -82,7 +85,7 @@ export function getCommonStateChanges(actionTypes, state, action, hasAll = true)
 				selected: null,
 				edited: action.result
 			};
-			if (hasAll) {
+			if (isTagEntity) {
 				stateChanges.all = state.all.map(entity => entity.id === action.result.id ? action.result : entity);
 			}
 			break;
@@ -95,7 +98,7 @@ export function getCommonStateChanges(actionTypes, state, action, hasAll = true)
 				selected: null,
 				edited: null
 			};
-			if (hasAll) {
+			if (isTagEntity) {
 				stateChanges.all = state.all.filter(entity => entity.id !== action.id);
 			}
 			break;
