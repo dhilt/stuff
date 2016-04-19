@@ -38,7 +38,7 @@ export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {s
 			let found = [];
 			if(searchString) {
 				let itemTags = getState().items.edited.tags || [];
-				found = searchString ? getState().tags.all.filter(tag => itemTags.indexOf(tag.id) === -1 && tag.name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1) : [];
+				found = getState().tags.all.filter(tag => tag.name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1 && !itemTags.find( t => t.id === tag.id ));
 				found.sort((a, b) => a.name.localeCompare(b.name));
 			}
 			dispatch({

@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react';
 
+require('../../styles/modules/common/property.scss');
+
 const Property = ({property, type, original, edited, doChange}) => {
 	
 	let pasteInputElement = () => {

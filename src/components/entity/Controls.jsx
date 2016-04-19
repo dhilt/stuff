@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react';
 
+require('../../styles/modules/common/controls.scss');
+
 let canAccept = (src, target) => {
 	if (!target.name)
 		return false;

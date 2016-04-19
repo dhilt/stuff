@@ -16,10 +16,10 @@ const SearchList = ({searching, found, onSelect, edited}) => (
 			</ul> 
 			) : (
 			searching ?
-				<div className="searchingCaption">
+				<div className="caption">
 					searching...
 				</div> :
-				<div className="notFoundCaption">
+				<div className="caption">
 					Nothing found...
 				</div>
 			)
