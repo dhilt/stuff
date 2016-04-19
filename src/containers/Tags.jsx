@@ -20,7 +20,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		onSearchInputChange: (searchString) => {
 			dispatch(tagsActions.search(searchString));
-			dispatch(tagsActions.receiveFound(searchString));
 		},
 		onAddNewTagClick: () => {
 			dispatch(tagsActions.new());

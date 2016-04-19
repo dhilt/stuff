@@ -1,24 +1,5 @@
 export default function getCommonActions(actionTypes, api, stateToken) {
 	return {
-		search: (searchString) => {
-			return (dispatch) => {
-				dispatch({
-					type: actionTypes.search,
-					searchString: searchString
-				})
-			}
-		},
-
-		receiveFound: (searchString) => {
-			return (dispatch, getState) => {
-				let found = searchString ? getState()[stateToken].all.filter(item => item.name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1) : [];
-				found.sort((a, b) => a.name.localeCompare(b.name));
-				dispatch({
-					type: actionTypes.receiveFound,
-					found: found
-				})
-			}
-		},
 
 		new: () => {
 			return (dispatch) => {
