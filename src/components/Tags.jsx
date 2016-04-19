@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
-import SearchInput from './tags/SearchInput'
-import AddNew from './tags/AddNew'
-import SearchList from './tags/SearchList'
+import SearchInput from './list/SearchInput'
+import AddNew from './list/AddNew'
+import SearchList from './list/SearchList'
 
 require('../styles/modules/tags.scss');
 
@@ -13,7 +13,7 @@ const Tags = ({searching, foundTags, onSearchInputChange, searchString, canAddNe
 		</div>
 		{
 			searchString ?
-				<SearchList searching={searching} tagList={foundTags} onSelect={onSelectTag} editedTag={editedTag}/> :
+				<SearchList searching={searching} found={foundTags} onSelect={onSelectTag} edited={editedTag}/> :
 				<div className="startSearchCaption">Please start search tags...</div>
 		}
 	</div>
