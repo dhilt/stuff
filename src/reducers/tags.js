@@ -1,4 +1,4 @@
-import {getCommonInitialState, commonReducer} from './common'
+import {getCommonInitialState, getCommonStateChanges} from './common'
 import {tagsActionTypes} from './../actions/_types'
 
 let initialState = Object.assign({}, getCommonInitialState(), {
@@ -6,5 +6,21 @@ let initialState = Object.assign({}, getCommonInitialState(), {
 });
 
 export default function tags(state = initialState, action) {
-	return commonReducer(tagsActionTypes, state, action);
+
+	let stateChanges = {};
+
+	switch (action.type) {
+
+		case tagsActionTypes.receiveAll:
+			stateChanges = {
+				all: action.all
+			}
+			break;
+
+		default: 
+			stateChanges = getCommonStateChanges(tagsActionTypes, state, action, true);
+			break;
+	}
+
+	return Object.assign({}, state, stateChanges);
 }
