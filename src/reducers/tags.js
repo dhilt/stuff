@@ -11,6 +11,18 @@ export default function tags(state = initialState, action) {
 
 	switch (action.type) {
 
+		case '@@router/LOCATION_CHANGE':
+			if (action.payload.pathname.indexOf('tags') !== 1) {
+				stateChanges = Object.assign({}, getCommonInitialState());
+			}
+			else if (action.payload.pathname === '/tags') {
+				stateChanges = {
+					selected: null,
+					edited: null
+				};
+			}
+			break;
+
 		case tagsActionTypes.receiveAll:
 			stateChanges = {
 				all: action.all
