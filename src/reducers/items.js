@@ -2,12 +2,56 @@ import {getCommonInitialState, getCommonStateChanges} from './common'
 import {itemsActionTypes} from './../actions/_types'
 
 let initialState = Object.assign({}, getCommonInitialState(), {
-
+	searchTagsString: '',
+	searchingTags: false,
+	foundTags: []
 });
 
 export default function items(state = initialState, action) {
-	
-	let stateChanges = getCommonStateChanges(itemsActionTypes, state, action, false);
 
+	let stateChanges = {};
+
+	switch (action.type) {
+
+		case itemsActionTypes.setItemTags:
+			stateChanges = {
+				edited: Object.assign({}, state.edited, {tags: action.itemTags})
+			};
+			break;
+
+		case itemsActionTypes.searchTags:
+			stateChanges = {
+				searchTagsString: action.searchString,
+				searchingTags: true,
+				foundTags: []
+			};
+			break;
+
+		case itemsActionTypes.receiveFoundTags:
+			stateChanges = {
+				searchingTags: false,
+				foundTags: action.found
+			};
+			break;
+
+		case itemsActionTypes.addTag:
+			stateChanges = {
+				edited: Object.assign({}, state.edited, {tags: [...state.edited.tags, action.tag]}),
+				foundTags: state.foundTags.filter(tag => tag.id !== action.tag.id)
+			};
+			break;
+
+		case itemsActionTypes.removeTag:
+			stateChanges = {
+				edited: Object.assign({}, state.edited, {tags: state.edited.tags.filter(tag => tag.id !== action.tag.id)}),
+				foundTags: [...state.foundTags, action.tag]
+			};
+			stateChanges.foundTags.sort((a, b) => a.name.localeCompare(b.name));
+			break;
+
+		default:
+			stateChanges = getCommonStateChanges(itemsActionTypes, state, action, false);
+			break;
+	}
 	return Object.assign({}, state, stateChanges);
 }

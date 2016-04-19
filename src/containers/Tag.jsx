@@ -7,7 +7,7 @@ import TagComponent from './../components/Tag'
 const mapStateToProps = (state) => {
 	return {
 		original: state.tags.selected,
-		changed: state.tags.edited
+		edited: state.tags.edited
 	}
 };
 

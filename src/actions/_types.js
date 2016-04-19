@@ -18,10 +18,15 @@ export let itemsActionTypes = {
 	search: 'SEARCH_ITEMS',
 	new: 'NEW_ITEM',
 	select: 'SELECT_ITEM',
+	setItemTags: 'SET_ITEM_TAGS',
 	change: 'CHANGE_ITEM',
 	cancelChanges: 'CANCEL_ITEM_CHANGES',
 	applyChanges: 'APPLY_ITEM_CHANGES',
 	receiveAdded: 'RECEIVE_ADDED_ITEM',
 	receiveChanged: 'RECEIVE_CHANGED_ITEM',
-	delete: 'DELETE_ITEM'
+	delete: 'DELETE_ITEM',
+	searchTags: 'SAERCH_ITEM_TAGS',
+	receiveFoundTags: 'RECEIVE_FOUND_ITEM_TAGS',
+	addTag: 'ADD_ITEM_TAG',
+	removeTag: 'REMOVE_ITEM_TAG'
 };

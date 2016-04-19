@@ -45,7 +45,8 @@
     {
       "id": 4,
       "name": "MyItem1",
-      "description": "Description for item with id = 4"
+      "description": "Description for item with id = 4",
+      "tags": [4, 5]
     },
     {
       "id": 5,

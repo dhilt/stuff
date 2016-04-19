@@ -120,6 +120,7 @@ app.post("/api/pushItem", function (req, res) {
 			if (mockData.items[i].id === pushItem.id) {
 				mockData.items[i].name = pushItem.name;
 				mockData.items[i].description = pushItem.description;
+				mockData.items[i].tags = pushItem.tags;
 				result.item = pushItem;
 				break;
 			}

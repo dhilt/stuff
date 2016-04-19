@@ -4,18 +4,18 @@ import Controls from './entity/Controls'
 
 require('../styles/modules/tag.scss');
 
-const Tag = ({original, changed, doChange, cancelChanges, acceptChanges, remove}) => (
+const Tag = ({original, edited, doChange, cancelChanges, acceptChanges, remove}) => (
 	<div className="tag">
 		<div className="intro">
-			{ changed.id ? "Here you can change \"" + original.name + "\" tag" : "Here you can create a new tag" }
+			{ edited.id ? "Here you can change \"" + original.name + "\" tag" : "Here you can create a new tag" }
 		</div>
 
 		<TagProperty property="name" type="input"
-								 original={original} changed={changed} doChange={doChange}/>
+								 original={original} edited={edited} doChange={doChange}/>
 		<TagProperty property="description" type="textarea"
-								 original={original} changed={changed} doChange={doChange}/>
+								 original={original} edited={edited} doChange={doChange}/>
 
-		<Controls original={original} changed={changed}
+		<Controls original={original} edited={edited}
 								 cancelChanges={cancelChanges} acceptChanges={acceptChanges} remove={remove}/>
 	</div>
 );
@@ -26,7 +26,7 @@ Tag.propTypes = {
 		name: PropTypes.string,
 		description: PropTypes.string
 	}),
-	changed: PropTypes.shape({
+	edited: PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string,
 		description: PropTypes.string

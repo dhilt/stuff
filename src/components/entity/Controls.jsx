@@ -1,24 +1,32 @@
 import React, {PropTypes} from 'react';
 
-let props = ['id', 'name', 'description'];
 let canAccept = (src, target) => {
 	if (!target.name)
 		return false;
 	if (!src || !target.id)
 		return true;
-	for (let prop of props)
-		if (src[prop] !== target[prop])
+	if (src.name !== target.name)
+		return true;
+	if (src.description !== target.description)
+		return true;
+	if (src.tags && src.tags.length) { // when entity is an item
+		if (src.tags.length === target.tags.length) {
+			return false;
+		}
+		if(target.tags.find(t => src.tags.indexOf(t.id) !== -1)) {
 			return true;
+		}
+	}
 	return false;
 };
 
-const Controls = ({original, changed, cancelChanges, acceptChanges, remove}) => (
+const Controls = ({original, edited, cancelChanges, acceptChanges, remove}) => (
 	<div className="controls">
 		<button onClick={cancelChanges}>Cancel</button>
 		{
-			changed.id ? <button onClick={remove}>Delete</button> : null
+			edited.id ? <button onClick={remove}>Delete</button> : null
 		}
-		<button disabled={!canAccept(original, changed)} onClick={acceptChanges}>Accept</button>
+		<button disabled={!canAccept(original, edited)} onClick={acceptChanges}>Accept</button>
 	</div>
 );
 
@@ -28,7 +36,7 @@ Controls.propTypes = {
 		name: PropTypes.string,
 		description: PropTypes.string
 	}),
-	changed: PropTypes.shape({
+	edited: PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string,
 		description: PropTypes.string

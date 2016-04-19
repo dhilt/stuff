@@ -1,8 +1,8 @@
 export function getCommonInitialState() {
 	return {
+		searchString: '',
 		searching: false,
 		found: [],
-		searchString: '',
 		canAddNew: false,
 		selected: null,
 		edited: null

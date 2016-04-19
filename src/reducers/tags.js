@@ -14,7 +14,7 @@ export default function tags(state = initialState, action) {
 		case tagsActionTypes.receiveAll:
 			stateChanges = {
 				all: action.all
-			}
+			};
 			break;
 
 		default: 

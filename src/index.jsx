@@ -37,7 +37,6 @@ ReactDOM.render(
 				<Route path="items" component={Items}/>
 				<Route path="items/:id" component={Item}/>
 				<Route path="tags" component={Tags}/>
-				<Route path="tags/new" component={Tag}/>
 				<Route path="tags/:id" component={Tag}/>
 			</Route>
 		</Router>
