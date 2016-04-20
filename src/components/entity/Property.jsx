@@ -3,6 +3,10 @@ import React, {PropTypes} from 'react';
 require('../../styles/modules/common/property.scss');
 
 const Property = ({property, type, original, edited, doChange}) => {
+
+	let canRevert = () => {
+		return edited.id && edited[property] !== original[property];
+	};
 	
 	let pasteInputElement = () => {
 		switch (type) {
@@ -22,10 +26,9 @@ const Property = ({property, type, original, edited, doChange}) => {
 
 			{pasteInputElement()}
 
-			<button
-				disabled={!edited.id || edited[property] === original[property]}
-				onClick={ () => doChange({ [property]: original[property] }) }>Revert
-			</button>
+			<span className={"revert" + (!canRevert() ? " disabled" : "")}
+				onClick={ () =>  canRevert() ? doChange({ [property]: original[property] }) : false }>
+			</span>
 		</div>
 	);
 };

@@ -3,12 +3,16 @@ html {
 }
 
 ul {
-	margin: 0;
-	padding: 0;
-    list-style-type: none;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
 
 .caption {
   font-style: italic;
   font-size: smaller;
+}
+
+.disabled {
+  opacity: 0.1;
 }

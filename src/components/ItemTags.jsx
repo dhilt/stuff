@@ -15,7 +15,7 @@ const ItemTags = ({selected, searchString, onSearchInputChange, searching, found
 						{selected.map(entry =>
 							<li key={entry.id}>
 								<span>{entry.name}</span>
-								<button onClick={() => onRemove(entry)}>X</button>
+								<span className="remove" onClick={() => onRemove(entry)}></span>
 							</li>
 						)}
 					</ul> :

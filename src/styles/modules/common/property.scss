@@ -1,3 +1,5 @@
+@import '../../mixins';
+
 .property.name {
   input {
     width: 150px;
@@ -16,5 +18,19 @@
 
   button {
     vertical-align: top;
+  }
+
+  .revert {
+    @include revertBase64();
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .revert:not(.disabled) {
+    opacity: 0.55;
+  }
+
+  .revert:not(.disabled):hover {
+    opacity: 0.9;
   }
 }
