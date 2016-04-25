@@ -79,8 +79,8 @@ app.post("/api/deleteTag", function (req, res) {
 
 //-------items-------//
 
-app.post("/api/items", function (req, res) {
-	var searchString = req.body.searchString;
+app.get("/api/items", function (req, res) {
+	var searchString = req.query.searchString;
 	var result = [];
 	for (var i = mockData.items.length - 1; i >= 0; i--) {
 		if (mockData.items[i].name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1) {
