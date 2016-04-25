@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "4af08048e6a7210abe9e"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "80a08c330fb4a142f5e7"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -16874,15 +16874,7 @@
 
 	exports.default = Object.assign({}, (0, _common2.default)('/api/pushItem', '/api/deleteItem'), {
 		search: function search(searchParams, cb) {
-			var data = {
-				method: 'POST',
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(searchParams)
-			};
-			fetch('/api/items', data).then(function (res) {
+			fetch('/api/items?searchString=' + searchParams.searchString).then(function (res) {
 				return res.json();
 			}).then(function (resJson) {
 				return cb(resJson);
