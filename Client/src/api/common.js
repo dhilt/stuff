@@ -1,6 +1,6 @@
-export default function getCommonApi(pushApiToken, deleteApiToken) {
+export default function getCommonApi(entityToken, deleteApiToken) {
 	return {
-		push: (item, cb) => {
+		create: (item, cb) => {
 			let data = {
 				method: 'POST',
 				headers: {
@@ -9,7 +9,22 @@ export default function getCommonApi(pushApiToken, deleteApiToken) {
 				},
 				body: JSON.stringify(item)
 			};
-			fetch(pushApiToken, data)
+			fetch('/api/' + entityToken, data)
+				.then(res => res.json())
+				.then(resJson => cb(resJson))
+				.catch(err => console.log(err));
+		},
+
+		update: (item, cb) => {
+			let data = {
+				method: 'PUT',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(item)
+			};
+			fetch('/api/' + entityToken + '/' + item.id, data)
 				.then(res => res.json())
 				.then(resJson => cb(resJson))
 				.catch(err => console.log(err));

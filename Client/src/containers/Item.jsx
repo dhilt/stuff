@@ -16,15 +16,19 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		doChange: (item) => {
+		doLocalChange: (item) => {
 			dispatch(itemsActions.change(item));
 		},
-		cancelChanges: () => {
+		cancelLocalChanges: () => {
 			dispatch(itemsActions.cancelChanges());
 			browserHistory.push(`/items`);
 		},
-		acceptChanges: () => {
-			dispatch(itemsActions.applyChanges());
+		create: () => {
+			dispatch(itemsActions.create());
+			browserHistory.push(`/items`);
+		},
+		update: () => {
+			dispatch(itemsActions.update());
 			browserHistory.push(`/items`);
 		},
 		remove: () => {

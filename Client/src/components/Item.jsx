@@ -5,22 +5,22 @@ import ItemTags from '../components/ItemTags'
 
 require('../styles/modules/item.scss');
 
-const Item = ({original, edited, doChange, cancelChanges, acceptChanges, remove, searchTagsString, searchTags, searchingTags, foundTags, selectTag, removeTag}) => (
+const Item = ({original, edited, doLocalChange, cancelLocalChanges, create, update, remove, searchTagsString, searchTags, searchingTags, foundTags, selectTag, removeTag}) => (
 	<div className="item">
 		<div className="intro">
 			{ edited.id ? "Here you can change \"" + original.name + "\" item" : "Here you can create a new item" }
 		</div>
 
 		<TagProperty property="name" type="input"
-								 original={original} edited={edited} doChange={doChange}/>
+								 original={original} edited={edited} doChange={doLocalChange}/>
 		<TagProperty property="description" type="textarea"
-								 original={original} edited={edited} doChange={doChange}/>
+								 original={original} edited={edited} doChange={doLocalChange}/>
 
 		<ItemTags selected={edited.tags} searchString={searchTagsString} onSearchInputChange={searchTags}
 							searching={searchingTags} found={foundTags} onSelect={selectTag} onRemove={removeTag}/>
 
 		<Controls original={original} edited={edited}
-							cancelChanges={cancelChanges} acceptChanges={acceptChanges} remove={remove}/>
+							cancelChanges={cancelLocalChanges} acceptChanges={edited.id ? update : create} remove={remove}/>
 	</div>
 );
 
@@ -41,9 +41,10 @@ Item.propTypes = {
 			description: PropTypes.string
 		}))
 	}),
-	doChange: PropTypes.func.isRequired,
-	cancelChanges: PropTypes.func.isRequired,
-	acceptChanges: PropTypes.func.isRequired,
+	doLocalChange: PropTypes.func.isRequired,
+	cancelLocalChanges: PropTypes.func.isRequired,
+	create: PropTypes.func.isRequired,
+	update: PropTypes.func.isRequired,
 	remove: PropTypes.func.isRequired,
 
 	searchTagsString: PropTypes.string,

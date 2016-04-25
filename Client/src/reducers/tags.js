@@ -30,7 +30,7 @@ export default function tags(state = initialState, action) {
 			break;
 
 		default: 
-			stateChanges = getCommonStateChanges(tagsActionTypes, state, action, true);
+			stateChanges = getCommonStateChanges(tagsActionTypes, state, action, 'tags');
 			break;
 	}
 

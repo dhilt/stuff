@@ -35,16 +35,31 @@ export default function getCommonActions(actionTypes, api, tokens) {
 			}
 		},
 
-		applyChanges: () => {
+		create: () => {
 			return (dispatch, getState) => {
 				let edited = getState()[tokens.state].edited;
 				if (tokens.entity === 'item') {
 					edited.tags = edited.tags.map(t => t.id);
 				}
-				api.push(edited, result =>
+				api.create(edited, result =>
 					dispatch({
-						type: result.isNew ? actionTypes.receiveAdded : actionTypes.receiveChanged,
-						result: result[tokens.entity]
+						type: actionTypes.receiveAdded,
+						result: result
+					})
+				)
+			}
+		},
+
+		update: () => {
+			return (dispatch, getState) => {
+				let edited = getState()[tokens.state].edited;
+				if (tokens.entity === 'item') {
+					edited.tags = edited.tags.map(t => t.id);
+				}
+				api.update(edited, result =>
+					dispatch({
+						type: actionTypes.receiveChanged,
+						result: result
 					})
 				)
 			}

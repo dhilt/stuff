@@ -4,19 +4,19 @@ import Controls from './entity/Controls'
 
 require('../styles/modules/tag.scss');
 
-const Tag = ({original, edited, doChange, cancelChanges, acceptChanges, remove}) => (
+const Tag = ({original, edited, doLocalChange, cancelLocalChanges, acceptChanges, create, update, remove}) => (
 	<div className="tag">
 		<div className="intro">
 			{ edited.id ? "Here you can change \"" + original.name + "\" tag" : "Here you can create a new tag" }
 		</div>
 
 		<TagProperty property="name" type="input"
-								 original={original} edited={edited} doChange={doChange}/>
+								 original={original} edited={edited} doChange={doLocalChange}/>
 		<TagProperty property="description" type="textarea"
-								 original={original} edited={edited} doChange={doChange}/>
+								 original={original} edited={edited} doChange={doLocalChange}/>
 
 		<Controls original={original} edited={edited}
-								 cancelChanges={cancelChanges} acceptChanges={acceptChanges} remove={remove}/>
+								 cancelChanges={cancelLocalChanges} acceptChanges={edited.id ? update : create} remove={remove}/>
 	</div>
 );
 
@@ -31,9 +31,11 @@ Tag.propTypes = {
 		name: PropTypes.string,
 		description: PropTypes.string
 	}),
-	doChange: PropTypes.func.isRequired,
-	cancelChanges: PropTypes.func.isRequired,
+	doLocalChange: PropTypes.func.isRequired,
+	cancelLocalChanges: PropTypes.func.isRequired,
 	acceptChanges: PropTypes.func.isRequired,
+	create: PropTypes.func.isRequired,
+	update: PropTypes.func.isRequired,
 	remove: PropTypes.func.isRequired
 };
 

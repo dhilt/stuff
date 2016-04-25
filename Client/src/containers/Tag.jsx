@@ -13,15 +13,19 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		doChange: (tag) => {
+		doLocalChange: (tag) => {
 			dispatch(tagsActions.change(tag));
 		},
-		cancelChanges: () => {
+		cancelLocalChanges: () => {
 			dispatch(tagsActions.cancelChanges()); 
 			browserHistory.push(`/tags`);
 		},
-		acceptChanges: () => {
-			dispatch(tagsActions.applyChanges());
+		create: () => {
+			dispatch(tagsActions.create());
+			browserHistory.push(`/tags`);
+		},
+		update: () => {
+			dispatch(tagsActions.update());
 			browserHistory.push(`/tags`);
 		},
 		remove: () => {

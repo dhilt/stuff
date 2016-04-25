@@ -1,6 +1,6 @@
 import getCommonApi from './common'
 
-export default Object.assign({}, getCommonApi('/api/pushItem', '/api/deleteItem'), {
+export default Object.assign({}, getCommonApi('items', '/api/deleteItem'), {
 	search(searchParams, cb) {
 		fetch('/api/items?searchString=' + searchParams.searchString)
 			.then(res => res.json())
