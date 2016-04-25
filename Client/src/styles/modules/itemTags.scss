@@ -1,0 +1,46 @@
+@import '../mixins';
+
+.itemTags {
+  margin-top: 15px;
+
+  .tagList {
+    margin-top: 7px;
+
+    ul {
+      margin-left: 5px;
+
+      li {
+        float: left;
+        margin-right: 7px;
+      }
+
+      li:last-child {
+        float: none;
+      }
+    }
+
+    .remove {
+      @include removeBlackBase64();
+      display: inline-block;
+      vertical-align: top;
+      opacity: 0.6;
+    }
+
+    .remove:hover {
+      @include removeRedBase64();
+      opacity: 0.95;
+    }
+  }
+
+  .tagsSearchControls {
+    margin-top: 7px;
+  }
+
+  .tagsSearchList {
+    margin-top: 7px;
+
+    .searchList {
+
+    }
+  }
+}
