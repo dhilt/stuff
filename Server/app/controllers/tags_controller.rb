@@ -4,7 +4,11 @@ class TagsController < ApplicationController
   # GET /tags
   # GET /tags.json
   def index
-    @tags = Tag.all
+    if not params[:searchString].blank?
+      @tags = Tag.where('name like ?', "%#{params[:searchString]}%")
+    else
+      @tags = Tag.all
+    end
   end
 
   # POST /tags

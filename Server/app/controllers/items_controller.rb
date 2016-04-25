@@ -4,7 +4,11 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.includes(:tags).all
+    if not params[:searchString].blank?
+      @items = Item.where('name like ?', "%#{params[:searchString]}%")
+    else
+      @items = Item.all
+    end
   end
 
   
