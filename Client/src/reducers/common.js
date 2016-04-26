@@ -11,7 +11,7 @@ export function getCommonInitialState() {
 
 let canAddNew = (nameStr, found) => !!nameStr && !found.find(t => t.name.toLowerCase() === nameStr.toLowerCase());
 
-export function getCommonStateChanges(actionTypes, state, action, entityType = 'tag') {
+export function getCommonStateChanges(actionTypes, state, action, entityType = 'tags') {
 
 	let stateChanges = {};
 	let found;
@@ -42,7 +42,7 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 				edited: {name: state.searchString},
 				selected: null
 			};
-			if (entityType === 'item') {
+			if (entityType === 'items') {
 				stateChanges.edited.tags = [];
 			}
 			break;
@@ -74,7 +74,7 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 				edited: action.result
 			};
 			stateChanges.edited.isNew = true;
-			if (entityType === 'tag') {
+			if (entityType === 'tags') {
 				stateChanges.all = [...state.all, action.result];
 			}
 			break;
@@ -85,7 +85,7 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 				selected: null,
 				edited: action.result
 			};
-			if (entityType === 'tag') {
+			if (entityType === 'tags') {
 				stateChanges.all = state.all.map(entity => entity.id === action.result.id ? action.result : entity);
 			}
 			break;
@@ -98,7 +98,7 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 				selected: null,
 				edited: null
 			};
-			if (entityType === 'tag') {
+			if (entityType === 'tags') {
 				stateChanges.all = state.all.filter(entity => entity.id !== action.id);
 			}
 			break;

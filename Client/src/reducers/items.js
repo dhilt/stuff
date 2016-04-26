@@ -68,7 +68,7 @@ export default function items(state = initialState, action) {
 			break;
 
 		default:
-			stateChanges = getCommonStateChanges(itemsActionTypes, state, action, 'item');
+			stateChanges = getCommonStateChanges(itemsActionTypes, state, action, 'items');
 			break;
 	}
 	return Object.assign({}, state, stateChanges);

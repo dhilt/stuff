@@ -33,7 +33,6 @@ Tag.propTypes = {
 	}),
 	doLocalChange: PropTypes.func.isRequired,
 	cancelLocalChanges: PropTypes.func.isRequired,
-	acceptChanges: PropTypes.func.isRequired,
 	create: PropTypes.func.isRequired,
 	update: PropTypes.func.isRequired,
 	remove: PropTypes.func.isRequired
