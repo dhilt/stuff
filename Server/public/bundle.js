@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "5bb6145d9e433bcf71e7"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "233d7514a11e585bf242"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -10412,10 +10412,10 @@
 		if (!src || !target.id) return true;
 		if (src.name !== target.name) return true;
 		if (src.description !== target.description) return true;
-		if (src.tags && src.tags.length) {
+		if (Array.isArray(src.tags)) {
 			// when entity is an item
-			if (src.tags.length === target.tags.length) {
-				return false;
+			if (src.tags.length !== target.tags.length) {
+				return true;
 			}
 			if (target.tags.find(function (t) {
 				return src.tags.indexOf(t.id) !== -1;

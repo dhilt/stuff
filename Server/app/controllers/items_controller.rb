@@ -14,6 +14,9 @@ class ItemsController < ApplicationController
   # POST /items.json
   def create
     @item = Item.new(item_params)
+    unless params[:tags].blank?
+      @item.tags = Tag.find params[:tags]
+    end
     respond_to do |format|
       if @item.save
         format.json { render :show, status: :created, location: @item }
@@ -27,6 +30,9 @@ class ItemsController < ApplicationController
   # PATCH/PUT /items/1.json
   def update
     @item = Item.find(params[:id])
+    unless params[:tags].blank?
+      @item.tags = Tag.find params[:tags]
+    end
     respond_to do |format|
       if @item.update(item_params)
         format.json { render :show, status: :ok, location: @item }

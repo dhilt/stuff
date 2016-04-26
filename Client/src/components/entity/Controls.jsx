@@ -11,9 +11,9 @@ let canAccept = (src, target) => {
 		return true;
 	if (src.description !== target.description)
 		return true;
-	if (src.tags && src.tags.length) { // when entity is an item
-		if (src.tags.length === target.tags.length) {
-			return false;
+	if (Array.isArray(src.tags)) { // when entity is an item
+		if (src.tags.length !== target.tags.length) {
+			return true;
 		}
 		if(target.tags.find(t => src.tags.indexOf(t.id) !== -1)) {
 			return true;
