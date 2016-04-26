@@ -61,17 +61,17 @@ app.put("/api/tags/:id", function (req, res) {
     res.send(null);
 });
 
-app.post("/api/deleteTag", function (req, res) {
+app.delete("/api/tags/:id", function (req, res) {
     var tagId = req.body.id;
     var result = {};
     for (var i = mockData.tags.length - 1; i >= 0; i--) {
         if (mockData.tags[i].id === tagId) {
             result.id = tagId;
-            mockData.tags.splice(i, 1);
-            break;
+            res.send({id: tagId});
+            return;
         }
     }
-    res.send(result);
+    res.send(null);
 });
 
 //-------items-------//
@@ -117,17 +117,17 @@ app.put("/api/items/:id", function (req, res) {
     res.send(null);
 });
 
-app.post("/api/deleteItem", function (req, res) {
+app.delete("/api/items/:id", function (req, res) {
     var itemId = req.body.id;
-    var result = {};
     for (var i = mockData.items.length - 1; i >= 0; i--) {
         if (mockData.items[i].id === itemId) {
             result.id = itemId;
             mockData.items.splice(i, 1);
-            break;
+            res.send({id: itemId});
+            return;
         }
     }
-    res.send(result);
+    res.send(null);
 });
 
 

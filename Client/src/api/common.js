@@ -32,14 +32,14 @@ export default function getCommonApi(entityToken, deleteApiToken) {
 
 		delete: (id, cb) => {
 			let data = {
-				method: 'POST',
+				method: 'DELETE',
 				headers: {
 					'Accept': 'application/json',
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({id: id})
 			};
-			fetch(deleteApiToken, data)
+			fetch('/api/' + entityToken + '/' + id, data)
 				.then(res => res.json())
 				.then(resJson => cb(resJson))
 				.catch(err => console.log(err));

@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "dd0c0719b7dd14effbb8"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "5bb6145d9e433bcf71e7"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -10326,14 +10326,14 @@
 
 			delete: function _delete(id, cb) {
 				var data = {
-					method: 'POST',
+					method: 'DELETE',
 					headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify({ id: id })
 				};
-				fetch(deleteApiToken, data).then(function (res) {
+				fetch('/api/' + entityToken + '/' + id, data).then(function (res) {
 					return res.json();
 				}).then(function (resJson) {
 					return cb(resJson);
@@ -10590,7 +10590,7 @@
 	};
 
 	function getCommonStateChanges(actionTypes, state, action) {
-		var entityType = arguments.length <= 3 || arguments[3] === undefined ? 'tag' : arguments[3];
+		var entityType = arguments.length <= 3 || arguments[3] === undefined ? 'tags' : arguments[3];
 
 
 		var stateChanges = {};
@@ -10622,7 +10622,7 @@
 					edited: { name: state.searchString },
 					selected: null
 				};
-				if (entityType === 'item') {
+				if (entityType === 'items') {
 					stateChanges.edited.tags = [];
 				}
 				break;
@@ -10654,7 +10654,7 @@
 					edited: action.result
 				};
 				stateChanges.edited.isNew = true;
-				if (entityType === 'tag') {
+				if (entityType === 'tags') {
 					stateChanges.all = [].concat(_toConsumableArray(state.all), [action.result]);
 				}
 				break;
@@ -10667,7 +10667,7 @@
 					selected: null,
 					edited: action.result
 				};
-				if (entityType === 'tag') {
+				if (entityType === 'tags') {
 					stateChanges.all = state.all.map(function (entity) {
 						return entity.id === action.result.id ? action.result : entity;
 					});
@@ -10684,7 +10684,7 @@
 					selected: null,
 					edited: null
 				};
-				if (entityType === 'tag') {
+				if (entityType === 'tags') {
 					stateChanges.all = state.all.filter(function (entity) {
 						return entity.id !== action.id;
 					});
@@ -17632,7 +17632,6 @@
 		}),
 		doLocalChange: _react.PropTypes.func.isRequired,
 		cancelLocalChanges: _react.PropTypes.func.isRequired,
-		acceptChanges: _react.PropTypes.func.isRequired,
 		create: _react.PropTypes.func.isRequired,
 		update: _react.PropTypes.func.isRequired,
 		remove: _react.PropTypes.func.isRequired
@@ -18225,7 +18224,7 @@
 				break;
 
 			default:
-				stateChanges = (0, _common.getCommonStateChanges)(_types.itemsActionTypes, state, action, 'item');
+				stateChanges = (0, _common.getCommonStateChanges)(_types.itemsActionTypes, state, action, 'items');
 				break;
 		}
 		return Object.assign({}, state, stateChanges);
