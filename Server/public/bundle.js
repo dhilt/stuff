@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "233d7514a11e585bf242"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "f4d009de77d28a6c4970"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -10199,12 +10199,14 @@
 					type: _types.itemsActionTypes.search,
 					searchString: searchParams.searchString
 				});
-				_items2.default.search(searchParams, function (items) {
-					return dispatch({
-						type: _types.itemsActionTypes.receiveFound,
-						found: items
+				if (searchParams.searchString) {
+					_items2.default.search(searchParams, function (items) {
+						return dispatch({
+							type: _types.itemsActionTypes.receiveFound,
+							found: items
+						});
 					});
-				});
+				}
 			};
 		},
 

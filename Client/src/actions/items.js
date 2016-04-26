@@ -9,12 +9,14 @@ export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {s
 				type: itemsActionTypes.search,
 				searchString: searchParams.searchString
 			});
-			apiItems.search(searchParams, items =>
-				dispatch({
-					type: itemsActionTypes.receiveFound,
-					found: items
-				})
-			)
+			if(searchParams.searchString) {
+				apiItems.search(searchParams, items =>
+					dispatch({
+						type: itemsActionTypes.receiveFound,
+						found: items
+					})
+				)
+			}
 		}
 	},
 

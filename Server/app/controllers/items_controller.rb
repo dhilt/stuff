@@ -3,10 +3,10 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    if not params[:searchString].blank?
-      @items = Item.where('name like ?', "%#{params[:searchString]}%")
-    else
-      @items = Item.all
+    filter = params[:searchString] || ''
+    filter = filter.tr('^A-Za-z0-9', '')
+    unless filter.blank?
+      @items = Item.where('name like ?', "%#{filter}%").order(:name)
     end
   end
 

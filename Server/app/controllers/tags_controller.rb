@@ -3,8 +3,10 @@ class TagsController < ApplicationController
   # GET /tags
   # GET /tags.json
   def index
-    if not params[:searchString].blank?
-      @tags = Tag.where('name like ?', "%#{params[:searchString]}%")
+    filter = params[:searchString] || ''
+    filter = filter.tr('^A-Za-z0-9', '')
+    if not filter.blank?
+      @tags = Tag.where('name like ?', "%#{filter}%").order(:name)
     else
       @tags = Tag.all
     end
