@@ -1,6 +1,6 @@
 import getCommonApi from './common'
 
-export default Object.assign({}, getCommonApi('tags', '/api/deleteTag'), {
+export default Object.assign({}, getCommonApi('tags'), {
 	getAll(cb) {
 		fetch('/api/tags')
 			.then(res => res.json())

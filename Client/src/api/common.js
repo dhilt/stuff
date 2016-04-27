@@ -1,45 +1,32 @@
-export default function getCommonApi(entityToken, deleteApiToken) {
+export default function getCommonApi(entityToken) {
+
+	let generateData = (payload) => ({
+		method: 'POST',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(payload)
+	});
+
+
 	return {
 		create: (item, cb) => {
-			let data = {
-				method: 'POST',
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(item)
-			};
-			fetch('/api/' + entityToken, data)
+			fetch('/api/' + entityToken, generateData(item))
 				.then(res => res.json())
 				.then(resJson => cb(resJson))
 				.catch(err => console.log(err));
 		},
 
 		update: (item, cb) => {
-			let data = {
-				method: 'PUT',
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(item)
-			};
-			fetch('/api/' + entityToken + '/' + item.id, data)
+			fetch('/api/' + entityToken + '/' + item.id, generateData(item))
 				.then(res => res.json())
 				.then(resJson => cb(resJson))
 				.catch(err => console.log(err));
 		},
 
 		delete: (id, cb) => {
-			let data = {
-				method: 'DELETE',
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({id: id})
-			};
-			fetch('/api/' + entityToken + '/' + id, data)
+			fetch('/api/' + entityToken + '/' + id, generateData({id: id}))
 				.then(res => res.json())
 				.then(resJson => cb(resJson))
 				.catch(err => console.log(err));
