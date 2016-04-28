@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "f4d009de77d28a6c4970"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "4ebe71f38cfa7aae5fea"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -4863,6 +4863,8 @@
 		search: 'SEARCH_ITEMS',
 		new: 'NEW_ITEM',
 		select: 'SELECT_ITEM',
+		cancelSelect: 'CANCEL_SELECT',
+		receiveSelected: 'RECEIVE_SELECTED_ITEM',
 		setItemTags: 'SET_ITEM_TAGS',
 		change: 'CHANGE_ITEM_LOCALLY',
 		cancelChanges: 'CANCEL_LOCAL_ITEM_CHANGES',
@@ -10193,6 +10195,26 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = Object.assign({}, (0, _common2.default)(_types.itemsActionTypes, _items2.default, { state: 'items', entity: 'item' }), {
+
+		select: function select(selected) {
+			return function (dispatch, getState) {
+				dispatch({
+					type: _types.itemsActionTypes.select
+				});
+				return _items2.default.getById(selected.id, function (item) {
+					return dispatch({
+						type: _types.itemsActionTypes.receiveSelected,
+						selected: item,
+						allTags: getState().tags.all
+					});
+				}, function () {
+					return dispatch({
+						type: _types.itemsActionTypes.cancelSelect
+					});
+				});
+			};
+		},
+
 		search: function search(searchParams) {
 			return function (dispatch) {
 				dispatch({
@@ -10207,21 +10229,6 @@
 						});
 					});
 				}
-			};
-		},
-
-		setItemTags: function setItemTags(item) {
-			return function (dispatch, getState) {
-				var itemTags = item.tags && item.tags.length ? getState().tags.all.filter(function (tag) {
-					return item.tags.indexOf(tag.id) !== -1;
-				}) : [];
-				itemTags.sort(function (a, b) {
-					return a.name.localeCompare(b.name);
-				});
-				dispatch({
-					type: _types.itemsActionTypes.setItemTags,
-					itemTags: itemTags
-				});
 			};
 		},
 
@@ -10288,18 +10295,22 @@
 		value: true
 	});
 	exports.default = getCommonApi;
-	function getCommonApi(entityToken, deleteApiToken) {
+	function getCommonApi(entityToken) {
+
+		var generateData = function generateData(method, payload) {
+			return {
+				method: method,
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(payload)
+			};
+		};
+
 		return {
 			create: function create(item, cb) {
-				var data = {
-					method: 'POST',
-					headers: {
-						'Accept': 'application/json',
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(item)
-				};
-				fetch('/api/' + entityToken, data).then(function (res) {
+				fetch('/api/' + entityToken, generateData('POST', item)).then(function (res) {
 					return res.json();
 				}).then(function (resJson) {
 					return cb(resJson);
@@ -10309,15 +10320,7 @@
 			},
 
 			update: function update(item, cb) {
-				var data = {
-					method: 'PUT',
-					headers: {
-						'Accept': 'application/json',
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(item)
-				};
-				fetch('/api/' + entityToken + '/' + item.id, data).then(function (res) {
+				fetch('/api/' + entityToken + '/' + item.id, generateData('PUT', item)).then(function (res) {
 					return res.json();
 				}).then(function (resJson) {
 					return cb(resJson);
@@ -10327,15 +10330,7 @@
 			},
 
 			delete: function _delete(id, cb) {
-				var data = {
-					method: 'DELETE',
-					headers: {
-						'Accept': 'application/json',
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({ id: id })
-				};
-				fetch('/api/' + entityToken + '/' + id, data).then(function (res) {
+				fetch('/api/' + entityToken + '/' + id, generateData('DELETE', { id: id })).then(function (res) {
 					return res.json();
 				}).then(function (resJson) {
 					return cb(resJson);
@@ -10420,7 +10415,7 @@
 				return true;
 			}
 			if (target.tags.find(function (t) {
-				return src.tags.indexOf(t.id) !== -1;
+				return src.tags.indexOf(t.id) === -1;
 			})) {
 				return true;
 			}
@@ -17072,16 +17067,42 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	exports.default = Object.assign({}, (0, _common2.default)('items', '/api/deleteItem'), {
-		search: function search(searchParams, cb) {
-			fetch('/api/items?searchString=' + searchParams.searchString).then(function (res) {
-				return res.json();
-			}).then(function (resJson) {
-				return cb(resJson);
-			}).catch(function (err) {
-				return console.log(err);
+	var myFetch = function myFetch(url, success) {
+		var fail = arguments.length <= 2 || arguments[2] === undefined ? function () {
+			return null;
+		} : arguments[2];
+		return fetch(url).then(function (result) {
+			if (result.status === 400) {
+				return Promise.reject(result.text());
+			}
+			if (!result.ok) {
+				return Promise.reject(result.statusText);
+			}
+			return result.json();
+		}).then(function (jsonResult) {
+			return success(jsonResult);
+		}, function (errorResult) {
+			if (!errorResult.then) {
+				fail(errorResult);
+				return Promise.reject(errorResult);
+			}
+			return errorResult.then(function (error) {
+				fail(error);
+				return Promise.reject(error);
 			});
+		});
+	};
+
+	exports.default = Object.assign({}, (0, _common2.default)('items'), {
+
+		search: function search(searchParams, cb) {
+			return myFetch('/api/items?searchString=' + searchParams.searchString, cb);
+		},
+
+		getById: function getById(id, success, fail) {
+			return myFetch('/api/items/' + id, success, fail);
 		}
+
 	});
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (true) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = __webpack_require__(7); if (makeExportsHot(module, __webpack_require__(1))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "items.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
@@ -17105,7 +17126,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	exports.default = Object.assign({}, (0, _common2.default)('tags', '/api/deleteTag'), {
+	exports.default = Object.assign({}, (0, _common2.default)('tags'), {
 		getAll: function getAll(cb) {
 			fetch('/api/tags').then(function (res) {
 				return res.json();
@@ -17856,9 +17877,11 @@
 				_reactRouter.browserHistory.push('/items/new');
 			},
 			onSelect: function onSelect(item) {
-				dispatch(_items2.default.select(item));
-				dispatch(_items2.default.setItemTags(item));
-				_reactRouter.browserHistory.push('/items/' + item.id);
+				dispatch(_items2.default.select(item)).then(function (result) {
+					_reactRouter.browserHistory.push('/items/' + item.id);
+				}, function (r) {
+					return console.log(r);
+				});
 			}
 		};
 	};
@@ -18152,6 +18175,7 @@
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	var initialState = Object.assign({}, (0, _common.getCommonInitialState)(), {
+		receiving: false,
 		searchTagsString: '',
 		searchingTags: false,
 		foundTags: []
@@ -18166,6 +18190,33 @@
 
 		switch (action.type) {
 
+			case _types.itemsActionTypes.select:
+				stateChanges = {
+					receiving: true
+				};
+				break;
+
+			case _types.itemsActionTypes.cancelSelect:
+				stateChanges = {
+					receiving: false
+				};
+				break;
+
+			case _types.itemsActionTypes.receiveSelected:
+				var item = action.selected;
+				var itemTags = item.tags && item.tags.length ? action.allTags.filter(function (tag) {
+					return item.tags.indexOf(tag.id) !== -1;
+				}) : [];
+				itemTags.sort(function (a, b) {
+					return a.name.localeCompare(b.name);
+				});
+				stateChanges = {
+					receiving: false,
+					selected: item,
+					edited: Object.assign({}, item, { tags: itemTags })
+				};
+				break;
+
 			case '@@router/LOCATION_CHANGE':
 				if (action.payload.pathname.indexOf('items') !== 1) {
 					stateChanges = Object.assign({}, initialState);
@@ -18178,15 +18229,6 @@
 						foundTags: []
 					};
 				}
-				break;
-
-			case _types.itemsActionTypes.setItemTags:
-				stateChanges = {
-					edited: Object.assign({}, state.edited, { tags: action.itemTags }),
-					searchTagsString: '',
-					searchingTags: false,
-					foundTags: []
-				};
 				break;
 
 			case _types.itemsActionTypes.searchTags:

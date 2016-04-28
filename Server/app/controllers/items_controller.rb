@@ -10,6 +10,19 @@ class ItemsController < ApplicationController
     end
   end
 
+  # GET /items/1
+  # GET /items/1.json
+  def show
+    respond_to do |format|
+      if Item.exists?(id: params[:id])
+        @item = Item.find(params[:id])
+        format.json { render :show, status: :ok, location: @item }
+      else
+        format.json { render plain: "Couldn't get item with id = #{params[:id]}", status: :bad_request }
+      end
+    end
+  end
+
   # POST /items
   # POST /items.json
   def create
