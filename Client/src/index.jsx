@@ -6,11 +6,11 @@ import {Router, Route, IndexRoute, browserHistory, hashHistory} from 'react-rout
 import {syncHistoryWithStore} from 'react-router-redux'
 import logger from 'redux-logger'
 import thunk from 'redux-thunk'
-import reducer from './reducers'
+import reducer from './reducers/reducers'
 import tagsActions from './actions/tags'
 
 import App from './components/App'
-import Index from './components/Index'
+import Index from './containers/Index'
 import Items from './containers/Items'
 import Item from './containers/Item'
 import Tags from './containers/Tags'

@@ -1,3 +1,11 @@
+export let indexActionTypes = {
+	openTagSearchList: 'OPEN_INDEX_TAG_SEARCH_LIST',
+	closeTagSearchList: 'CLOSE_INDEX_TAG_SEARCH_LIST',
+	searchTags: 'SEARCH_INDEX_TAGS',
+	selectTag: 'SELECT_INDEX_TAG',
+	removeTag: 'REMOVE_INDEX_TAG'
+};
+
 export let tagsActionTypes = {
 	receiveAll: 'RECEIVE_ALL_TAGS',
 	search: 'SEARCH_TAGS',

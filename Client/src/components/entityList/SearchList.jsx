@@ -13,7 +13,7 @@ const SearchList = ({searching, found, onSelect, edited}) => (
 						</span>
 					</li>
 				)}
-			</ul> 
+			</ul>
 			) : (
 			searching ?
 				<div className="caption">

@@ -1,0 +1,30 @@
+@import '../mixins';
+
+.index {
+  .searchList {
+    border: 1px solid #aaa;
+    padding: 5px;
+    width: 160px;
+    height: 120px;
+    overflow-y: scroll;
+
+    ul {
+      margin-left: 0;
+
+      li {
+        .marked {
+          @include markedBase64();
+          position: absolute;
+        }
+        .tag {
+          margin-left: 12px;
+        }
+      }
+
+      li:hover {
+        color: #a00;
+        background-color: #ddf;
+      }
+    }
+  }
+}
