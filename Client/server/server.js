@@ -81,7 +81,10 @@ app.get("/api/items", function (req, res) {
     var result = [];
     for (var i = mockData.items.length - 1; i >= 0; i--) {
         if (mockData.items[i].name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1) {
-            result.push(mockData.items[i]);
+            result.push({
+                id: mockData.items[i].id,
+                name: mockData.items[i].name
+            });
         }
     }
     res.send(result);

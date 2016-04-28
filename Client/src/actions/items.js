@@ -5,12 +5,14 @@ import getCommonActions from './common'
 export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {state: 'items', entity: 'item'}), {
 
 	select: (selected) => {
-		return (dispatch) => {
-			return apiItems.getById(selected.id, result =>
-				dispatch({
-					type: itemsActionTypes.select,
-					selected: result
-				})
+		return (dispatch, getState) => {
+			return apiItems.getById(selected.id, item => {
+					dispatch({
+						type: itemsActionTypes.select,
+						selected: item,
+						allTags: getState().tags.all
+					});
+				}
 			)
 		}
 	},
@@ -29,17 +31,6 @@ export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {s
 					})
 				)
 			}
-		}
-	},
-
-	setItemTags: (item) => {
-		return (dispatch, getState) => {
-			let itemTags = item.tags && item.tags.length ? getState().tags.all.filter(tag => item.tags.indexOf(tag.id) !== -1) : [];
-			itemTags.sort((a, b) => a.name.localeCompare(b.name));
-			dispatch({
-				type: itemsActionTypes.setItemTags,
-				itemTags: itemTags
-			})
 		}
 	},
 

@@ -15,7 +15,7 @@ let canAccept = (src, target) => {
 		if (src.tags.length !== target.tags.length) {
 			return true;
 		}
-		if(target.tags.find(t => src.tags.indexOf(t.id) !== -1)) {
+		if(target.tags.find(t => src.tags.indexOf(t.id) === -1)) {
 			return true;
 		}
 	}

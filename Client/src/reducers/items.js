@@ -13,6 +13,16 @@ export default function items(state = initialState, action) {
 
 	switch (action.type) {
 
+		case itemsActionTypes.select:
+			let item = action.selected;
+			let itemTags = item.tags && item.tags.length ? action.allTags.filter(tag => item.tags.indexOf(tag.id) !== -1) : [];
+			itemTags.sort((a, b) => a.name.localeCompare(b.name));
+			stateChanges = {
+				selected: item,
+				edited: Object.assign({}, item, {tags: itemTags})
+			};
+			break;
+
 		case '@@router/LOCATION_CHANGE':
 			if (action.payload.pathname.indexOf('items') !== 1) {
 				stateChanges = Object.assign({}, initialState);
@@ -26,15 +36,6 @@ export default function items(state = initialState, action) {
 					foundTags: []
 				};
 			}
-			break;
-
-		case itemsActionTypes.setItemTags:
-			stateChanges = {
-				edited: Object.assign({}, state.edited, {tags: action.itemTags}),
-				searchTagsString: '',
-				searchingTags: false,
-				foundTags: []
-			};
 			break;
 
 		case itemsActionTypes.searchTags:

@@ -24,5 +24,5 @@ export default Object.assign({}, getCommonApi('items'), {
 	search: (searchParams, cb) => myFetch('/api/items?searchString=' + searchParams.searchString, cb),
 
 	getById: (id, cb) => myFetch('/api/items/' + id, cb)
-	
+
 })
