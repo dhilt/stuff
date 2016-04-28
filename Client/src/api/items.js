@@ -1,6 +1,6 @@
 import getCommonApi from './common'
 
-let myFetch = (url, resultCallback) => fetch(url)
+let myFetch = (url, success, fail = () => null) => fetch(url)
 	.then(result => {
 		if (result.status === 400) {
 			return Promise.reject(result.text());
@@ -11,18 +11,22 @@ let myFetch = (url, resultCallback) => fetch(url)
 		return result.json();
 	})
 	.then(
-		jsonResult => resultCallback(jsonResult), 
+		jsonResult => success(jsonResult), 
 		errorResult => { 
 			if(!errorResult.then) {
+				fail(errorResult);
 				return Promise.reject(errorResult);
 			}
-			return errorResult.then((error) => Promise.reject(error));
+			return errorResult.then((error) => {
+				fail(error);
+				return Promise.reject(error);
+			});
 	})
 
 export default Object.assign({}, getCommonApi('items'), {
 
 	search: (searchParams, cb) => myFetch('/api/items?searchString=' + searchParams.searchString, cb),
 
-	getById: (id, cb) => myFetch('/api/items/' + id, cb)
+	getById: (id, success, fail) => myFetch('/api/items/' + id+123, success, fail)
 
 })

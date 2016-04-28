@@ -19,6 +19,8 @@ export let itemsActionTypes = {
 	search: 'SEARCH_ITEMS',
 	new: 'NEW_ITEM',
 	select: 'SELECT_ITEM',
+	cancelSelect: 'CANCEL_SELECT',
+	receiveSelected: 'RECEIVE_SELECTED_ITEM',
 	setItemTags: 'SET_ITEM_TAGS',
 	change: 'CHANGE_ITEM_LOCALLY',
 	cancelChanges: 'CANCEL_LOCAL_ITEM_CHANGES',

@@ -2,6 +2,7 @@ import {getCommonInitialState, getCommonStateChanges} from './common'
 import {itemsActionTypes} from './../actions/_types'
 
 let initialState = Object.assign({}, getCommonInitialState(), {
+	receiving: false,
 	searchTagsString: '',
 	searchingTags: false,
 	foundTags: []
@@ -14,10 +15,23 @@ export default function items(state = initialState, action) {
 	switch (action.type) {
 
 		case itemsActionTypes.select:
+			stateChanges = {
+				receiving: true
+			};
+			break;
+
+		case itemsActionTypes.cancelSelect:
+			stateChanges = {
+				receiving: false
+			};
+			break;
+
+		case itemsActionTypes.receiveSelected:
 			let item = action.selected;
 			let itemTags = item.tags && item.tags.length ? action.allTags.filter(tag => item.tags.indexOf(tag.id) !== -1) : [];
 			itemTags.sort((a, b) => a.name.localeCompare(b.name));
 			stateChanges = {
+				receiving: false,
 				selected: item,
 				edited: Object.assign({}, item, {tags: itemTags})
 			};

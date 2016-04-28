@@ -6,13 +6,17 @@ export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {s
 
 	select: (selected) => {
 		return (dispatch, getState) => {
-			return apiItems.getById(selected.id, item => {
-					dispatch({
-						type: itemsActionTypes.select,
-						selected: item,
-						allTags: getState().tags.all
-					});
-				}
+			dispatch({
+				type: itemsActionTypes.select
+			});
+			return apiItems.getById(selected.id, item => dispatch({
+					type: itemsActionTypes.receiveSelected,
+					selected: item,
+					allTags: getState().tags.all
+				})
+				, () => dispatch({
+					type: itemsActionTypes.cancelSelect
+				})
 			)
 		}
 	},
