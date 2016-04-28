@@ -25,9 +25,10 @@ const mapDispatchToProps = (dispatch) => {
 			browserHistory.push(`/items/new`);
 		},
 		onSelect: (item) => {
-			dispatch(itemsActions.select(item));
-			dispatch(itemsActions.setItemTags(item));
-			browserHistory.push(`/items/${item.id}`);
+			dispatch(itemsActions.select(item)).then(() => {
+				dispatch(itemsActions.setItemTags(item));
+				browserHistory.push(`/items/${item.id}`);
+			}, r => console.log(r));
 		}
 	}
 };

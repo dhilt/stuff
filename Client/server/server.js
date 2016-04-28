@@ -87,6 +87,21 @@ app.get("/api/items", function (req, res) {
     res.send(result);
 });
 
+app.get("/api/items/:id", function (req, res) {
+    var id = parseInt(req.params.id, 10);
+    if(!id) {
+        res.status(400).send('Can not parse id ' + req.params.id);
+        return;
+    }
+    for (var i = mockData.items.length - 1; i >= 0; i--) {
+        if (mockData.items[i].id === id) {
+            res.send(mockData.items[i]);
+            return;
+        }
+    }
+    res.status(400).send('Can not get item with id = ' + req.params.id);
+});
+
 app.post("/api/items", function (req, res) {
     var newItem = req.body;
     var maxId = 0;

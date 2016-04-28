@@ -3,6 +3,18 @@ import apiItems from './../api/items'
 import getCommonActions from './common'
 
 export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {state: 'items', entity: 'item'}), {
+
+	select: (selected) => {
+		return (dispatch) => {
+			return apiItems.getById(selected.id, result =>
+				dispatch({
+					type: itemsActionTypes.select,
+					selected: result
+				})
+			)
+		}
+	},
+
 	search: (searchParams) => {
 		return dispatch => {
 			dispatch({

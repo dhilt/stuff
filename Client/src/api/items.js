@@ -1,17 +1,28 @@
 import getCommonApi from './common'
 
-export default Object.assign({}, getCommonApi('items'), {
-	search: (searchParams, cb) => {
-		fetch('/api/items?searchString=' + searchParams.searchString)
-			.then(res => res.json())
-			.then(resJson => cb(resJson))
-			.catch(err => console.log(err));
-	},
+let myFetch = (url, resultCallback) => fetch(url)
+	.then(result => {
+		if (result.status === 400) {
+			return Promise.reject(result.text());
+		}
+		if(!result.ok) {
+			return Promise.reject(result.statusText);
+		}
+		return result.json();
+	})
+	.then(
+		jsonResult => resultCallback(jsonResult), 
+		errorResult => { 
+			if(!errorResult.then) {
+				return Promise.reject(errorResult);
+			}
+			return errorResult.then((error) => Promise.reject(error));
+	})
 
-	getById: (id) => {
-		fetch('/api/items/' + id)
-			.then(res => res.json())
-			.then(resJson => cb(resJson))
-			.catch(err => console.log(err));		
-	}
+export default Object.assign({}, getCommonApi('items'), {
+
+	search: (searchParams, cb) => myFetch('/api/items?searchString=' + searchParams.searchString, cb),
+
+	getById: (id, cb) => myFetch('/api/items/' + id, cb)
+	
 })
