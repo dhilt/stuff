@@ -13,12 +13,14 @@ const mapStateToProps = (state) => {
     }
 };
 
+let focus = false;
+
 const mapDispatchToProps = (dispatch) => {
     return {
         onSearchInputFocus: () => {
             dispatch(indexActions.openTagList());
         },
-        onSearchInputBlur: () => {
+        onOutsideTagsClick: () => {
             dispatch(indexActions.closeTagList());
         },
         onSearchInputChange: (searchString) => {
@@ -32,6 +34,11 @@ const mapDispatchToProps = (dispatch) => {
         },
         clearTags: () =>{
             dispatch(indexActions.clearTags());
+        },
+        fixFocus: () => {
+            focus = true;
+            alert(focus);
+
         }
     }
 };
