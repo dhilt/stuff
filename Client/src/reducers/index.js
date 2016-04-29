@@ -50,6 +50,15 @@ export default function index(state = initialState, action) {
             }
             break;
 
+        case indexActionTypes.clearTags:
+            stateChanges = {
+                isTagListOpened: false,
+                searchString: '',
+                selectedTags: [],
+                tagsToSelect: []
+            };
+            break;
+
     }
 
     return Object.assign({}, state, stateChanges);

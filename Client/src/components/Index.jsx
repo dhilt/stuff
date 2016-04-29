@@ -3,53 +3,60 @@ import React, {PropTypes} from 'react'
 require('../styles/modules/index.scss');
 
 const Index = ({isTagListOpened, onSearchInputFocus, onSearchInputBlur, onSearchInputChange, searchString, tagsToSelect, selectedTags, selectTag, removeTag, clearTags}) => {
-	let clickOnTag = (tag) => {
-		if(selectedTags.indexOf(tag.id) === -1) {
-			selectTag(tag);
+	let canClear = () => searchString || selectedTags.length;
+	let myBlur = (e) => {
+		/*let i = 0, parent = e.target.parentElement;
+		while(i++ < 5) {
+			if(parent.id === 'indexTagList') {
+				return;
+			}
+			parent = parent.parentElement;
 		}
-		else {
-			removeTag(tag);
-		}
+		onSearchInputBlur();*/
 	};
 	return (
 		<div className="index">
 			<h3>Stuff Welcome Index</h3>
-			<div className="searchControls">
-				<input
-					value={searchString}
-					onFocus={onSearchInputFocus}
-					onBlur={onSearchInputBlur}
-					onChange={(e) => onSearchInputChange(e.target.value)}
-					placeholder="search tags"/>
-			</div>
-			<div className={"tagList" + (!isTagListOpened ? " hide2" : "")}>
-				{
-					selectedTags.length ? (
-						<ul className="selectedTags">
-							{selectedTags.map(entry =>
-								<li key={entry.id} onClick={() => removeTag(entry)}>
-									<span className="marked"></span>
-									<span className="tag">{entry.name}</span>
-								</li>
-							)}
-						</ul>
-					) : ( null )
-				}
-				{
-					tagsToSelect.length ? (
-						<ul className="tagsToSelect">
-							{tagsToSelect.map(entry =>
-								<li key={entry.id} onClick={() => selectTag(entry)}>
-									<span className="tag">{entry.name}</span>
-								</li>
-							)}
-						</ul>
-					) : (
-						<div className="caption">
-							Nothing found...
-						</div>
-					)
-				}
+			<div id="indexTagList" onBlur={(e) => myBlur(e)}>
+				<div className="searchControls">
+					<input
+						value={searchString}
+						onFocus={onSearchInputFocus}
+						onChange={(e) => onSearchInputChange(e.target.value)}
+						placeholder="search tags"/>
+					<span className={"clear" + (!canClear() ? " disabled" : "")}
+						onClick={ () =>  canClear() ? clearTags() : false }>
+					</span>
+				</div>
+				<div className={"tagList" + (!isTagListOpened ? " hide" : "")}>
+					{
+						selectedTags.length ? (
+							<ul className="selectedTags">
+								{selectedTags.map(entry =>
+									<li key={entry.id} onClick={() => removeTag(entry)}>
+										<span className="marked"></span>
+										<span className="tag">{entry.name}</span>
+									</li>
+								)}
+							</ul>
+						) : ( null )
+					}
+					{
+						tagsToSelect.length ? (
+							<ul className="tagsToSelect">
+								{tagsToSelect.map(entry =>
+									<li key={entry.id} onClick={() => selectTag(entry)}>
+										<span className="tag">{entry.name}</span>
+									</li>
+								)}
+							</ul>
+						) : (
+							<div className="caption">
+								Nothing found...
+							</div>
+						)
+					}
+				</div>
 			</div>
 		</div>
 	);

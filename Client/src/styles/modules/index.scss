@@ -1,6 +1,21 @@
 @import '../mixins';
 
 .index {
+
+  .clear {
+    @include revertBase64();
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .clear:not(.disabled) {
+    opacity: 0.55;
+  }
+
+  .revert:not(.disabled):hover {
+    opacity: 0.9;
+  }
+
   .tagList {
     border: 1px solid #aaa;
     padding: 5px;
