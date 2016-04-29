@@ -1,7 +1,8 @@
 export let indexActionTypes = {
-	openTagSearchList: 'OPEN_INDEX_TAG_SEARCH_LIST',
-	closeTagSearchList: 'CLOSE_INDEX_TAG_SEARCH_LIST',
+	openTagList: 'OPEN_INDEX_TAG_LIST',
+	closeTagList: 'CLOSE_INDEX_TAG_LIST',
 	searchTags: 'SEARCH_INDEX_TAGS',
+	clearTags: 'CLEAR_INDEX_TAGS',
 	selectTag: 'SELECT_INDEX_TAG',
 	removeTag: 'REMOVE_INDEX_TAG'
 };

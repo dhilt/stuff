@@ -6,20 +6,20 @@ import IndexComponent from './../components/Index'
 
 const mapStateToProps = (state) => {
     return {
-        isSearchListOpened: state.index.isSearchListOpened,
-        foundTags: state.index.foundTags,
-        selectedTagIds: state.index.selectedTagIds,
-        searchString: state.index.searchString
+        searchString: state.index.searchString,
+        isTagListOpened: state.index.isTagListOpened,
+        tagsToSelect: state.index.tagsToSelect,
+        selectedTags: state.index.selectedTags
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onSearchInputFocus: () => {
-            dispatch(indexActions.openTagSearchList());
+            dispatch(indexActions.openTagList());
         },
         onSearchInputBlur: () => {
-            dispatch(indexActions.closeTagSearchList());
+            dispatch(indexActions.closeTagList());
         },
         onSearchInputChange: (searchString) => {
             dispatch(indexActions.searchTags(searchString));
@@ -29,6 +29,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         removeTag: (tag) =>{
             dispatch(indexActions.removeTag(tag));
+        },
+        clearTags: () =>{
+            dispatch(indexActions.clearTags());
         }
     }
 };

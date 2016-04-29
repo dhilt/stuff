@@ -2,9 +2,9 @@ import React, {PropTypes} from 'react'
 
 require('../styles/modules/index.scss');
 
-const Index = ({isSearchListOpened, onSearchInputFocus, onSearchInputBlur, onSearchInputChange, searchString, foundTags, selectedTagIds, selectTag, removeTag}) => {
+const Index = ({isTagListOpened, onSearchInputFocus, onSearchInputBlur, onSearchInputChange, searchString, tagsToSelect, selectedTags, selectTag, removeTag, clearTags}) => {
 	let clickOnTag = (tag) => {
-		if(selectedTagIds.indexOf(tag.id) === -1) {
+		if(selectedTags.indexOf(tag.id) === -1) {
 			selectTag(tag);
 		}
 		else {
@@ -22,13 +22,24 @@ const Index = ({isSearchListOpened, onSearchInputFocus, onSearchInputBlur, onSea
 					onChange={(e) => onSearchInputChange(e.target.value)}
 					placeholder="search tags"/>
 			</div>
-			<div className={"searchList" + (!isSearchListOpened ? " hide2" : "")}>
+			<div className={"tagList" + (!isTagListOpened ? " hide2" : "")}>
 				{
-					foundTags.length ? (
-						<ul>
-							{foundTags.map(entry =>
-								<li key={entry.id} onClick={() => clickOnTag(entry)}>
-									<span className={"marked" + (selectedTagIds.indexOf(entry.id) === -1 ? " hide" : "")}></span>
+					selectedTags.length ? (
+						<ul className="selectedTags">
+							{selectedTags.map(entry =>
+								<li key={entry.id} onClick={() => removeTag(entry)}>
+									<span className="marked"></span>
+									<span className="tag">{entry.name}</span>
+								</li>
+							)}
+						</ul>
+					) : ( null )
+				}
+				{
+					tagsToSelect.length ? (
+						<ul className="tagsToSelect">
+							{tagsToSelect.map(entry =>
+								<li key={entry.id} onClick={() => selectTag(entry)}>
 									<span className="tag">{entry.name}</span>
 								</li>
 							)}
@@ -45,19 +56,22 @@ const Index = ({isSearchListOpened, onSearchInputFocus, onSearchInputBlur, onSea
 };
 
 Index.propTypes = {
-	isSearchListOpened: PropTypes.bool,
-	foundTags: PropTypes.arrayOf(PropTypes.shape({
+	isTagListOpened: PropTypes.bool,
+	tagsToSelect: PropTypes.arrayOf(PropTypes.shape({
 		id: PropTypes.number,
-		name: PropTypes.string,
-		description: PropTypes.string
+		name: PropTypes.string
 	})).isRequired,
-	selectedTagIds: PropTypes.arrayOf(PropTypes.number).isRequired,
+	selectedTags: PropTypes.arrayOf(PropTypes.shape({
+		id: PropTypes.number,
+		name: PropTypes.string
+	})).isRequired,
 	searchString: PropTypes.string,
 	onSearchInputFocus: PropTypes.func.isRequired,
 	onSearchInputBlur: PropTypes.func.isRequired,
 	onSearchInputChange: PropTypes.func.isRequired,
 	selectTag: PropTypes.func.isRequired,
-	removeTag: PropTypes.func.isRequired
+	removeTag: PropTypes.func.isRequired,
+	clearTags: PropTypes.func.isRequired
 };
 
 

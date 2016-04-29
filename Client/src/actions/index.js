@@ -2,18 +2,18 @@ import {indexActionTypes} from './_types'
 
 export default {
 
-    openTagSearchList: () => {
+    openTagList: () => {
         return (dispatch) => {
             dispatch({
-                type: indexActionTypes.openTagSearchList
+                type: indexActionTypes.openTagList
             });
         }
     },
 
-    closeTagSearchList: () => {
+    closeTagList: () => {
         return (dispatch) => {
             dispatch({
-                type: indexActionTypes.closeTagSearchList
+                type: indexActionTypes.closeTagList
             });
         }
     },
@@ -27,6 +27,15 @@ export default {
             });
         }
     },
+
+    clearTags: () => {
+        return (dispatch) => {
+            dispatch({
+                type: indexActionTypes.clearTags
+            });
+        }
+    },
+
     
     selectTag: (tag) => {
         return (dispatch) => {

@@ -1,29 +1,48 @@
 @import '../mixins';
 
 .index {
-  .searchList {
+  .tagList {
     border: 1px solid #aaa;
     padding: 5px;
     width: 160px;
-    height: 120px;
-    overflow-y: scroll;
+    max-height: 120px;
+    overflow-y: auto;
 
     ul {
       margin-left: 0;
 
       li {
-        .marked {
-          @include markedBase64();
-          position: absolute;
-        }
-        .tag {
-          margin-left: 12px;
-        }
+        cursor: default;
       }
 
       li:hover {
         color: #a00;
         background-color: #ddf;
+      }
+    }
+
+    ul.selectedTags {
+      border: 0px dashed #ccc;
+      border-bottom-width: 1px;
+      margin-bottom: 5px;
+      padding-bottom: 5px;
+
+      li {
+        .marked {
+          @include markedBase64();
+          display: inline-block;
+        }
+        .tag {
+          margin-left: 2px;
+        }
+      }
+    }
+
+    ul {
+      li {
+        .tag {
+          margin-left: 0px;
+        }
       }
     }
   }
