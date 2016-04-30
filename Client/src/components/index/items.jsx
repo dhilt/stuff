@@ -2,12 +2,12 @@ import React, {PropTypes} from 'react'
 
 require('../../styles/modules/index/items.scss');
 
-const Items = ({hasSelectedTags, searching, items}) => (
+const Items = ({hasSelectedTags, searching, items, clickOnItem}) => (
 	<div className="items">
 		{ items.length ? (
 			<ul>
 				{items.map(entry =>
-					<li key={entry.id}>
+					<li key={entry.id} onClick={() => clickOnItem(entry)}>
 						<span>
 							{entry.name}
 						</span>
@@ -35,7 +35,8 @@ Items.propTypes = {
 		id: PropTypes.number,
 		name: PropTypes.string,
 		description: PropTypes.string
-	})).isRequired
+	})).isRequired,
+	clickOnItem: PropTypes.func.isRequired
 };
 
 export default Items

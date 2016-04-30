@@ -47,6 +47,10 @@
       margin-left: 0px; }
 .items {
   margin-top: 20px; }
+  .items li {
+    cursor: default; }
+    .items li span:hover {
+      color: #a00; }
 .searchList .notFoundCaption {
   font-style: italic; }
 

@@ -1,3 +1,10 @@
 .items {
   margin-top: 20px;
+
+  li {
+    cursor: default;
+    span:hover {
+      color: #a00;
+    }
+  }
 }

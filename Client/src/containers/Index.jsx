@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {browserHistory} from 'react-router'
 import {connect} from 'react-redux'
 import indexActions from './../actions/index'
+import itemsActions from './../actions/items'
 import IndexComponent from './../components/Index'
 
 const mapStateToProps = (state) => {
@@ -38,6 +39,11 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		clearTags: () => {
 			dispatch(indexActions.clearTags());
+		},
+		clickOnItem: (item) => {
+			dispatch(itemsActions.select(item)).then((result) => {
+				browserHistory.push(`/items/${item.id}`);
+			}, r => console.log(r));
 		}
 	}
 };
