@@ -23,7 +23,10 @@ app.get("/", function (req, res) {
 //-------index-------//
 
 app.post("/api/index", function (req, res) {
-	var tags = req.body;
+	var tags = req.body.tags;
+	if(!tags || !tags.length) {
+		return res.send(null);
+	}
 	var item, result = [];
 	for (var i = mockData.items.length - 1; i >= 0; i--) {
 		item = mockData.items[i];
