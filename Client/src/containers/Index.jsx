@@ -28,17 +28,14 @@ const mapDispatchToProps = (dispatch) => {
         },
         selectTag: (tag) =>{
             dispatch(indexActions.selectTag(tag));
+            dispatch(indexActions.getItems());
         },
         removeTag: (tag) =>{
             dispatch(indexActions.removeTag(tag));
+            dispatch(indexActions.getItems());
         },
         clearTags: () =>{
             dispatch(indexActions.clearTags());
-        },
-        fixFocus: () => {
-            focus = true;
-            alert(focus);
-
         }
     }
 };

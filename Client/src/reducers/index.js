@@ -4,7 +4,8 @@ let initialState = {
     isTagListOpened: false,
     searchString: '',
     tagsToSelect: [],
-    selectedTags: []
+    selectedTags: [],
+    items: []
 };
 
 export default function index(state = initialState, action) {

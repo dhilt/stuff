@@ -4,7 +4,8 @@ export let indexActionTypes = {
 	searchTags: 'SEARCH_INDEX_TAGS',
 	clearTags: 'CLEAR_INDEX_TAGS',
 	selectTag: 'SELECT_INDEX_TAG',
-	removeTag: 'REMOVE_INDEX_TAG'
+	removeTag: 'REMOVE_INDEX_TAG',
+	receiveItems: 'RECEIVE_INDEX_ITEMS'
 };
 
 export let tagsActionTypes = {

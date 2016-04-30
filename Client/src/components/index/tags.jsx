@@ -17,7 +17,7 @@ const Tags = ({isTagListOpened, onSearchInputFocus, onSearchInputChange, searchS
                           onClick={ () =>  canClear() ? clearTags() : false }>
 					</span>
             </div>
-            <div className={"tagList" + (!isTagListOpened ? " hide" : "")}>
+            <div className={"tagList" + (!isTagListOpened || !searchString ? " hide" : "")}>
                 {
                     selectedTags.length ? (
                         <ul className="selectedTags">
@@ -67,6 +67,5 @@ Tags.propTypes = {
     removeTag: PropTypes.func.isRequired,
     clearTags: PropTypes.func.isRequired
 };
-
 
 export default Tags
