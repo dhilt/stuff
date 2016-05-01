@@ -1,5 +1,11 @@
+@import './variables';
+
 html {
   font-family: sans-serif;
+}
+
+input, textarea {
+	width: $input-width;
 }
 
 ul {

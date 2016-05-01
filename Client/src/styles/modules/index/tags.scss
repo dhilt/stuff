@@ -1,14 +1,19 @@
+@import '../../variables';
 @import '../../mixins';
 
 .indexTags {
 
-  width: 180px;
+  width: $input-width;
+
+  .searchControls {
+    width: $input-width + 20;
+  }
 
   .clear {
     @include revertBase64();
     position: absolute;
   }
-
+ 
   .clear:not(.disabled) {
     opacity: 0.55;
   }
@@ -20,9 +25,11 @@
   .tagList {
     border: 1px solid #aaa;
     padding: 5px;
-    width: 160px;
+    width: $input-width - 8;
     max-height: 120px;
     overflow-y: auto;
+    position: absolute;
+    background-color: #f9f9f9;
 
     ul {
       margin-left: 0;

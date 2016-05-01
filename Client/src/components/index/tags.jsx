@@ -41,7 +41,7 @@ const Tags = ({isTagListOpened, onSearchInputFocus, onSearchInputChange, searchS
                         </ul>
                     ) : (
                         <div className="caption">
-                            Nothing found...
+                            No tags found...
                         </div>
                     )
                 }

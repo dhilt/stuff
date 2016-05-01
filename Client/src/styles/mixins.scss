@@ -1,3 +1,7 @@
+@mixin input () {
+  width: 200px;
+}
+
 @mixin caption () {
 	font-style: italic;
 }
