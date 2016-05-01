@@ -12,7 +12,7 @@ const Tags = ({isTagListOpened, onSearchInputFocus, onSearchInputChange, searchS
                     value={searchString}
                     onFocus={onSearchInputFocus}
                     onChange={(e) => onSearchInputChange(e.target.value)}
-                    placeholder="search tags"/>
+                    placeholder="start search tags"/>
 					<span className={"clear" + (!canClear() ? " disabled" : "")}
                           onClick={ () =>  canClear() ? clearTags() : false }>
 					</span>

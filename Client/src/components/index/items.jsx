@@ -7,8 +7,8 @@ const Items = ({hasSelectedTags, searching, items, clickOnItem}) => (
 		{ items.length ? (
 			<ul>
 				{items.map(entry =>
-					<li key={entry.id} onClick={() => clickOnItem(entry)}>
-						<span>
+					<li key={entry.id}>
+						<span onClick={() => clickOnItem(entry)}>
 							{entry.name}
 						</span>
 					</li>

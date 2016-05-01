@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 
 require('../../styles/modules/tags/searchList.scss');
 
-const SearchList = ({searching, found, onSelect, edited}) => (
+const SearchList = ({searching, found, onSelect, edited, entityToken}) => (
 	<div className="searchList">
 		{ found.length ? (
 			<ul>
@@ -17,10 +17,10 @@ const SearchList = ({searching, found, onSelect, edited}) => (
 			) : (
 			searching ?
 				<div className="caption">
-					searching...
+					searching {entityToken}...
 				</div> :
 				<div className="caption">
-					Nothing found...
+					No {entityToken} found...
 				</div>
 			)
 		}
@@ -38,7 +38,8 @@ SearchList.propTypes = {
 	edited: PropTypes.shape({
 		id: PropTypes.number,
 		isNew: PropTypes.bool
-	})
+	}),
+	entityToken: PropTypes.string
 };
 
 export default SearchList

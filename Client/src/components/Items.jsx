@@ -7,14 +7,16 @@ require('../styles/modules/tags.scss');
 
 const Items = ({searching, found, onSearchInputChange, searchString, canAddNew, onAddNewClick, onSelect, edited}) => (
 	<div className="tags">
+		<h3>Stuff Items Editor</h3>
 		<div className="searchControls">
-			<SearchInput searchString={searchString} onChange={onSearchInputChange}/>
+			<SearchInput searchString={searchString} onChange={onSearchInputChange} entityToken="items"/>
 			<AddNew onClick={onAddNewClick} disabled={!canAddNew}/>
 		</div>
 		{
 			searchString ?
-				<SearchList searching={searching} found={found} onSelect={onSelect} edited={edited}/> :
-				<div className="startSearchCaption">Please start search items...</div>
+				<SearchList searching={searching} found={found} onSelect={onSelect} 
+					edited={edited} entityToken="items"/> :
+				(null)
 		}
 	</div>
 );
