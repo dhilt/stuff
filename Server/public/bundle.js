@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "40269db67dbd2ccf2ca9"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "a0520044f9975b686225"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -3651,7 +3651,6 @@
 	var tagsActionTypes = exports.tagsActionTypes = {
 		receiveAll: 'RECEIVE_ALL_TAGS',
 		search: 'SEARCH_TAGS',
-		receiveFound: 'RECEIVE_FOUND_TAGS',
 		new: 'NEW_TAG',
 		select: 'SELECT_TAG',
 		change: 'CHANGE_TAG_LOCALLY',
@@ -3679,8 +3678,7 @@
 		receiveAdded: 'RECEIVE_ADDED_ITEM',
 		receiveChanged: 'RECEIVE_CHANGED_ITEM',
 		delete: 'DELETE_ITEM',
-		searchTags: 'SAERCH_ITEM_TAGS',
-		receiveFoundTags: 'RECEIVE_FOUND_ITEM_TAGS',
+		searchTags: 'SEARCH_ITEM_TAGS',
 		addTag: 'ADD_ITEM_TAG',
 		removeTag: 'REMOVE_ITEM_TAG'
 	};
@@ -6166,29 +6164,11 @@
 		},
 
 		searchTags: function searchTags(searchString) {
-			// todo dhilt : think about generalization with ./actions/tags/search AND moving this logic into reducers
 			return function (dispatch, getState) {
 				dispatch({
 					type: _types.itemsActionTypes.searchTags,
-					searchString: searchString
-				});
-				var found = [];
-				if (searchString) {
-					(function () {
-						var itemTags = getState().items.edited.tags || [];
-						found = getState().tags.all.filter(function (tag) {
-							return tag.name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1 && !itemTags.find(function (t) {
-								return t.id === tag.id;
-							});
-						});
-						found.sort(function (a, b) {
-							return a.name.localeCompare(b.name);
-						});
-					})();
-				}
-				dispatch({
-					type: _types.itemsActionTypes.receiveFoundTags,
-					found: found
+					searchString: searchString,
+					allTags: searchString ? getState().tags.all : null
 				});
 			};
 		},
@@ -6253,20 +6233,10 @@
 		},
 
 		search: function search(searchString) {
-			return function (dispatch, getState) {
+			return function (dispatch) {
 				dispatch({
 					type: _types.tagsActionTypes.search,
 					searchString: searchString
-				});
-				var found = searchString ? getState().tags.all.filter(function (item) {
-					return item.name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1;
-				}) : [];
-				found.sort(function (a, b) {
-					return a.name.localeCompare(b.name);
-				});
-				dispatch({
-					type: _types.tagsActionTypes.receiveFound,
-					found: found
 				});
 			};
 		}
@@ -6423,7 +6393,7 @@
 								} },
 							entry.name,
 							' ',
-							edited && entry.id === edited.id ? '*' : ''
+							edited === entry.id ? '*' : ''
 						)
 					);
 				})
@@ -6451,10 +6421,7 @@
 			description: _react.PropTypes.string
 		})).isRequired,
 		onSelect: _react.PropTypes.func.isRequired,
-		edited: _react.PropTypes.shape({
-			id: _react.PropTypes.number,
-			isNew: _react.PropTypes.bool
-		}),
+		edited: _react.PropTypes.number,
 		entityToken: _react.PropTypes.string
 	};
 
@@ -10346,6 +10313,7 @@
 						});
 					}
 					api.create(edited, function (result) {
+						result.tags = null;
 						dispatch({
 							type: actionTypes.receiveAdded,
 							result: result
@@ -10364,6 +10332,7 @@
 						});
 					}
 					api.update(edited, function (result) {
+						result.tags = null;
 						dispatch({
 							type: actionTypes.receiveChanged,
 							result: result
@@ -10664,6 +10633,7 @@
 		value: true
 	});
 	exports.getCommonInitialState = getCommonInitialState;
+	exports.canAddNewRecord = canAddNewRecord;
 	exports.getCommonStateChanges = getCommonStateChanges;
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -10674,16 +10644,17 @@
 			searching: false,
 			found: [],
 			canAddNew: false,
-			selected: null,
-			edited: null
+			origin: null,
+			edited: null,
+			justEditedId: null
 		};
 	}
 
-	var canAddNew = function canAddNew(nameStr, found) {
+	function canAddNewRecord(nameStr, found) {
 		return !!nameStr && !found.find(function (t) {
 			return t.name.toLowerCase() === nameStr.toLowerCase();
 		});
-	};
+	}
 
 	function getCommonStateChanges(actionTypes, state, action) {
 		var entityType = arguments.length <= 3 || arguments[3] === undefined ? 'tags' : arguments[3];
@@ -10694,29 +10665,10 @@
 
 		switch (action.type) {
 
-			case actionTypes.search:
-				stateChanges = {
-					searching: true,
-					found: [],
-					searchString: action.searchString,
-					canAddNew: false,
-					selected: null,
-					edited: null
-				};
-				break;
-
-			case actionTypes.receiveFound:
-				stateChanges = {
-					searching: false,
-					found: action.found,
-					canAddNew: canAddNew(state.searchString, action.found)
-				};
-				break;
-
 			case actionTypes.new:
 				stateChanges = {
 					edited: { name: state.searchString },
-					selected: null
+					origin: { name: state.searchString }
 				};
 				if (entityType === 'items') {
 					stateChanges.edited.tags = [];
@@ -10725,7 +10677,7 @@
 
 			case actionTypes.select:
 				stateChanges = {
-					selected: action.selected,
+					origin: action.selected,
 					edited: action.selected
 				};
 				break;
@@ -10738,7 +10690,7 @@
 
 			case actionTypes.cancelChanges:
 				stateChanges = {
-					selected: null,
+					origin: null,
 					edited: null
 				};
 				break;
@@ -10746,8 +10698,9 @@
 			case actionTypes.receiveAdded:
 				stateChanges = {
 					found: [action.result].concat(_toConsumableArray(state.found)),
-					selected: null,
-					edited: action.result
+					origin: null,
+					edited: action.result,
+					justEditedId: action.result.id
 				};
 				stateChanges.edited.isNew = true;
 				if (entityType === 'tags') {
@@ -10760,8 +10713,9 @@
 					found: state.found.map(function (entity) {
 						return entity.id === action.result.id ? action.result : entity;
 					}),
-					selected: null,
-					edited: action.result
+					origin: null,
+					edited: action.result,
+					justEditedId: action.result.id
 				};
 				if (entityType === 'tags') {
 					stateChanges.all = state.all.map(function (entity) {
@@ -10776,8 +10730,8 @@
 				});
 				stateChanges = {
 					found: found,
-					canAddNew: canAddNew(state.searchString, found),
-					selected: null,
+					canAddNew: canAddNewRecord(state.searchString, found),
+					origin: null,
 					edited: null
 				};
 				if (entityType === 'tags') {
@@ -17514,6 +17468,7 @@
 		var searching = _ref.searching;
 		var items = _ref.items;
 		var clickOnItem = _ref.clickOnItem;
+		var justEditedItemId = _ref.justEditedItemId;
 
 		return _react2.default.createElement(
 			'div',
@@ -17535,7 +17490,12 @@
 				removeTag: removeTag,
 				clearTags: clearTags
 			}),
-			_react2.default.createElement(_items2.default, { hasSelectedTags: !!selectedTags.length, searching: searching, items: items, clickOnItem: clickOnItem })
+			_react2.default.createElement(_items2.default, {
+				hasSelectedTags: !!selectedTags.length,
+				searching: searching,
+				items: items,
+				clickOnItem: clickOnItem,
+				justEditedItemId: justEditedItemId })
 		);
 	};
 
@@ -17562,7 +17522,8 @@
 			name: _react.PropTypes.string,
 			description: _react.PropTypes.string
 		})).isRequired,
-		clickOnItem: _react.PropTypes.func.isRequired
+		clickOnItem: _react.PropTypes.func.isRequired,
+		justEditedItemId: _react.PropTypes.number
 	};
 
 	exports.default = Index;
@@ -17616,7 +17577,7 @@
 		var foundTags = _ref.foundTags;
 		var selectTag = _ref.selectTag;
 		var removeTag = _ref.removeTag;
-		return edited ? _react2.default.createElement(
+		return original && edited ? _react2.default.createElement(
 			'div',
 			{ className: 'item' },
 			_react2.default.createElement(
@@ -17731,7 +17692,7 @@
 							{ key: entry.id },
 							_react2.default.createElement(
 								'span',
-								null,
+								{ className: 'name' },
 								entry.name
 							),
 							_react2.default.createElement('span', { className: 'remove', onClick: function onClick() {
@@ -17825,7 +17786,7 @@
 		var canAddNew = _ref.canAddNew;
 		var onAddNewClick = _ref.onAddNewClick;
 		var onSelect = _ref.onSelect;
-		var edited = _ref.edited;
+		var justEditedId = _ref.justEditedId;
 		return _react2.default.createElement(
 			'div',
 			{ className: 'tags' },
@@ -17841,7 +17802,7 @@
 				_react2.default.createElement(_AddNew2.default, { onClick: onAddNewClick, disabled: !canAddNew })
 			),
 			searchString ? _react2.default.createElement(_SearchList2.default, { searching: searching, found: found, onSelect: onSelect,
-				edited: edited, entityToken: 'items' }) : null
+				edited: justEditedId, entityToken: 'items' }) : null
 		);
 	};
 
@@ -17857,10 +17818,7 @@
 		canAddNew: _react.PropTypes.bool,
 		onAddNewClick: _react.PropTypes.func.isRequired,
 		onSelect: _react.PropTypes.func.isRequired,
-		edited: _react.PropTypes.shape({
-			id: _react.PropTypes.number,
-			isNew: _react.PropTypes.bool
-		})
+		justEditedId: _react.PropTypes.number
 	};
 
 	exports.default = Items;
@@ -17905,7 +17863,7 @@
 		var create = _ref.create;
 		var update = _ref.update;
 		var remove = _ref.remove;
-		return _react2.default.createElement(
+		return original && edited ? _react2.default.createElement(
 			'div',
 			{ className: 'tag' },
 			_react2.default.createElement(
@@ -17919,7 +17877,7 @@
 				original: original, edited: edited, doChange: doLocalChange }),
 			_react2.default.createElement(_Controls2.default, { original: original, edited: edited,
 				cancelChanges: cancelLocalChanges, acceptChanges: edited.id ? update : create, remove: remove })
-		);
+		) : null;
 	};
 
 	Tag.propTypes = {
@@ -17985,7 +17943,7 @@
 		var canAddNew = _ref.canAddNew;
 		var onAddNewTagClick = _ref.onAddNewTagClick;
 		var onSelectTag = _ref.onSelectTag;
-		var editedTag = _ref.editedTag;
+		var justEditedId = _ref.justEditedId;
 		return _react2.default.createElement(
 			'div',
 			{ className: 'tags' },
@@ -18001,7 +17959,7 @@
 				_react2.default.createElement(_AddNew2.default, { onClick: onAddNewTagClick, disabled: !canAddNew })
 			),
 			searchString ? _react2.default.createElement(_SearchList2.default, { searching: searching, found: foundTags, onSelect: onSelectTag,
-				edited: editedTag, entityToken: 'tags' }) : null
+				edited: justEditedId, entityToken: 'tags' }) : null
 		);
 	};
 
@@ -18017,10 +17975,7 @@
 		canAddNew: _react.PropTypes.bool,
 		onAddNewTagClick: _react.PropTypes.func.isRequired,
 		onSelectTag: _react.PropTypes.func.isRequired,
-		editedTag: _react.PropTypes.shape({
-			id: _react.PropTypes.number,
-			isNew: _react.PropTypes.bool
-		})
+		justEditedId: _react.PropTypes.number
 	};
 
 	exports.default = Tags;
@@ -18175,6 +18130,7 @@
 		var searching = _ref.searching;
 		var items = _ref.items;
 		var clickOnItem = _ref.clickOnItem;
+		var justEditedItemId = _ref.justEditedItemId;
 		return _react2.default.createElement(
 			'div',
 			{ className: 'items' },
@@ -18190,7 +18146,9 @@
 							{ onClick: function onClick() {
 									return clickOnItem(entry);
 								} },
-							entry.name
+							entry.name,
+							' ',
+							justEditedItemId === entry.id ? '*' : ''
 						)
 					);
 				})
@@ -18214,7 +18172,8 @@
 			name: _react.PropTypes.string,
 			description: _react.PropTypes.string
 		})).isRequired,
-		clickOnItem: _react.PropTypes.func.isRequired
+		clickOnItem: _react.PropTypes.func.isRequired,
+		justEditedItemId: _react.PropTypes.number
 	};
 
 	exports.default = Items;
@@ -18231,7 +18190,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+		value: true
 	});
 
 	var _react = __webpack_require__(1);
@@ -18249,13 +18208,15 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var TagsWrapper = _react2.default.createClass({
-	    displayName: 'TagsWrapper',
-	    handleClickOutside: function handleClickOutside() {
-	        this.props.onOutsideTagsClick();
-	    },
-	    render: function render() {
-	        return _react2.default.createElement(_Tags2.default, this.props);
-	    }
+		displayName: 'TagsWrapper',
+		handleClickOutside: function handleClickOutside() {
+			if (this.props.isTagListOpened) {
+				this.props.onOutsideTagsClick();
+			}
+		},
+		render: function render() {
+			return _react2.default.createElement(_Tags2.default, this.props);
+		}
 	});
 
 	exports.default = (0, _reactClickOutside2.default)(TagsWrapper);
@@ -18304,7 +18265,8 @@
 			tagsToSelect: state.index.tagsToSelect,
 			selectedTags: state.index.selectedTags,
 			searching: state.index.searching,
-			items: state.index.items
+			items: state.index.items,
+			justEditedItemId: state.index.justEditedItemId
 		};
 	};
 
@@ -18381,7 +18343,7 @@
 
 	var mapStateToProps = function mapStateToProps(state) {
 		return {
-			original: state.items.selected,
+			original: state.items.origin,
 			edited: state.items.edited,
 			searchTagsString: state.items.searchTagsString,
 			searchingTags: state.items.searchingTags,
@@ -18461,8 +18423,9 @@
 			found: state.items.found,
 			searchString: state.items.searchString,
 			canAddNew: state.items.canAddNew,
-			selected: state.items.selected,
-			edited: state.items.edited
+			origin: state.items.origin,
+			edited: state.items.edited,
+			justEditedId: state.items.justEditedId
 		};
 	};
 
@@ -18524,7 +18487,7 @@
 
 	var mapStateToProps = function mapStateToProps(state) {
 		return {
-			original: state.tags.selected,
+			original: state.tags.origin,
 			edited: state.tags.edited
 		};
 	};
@@ -18536,19 +18499,15 @@
 			},
 			cancelLocalChanges: function cancelLocalChanges() {
 				dispatch(_tags2.default.cancelChanges());
-				_reactRouter.browserHistory.push('/tags');
 			},
 			create: function create() {
 				dispatch(_tags2.default.create());
-				_reactRouter.browserHistory.push('/tags');
 			},
 			update: function update() {
 				dispatch(_tags2.default.update());
-				_reactRouter.browserHistory.push('/tags');
 			},
 			remove: function remove() {
 				dispatch(_tags2.default.delete());
-				_reactRouter.browserHistory.push('/tags');
 			}
 		};
 	};
@@ -18597,8 +18556,9 @@
 			foundTags: state.tags.found,
 			searchString: state.tags.searchString,
 			canAddNew: state.tags.canAddNew,
-			selectedTag: state.tags.selected,
-			editedTag: state.tags.edited
+			selectedTag: state.tags.origin,
+			editedTag: state.tags.edited,
+			justEditedId: state.tags.justEditedId
 		};
 	};
 
@@ -18742,7 +18702,8 @@
 		tagsToSelect: [],
 		selectedTags: [],
 		searching: false,
-		items: []
+		items: [],
+		justEditedItemId: null
 	};
 
 	function index() {
@@ -18754,6 +18715,14 @@
 		var found = void 0;
 
 		switch (action.type) {
+
+			case '@@router/LOCATION_CHANGE':
+				if (action.payload.pathname !== '/') {
+					stateChanges = {
+						justEditedItemId: null
+					};
+				}
+				break;
 
 			case _types.indexActionTypes.openTagList:
 				stateChanges = {
@@ -18814,15 +18783,30 @@
 					selectedTags: [],
 					tagsToSelect: [],
 					searching: false,
-					items: []
+					items: [],
+					justEditedItemId: null
 				};
 				break;
 
 			case _types.indexActionTypes.receiveItems:
 				stateChanges = {
 					searching: false,
-					items: action.items
+					items: action.items,
+					justEditedItemId: null
 				};
+				break;
+
+			case _types.itemsActionTypes.receiveChanged:
+				if (found = state.items.find(function (item) {
+					return item.id === action.result.id;
+				})) {
+					stateChanges = {
+						items: state.items.map(function (item) {
+							return item.id === action.result.id ? action.result : item;
+						}),
+						justEditedItemId: action.result.id
+					};
+				}
 				break;
 
 		}
@@ -18869,6 +18853,44 @@
 
 		switch (action.type) {
 
+			case '@@router/LOCATION_CHANGE':
+				if (action.payload.pathname.indexOf('/items') === -1) {
+					stateChanges = Object.assign({}, initialState);
+				} else if (action.payload.pathname === '/items') {
+					stateChanges = {
+						origin: null,
+						edited: null,
+						searchTagsString: '',
+						searchingTags: false,
+						foundTags: []
+					};
+				} else {
+					stateChanges = {
+						justEditedId: null
+					};
+				}
+				break;
+
+			case _types.itemsActionTypes.search:
+				stateChanges = {
+					searching: true,
+					found: [],
+					searchString: action.searchString,
+					canAddNew: false,
+					origin: null,
+					edited: null,
+					justEditedId: null
+				};
+				break;
+
+			case _types.itemsActionTypes.receiveFound:
+				stateChanges = {
+					searching: false,
+					found: action.found,
+					canAddNew: (0, _common.canAddNewRecord)(state.searchString, action.found)
+				};
+				break;
+
 			case _types.itemsActionTypes.select:
 				stateChanges = {
 					receiving: true
@@ -18891,37 +18913,30 @@
 				});
 				stateChanges = {
 					receiving: false,
-					selected: item,
+					origin: item,
 					edited: Object.assign({}, item, { tags: itemTags })
 				};
 				break;
 
-			case '@@router/LOCATION_CHANGE':
-				if (action.payload.pathname.indexOf('items') !== 1) {
-					stateChanges = Object.assign({}, initialState);
-				} else if (action.payload.pathname === '/items') {
-					stateChanges = {
-						selected: null,
-						edited: null,
-						searchTagsString: '',
-						searchingTags: false,
-						foundTags: []
-					};
-				}
-				break;
-
 			case _types.itemsActionTypes.searchTags:
+				var found = [];
+				if (action.searchString) {
+					(function () {
+						var itemTags = state.edited.tags || [];
+						found = action.allTags.filter(function (tag) {
+							return tag.name.toLowerCase().indexOf(action.searchString.toLowerCase()) !== -1 && !itemTags.find(function (t) {
+								return t.id === tag.id;
+							});
+						});
+						found.sort(function (a, b) {
+							return a.name.localeCompare(b.name);
+						});
+					})();
+				}
 				stateChanges = {
 					searchTagsString: action.searchString,
 					searchingTags: true,
-					foundTags: []
-				};
-				break;
-
-			case _types.itemsActionTypes.receiveFoundTags:
-				stateChanges = {
-					searchingTags: false,
-					foundTags: action.found
+					foundTags: found
 				};
 				break;
 
@@ -18938,12 +18953,14 @@
 				stateChanges = {
 					edited: Object.assign({}, state.edited, { tags: state.edited.tags.filter(function (tag) {
 							return tag.id !== action.tag.id;
-						}) }),
-					foundTags: [].concat(_toConsumableArray(state.foundTags), [action.tag])
+						}) })
 				};
-				stateChanges.foundTags.sort(function (a, b) {
-					return a.name.localeCompare(b.name);
-				});
+				if (action.tag.name.toLowerCase().indexOf(state.searchTagsString.toLowerCase()) !== -1) {
+					stateChanges.foundTags = [].concat(_toConsumableArray(state.foundTags), [action.tag]);
+					stateChanges.foundTags.sort(function (a, b) {
+						return a.name.localeCompare(b.name);
+					});
+				}
 				break;
 
 			default:
@@ -19035,6 +19052,7 @@
 
 
 		var stateChanges = {};
+		var found = [];
 
 		switch (action.type) {
 
@@ -19043,10 +19061,33 @@
 					stateChanges = Object.assign({}, (0, _common.getCommonInitialState)());
 				} else if (action.payload.pathname === '/tags') {
 					stateChanges = {
-						selected: null,
+						origin: null,
 						edited: null
 					};
+				} else {
+					stateChanges = {
+						justEditedId: null
+					};
 				}
+				break;
+
+			case _types.tagsActionTypes.search:
+				if (action.searchString) {
+					found = state.all.filter(function (rec) {
+						return rec.name.toLowerCase().indexOf(action.searchString.toLowerCase()) !== -1;
+					});
+					found.sort(function (a, b) {
+						return a.name.localeCompare(b.name);
+					});
+				}
+				stateChanges = {
+					found: found,
+					searchString: action.searchString,
+					canAddNew: (0, _common.canAddNewRecord)(action.searchString, found),
+					origin: null,
+					edited: null,
+					justEditedId: null
+				};
 				break;
 
 			case _types.tagsActionTypes.receiveAll:

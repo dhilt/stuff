@@ -94,21 +94,26 @@
 .itemTags {
   margin-top: 15px; }
   .itemTags .tagList {
+    width: 212px;
     margin-top: 7px; }
     .itemTags .tagList ul {
       margin-left: 5px; }
       .itemTags .tagList ul li {
         float: left;
-        margin-right: 7px; }
+        margin-right: 20px; }
       .itemTags .tagList ul li:last-child {
         float: none; }
+    .itemTags .tagList .name {
+      border: 0 dashed #bbb;
+      border-bottom-width: 1px; }
     .itemTags .tagList .remove {
       width: 16px;
       height: 16px;
       background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAFhSURBVDhPnVIxkoJAEFywDDwzIg3EyA+cJPgNcs/EP5D5CMucKjJDE1M/QUZIYaJmVBmAe3Sfs4dgZFdNzUxPb4uza5VlqXu9ngIsy1J5nqvxeKyqqiLXBHSPx0NprZ9MDRgggMvlgom+Xq/sZSbzJEl0GIashTcGIjqdTjQpioK98AB4oP669wYIYLPZGLGg3+/r/X7PuqnvGCAAz/OMSRAEejAYsG5rucRa+ALbtrlQWRpwPudqNOou137mF8ih+pOZJ5MJDwv/gvYnIYA0TfkXJJbLJfm29u0Sb7ebOQjM59+s4zhm39R3rvF+v5vDx+ORHCBc/dDYdwwA3K8I1+s1OZlFUWRmQL2PfwOBCKbTKXsxF43rupwvFgv2NECBVyeHEYK2AZ64aLbbLTleo+/7SESWZczt+0bvOI5arX7Yz2YzZvNzw+GXPhwOrJtvXQKcYLfbMYOzUPxZfQKlfgFb+3ZpZTVYbAAAAABJRU5ErkJggg==");
       display: inline-block;
       vertical-align: top;
-      opacity: 0.6; }
+      opacity: 0.6;
+      position: absolute; }
     .itemTags .tagList .remove:hover {
       width: 16px;
       height: 16px;
@@ -118,8 +123,6 @@
     margin-top: 7px; }
   .itemTags .tagsSearchList {
     margin-top: 7px; }
-.item {
-  /*color: blue;*/ }
 html {
   font-family: sans-serif; }
 

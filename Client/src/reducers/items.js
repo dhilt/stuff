@@ -35,6 +35,18 @@ export default function items(state = initialState, action) {
 			}
 			break;
 
+		case itemsActionTypes.search:
+			stateChanges = {
+				searching: true,
+				found: [],
+				searchString: action.searchString,
+				canAddNew: false,
+				origin: null,
+				edited: null,
+				justEditedId: null
+			};
+			break;
+
 		case itemsActionTypes.receiveFound:
 			stateChanges = {
 				searching: false,

@@ -21,23 +21,6 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 
 	switch (action.type) {
 
-		case actionTypes.search:
-			stateChanges = {
-				searching: true,
-				found: [],
-				searchString: action.searchString,
-				canAddNew: false,
-				origin: null,
-				edited: null,
-				justEditedId: null
-			};
-			if (entityType === 'tags') {
-				let found = action.searchString ? state.all.filter(rec => rec.name.toLowerCase().indexOf(action.searchString.toLowerCase()) !== -1) : [];
-				found.sort((a, b) => a.name.localeCompare(b.name));
-				stateChanges.found = found;
-			}
-			break;
-
 		case actionTypes.new:
 			stateChanges = {
 				edited: {name: state.searchString},
