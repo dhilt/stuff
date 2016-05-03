@@ -53,17 +53,16 @@ export default function items(state = initialState, action) {
 			break;
 
 		case itemsActionTypes.searchTags:
+			let found = [];
+			if(action.searchString) {
+				let itemTags = state.edited.tags || [];
+				found = action.allTags.filter(tag => tag.name.toLowerCase().indexOf(action.searchString.toLowerCase()) !== -1 && !itemTags.find( t => t.id === tag.id ));
+				found.sort((a, b) => a.name.localeCompare(b.name));
+			}
 			stateChanges = {
 				searchTagsString: action.searchString,
 				searchingTags: true,
-				foundTags: []
-			};
-			break;
-
-		case itemsActionTypes.receiveFoundTags:
-			stateChanges = {
-				searchingTags: false,
-				foundTags: action.found
+				foundTags: found
 			};
 			break;
 
@@ -76,10 +75,12 @@ export default function items(state = initialState, action) {
 
 		case itemsActionTypes.removeTag:
 			stateChanges = {
-				edited: Object.assign({}, state.edited, {tags: state.edited.tags.filter(tag => tag.id !== action.tag.id)}),
-				foundTags: [...state.foundTags, action.tag]
+				edited: Object.assign({}, state.edited, {tags: state.edited.tags.filter(tag => tag.id !== action.tag.id)})
 			};
-			stateChanges.foundTags.sort((a, b) => a.name.localeCompare(b.name));
+			if(action.tag.name.toLowerCase().indexOf(state.searchTagsString.toLowerCase()) !== -1) {
+				stateChanges.foundTags = [...state.foundTags, action.tag];
+				stateChanges.foundTags.sort((a, b) => a.name.localeCompare(b.name));
+			}
 			break;
 
 		default:

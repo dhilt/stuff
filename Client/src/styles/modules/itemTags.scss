@@ -1,9 +1,11 @@
+@import '../variables';
 @import '../mixins';
 
 .itemTags {
   margin-top: 15px;
 
   .tagList {
+    width: $input-width - 8;
     margin-top: 7px;
 
     ul {
@@ -11,7 +13,7 @@
 
       li {
         float: left;
-        margin-right: 7px;
+        margin-right: 20px;
       }
 
       li:last-child {
@@ -19,11 +21,18 @@
       }
     }
 
+    .name {
+      //background-color: cornsilk;
+      border: 0 dashed #bbb;
+      border-bottom-width: 1px;
+    }
+
     .remove {
       @include removeBlackBase64();
       display: inline-block;
       vertical-align: top;
       opacity: 0.6;
+      position: absolute;
     }
 
     .remove:hover {

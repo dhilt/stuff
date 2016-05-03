@@ -38,21 +38,12 @@ export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {s
 		}
 	},
 
-	searchTags: (searchString) => { // todo dhilt : think about generalization with ./actions/tags/search AND moving this logic into reducers
+	searchTags: (searchString) => { // todo dhilt : think about generalization with ./actions/tags/search
 		return (dispatch, getState) => {
 			dispatch({
 				type: itemsActionTypes.searchTags,
-				searchString: searchString
-			});
-			let found = [];
-			if(searchString) {
-				let itemTags = getState().items.edited.tags || [];
-				found = getState().tags.all.filter(tag => tag.name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1 && !itemTags.find( t => t.id === tag.id ));
-				found.sort((a, b) => a.name.localeCompare(b.name));
-			}
-			dispatch({
-				type: itemsActionTypes.receiveFoundTags,
-				found: found
+				searchString: searchString,
+				allTags: searchString ? getState().tags.all : null
 			});
 		}
 	},

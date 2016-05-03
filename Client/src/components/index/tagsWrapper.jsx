@@ -4,15 +4,17 @@ import Tags from './Tags'
 
 const TagsWrapper = React.createClass({
 
-    handleClickOutside() {
-        this.props.onOutsideTagsClick();
-    },
+	handleClickOutside() {
+		if (this.props.isTagListOpened) {
+			this.props.onOutsideTagsClick();
+		}
+	},
 
-    render() {
-        return (
-            <Tags {...this.props}/>
-        );
-    }
+	render() {
+		return (
+			<Tags {...this.props}/>
+		);
+	}
 });
 
 export default enhanceWithClickOutside(TagsWrapper)
