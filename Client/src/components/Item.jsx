@@ -5,7 +5,7 @@ import ItemTags from '../components/ItemTags'
 
 require('../styles/modules/item.scss');
 
-const Item = ({original, edited, doLocalChange, cancelLocalChanges, create, update, remove, searchTagsString, searchTags, searchingTags, foundTags, selectTag, removeTag}) => 
+const Item = ({original, edited, doLocalChange, cancelLocalChanges, create, update, remove, searchTagsString, searchTags, foundTags, selectTag, removeTag}) => 
 	original && edited ? (
 	<div className="item">
 		<div className="intro">
@@ -13,15 +13,15 @@ const Item = ({original, edited, doLocalChange, cancelLocalChanges, create, upda
 		</div>
 
 		<TagProperty property="name" type="input"
-								 original={original} edited={edited} doChange={doLocalChange}/>
+			original={original} edited={edited} doChange={doLocalChange}/>
 		<TagProperty property="description" type="textarea"
-								 original={original} edited={edited} doChange={doLocalChange}/>
+			original={original} edited={edited} doChange={doLocalChange}/>
 
 		<ItemTags selected={edited.tags} searchString={searchTagsString} onSearchInputChange={searchTags}
-							searching={searchingTags} found={foundTags} onSelect={selectTag} onRemove={removeTag}/>
+			found={foundTags} onSelect={selectTag} onRemove={removeTag}/>
 
 		<Controls original={original} edited={edited}
-							cancelChanges={cancelLocalChanges} acceptChanges={edited.id ? update : create} remove={remove}/>
+			cancelChanges={cancelLocalChanges} acceptChanges={edited.id ? update : create} remove={remove}/>
 	</div>
 	) : (null);
 
@@ -50,7 +50,6 @@ Item.propTypes = {
 
 	searchTagsString: PropTypes.string,
 	searchTags: PropTypes.func.isRequired,
-	searchingTags: PropTypes.bool,
 	foundTags: PropTypes.arrayOf(PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string,

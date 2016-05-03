@@ -5,7 +5,6 @@ let initialState = Object.assign({}, getCommonInitialState(), {
 	path: '/items',
 	receiving: false,
 	searchTagsString: '',
-	searchingTags: false,
 	foundTags: []
 });
 
@@ -24,7 +23,6 @@ export default function items(state = initialState, action) {
 					origin: null,
 					edited: null,
 					searchTagsString: '',
-					searchingTags: false,
 					foundTags: []
 				};
 			}
@@ -87,7 +85,6 @@ export default function items(state = initialState, action) {
 			}
 			stateChanges = {
 				searchTagsString: action.searchString,
-				searchingTags: true,
 				foundTags: found
 			};
 			break;

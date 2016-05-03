@@ -9,7 +9,6 @@ const mapStateToProps = (state) => {
 		original: state.items.origin,
 		edited: state.items.edited,
 		searchTagsString: state.items.searchTagsString,
-		searchingTags: state.items.searchingTags,
 		foundTags: state.items.foundTags
 	}
 };
