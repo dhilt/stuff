@@ -4,7 +4,7 @@ import SearchList from './entityList/SearchList'
 
 require('../styles/modules/itemTags.scss');
 
-const ItemTags = ({selected, searchString, onSearchInputChange, searching, found, onSelect, onRemove}) => (
+const ItemTags = ({selected, searchString, onSearchInputChange, found, onSelect, onRemove}) => (
 	<div className="itemTags">
 
 		<div>Tags of this item</div>
@@ -24,13 +24,13 @@ const ItemTags = ({selected, searchString, onSearchInputChange, searching, found
 		</div>
 
 		<div className="tagsSearchControls">
-			<SearchInput searchString={searchString} onChange={onSearchInputChange}/>
+			<SearchInput searchString={searchString} onChange={onSearchInputChange} entityToken="tags"/>
 		</div>
 		
 		<div className="tagsSearchList">
 			{
 				searchString ?
-					<SearchList searching={searching} found={found} onSelect={onSelect}/> :
+					<SearchList searching={false} found={found} onSelect={onSelect} entityToken="tags"/> :
 					<div className="caption">Please start search tags...</div>
 			}
 		</div>
@@ -45,7 +45,6 @@ ItemTags.propTypes = {
 	})).isRequired,
 	searchString: PropTypes.string,
 	onSearchInputChange: PropTypes.func.isRequired,
-	searching: PropTypes.bool,
 	found: PropTypes.arrayOf(PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string,

@@ -49,7 +49,6 @@ Item.propTypes = {
 	remove: PropTypes.func.isRequired,
 
 	searchTagsString: PropTypes.string,
-	searchTags: PropTypes.func.isRequired,
 	foundTags: PropTypes.arrayOf(PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string,
