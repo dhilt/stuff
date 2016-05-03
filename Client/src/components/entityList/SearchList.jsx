@@ -9,7 +9,7 @@ const SearchList = ({searching, found, onSelect, edited, entityToken}) => (
 				{found.map(entry =>
 					<li key={entry.id}>
 						<span onClick={() => onSelect(entry)}>
-							{entry.name} {edited && entry.id === edited.id ? '*' : ''}
+							{entry.name} {edited === entry.id ? '*' : ''}
 						</span>
 					</li>
 				)}
@@ -35,10 +35,7 @@ SearchList.propTypes = {
 		description: PropTypes.string
 	})).isRequired,
 	onSelect: PropTypes.func.isRequired,
-	edited: PropTypes.shape({
-		id: PropTypes.number,
-		isNew: PropTypes.bool
-	}),
+	edited: PropTypes.number,
 	entityToken: PropTypes.string
 };
 

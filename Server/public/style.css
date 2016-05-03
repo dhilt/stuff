@@ -8,7 +8,9 @@
 .app .content {
   margin-top: 15px; }
 .indexTags {
-  width: 180px; }
+  width: 220px; }
+  .indexTags .searchControls {
+    width: 240px; }
   .indexTags .clear {
     width: 20px;
     height: 20px;
@@ -21,9 +23,11 @@
   .indexTags .tagList {
     border: 1px solid #aaa;
     padding: 5px;
-    width: 160px;
+    width: 212px;
     max-height: 120px;
-    overflow-y: auto; }
+    overflow-y: auto;
+    position: absolute;
+    background-color: #f9f9f9; }
     .indexTags .tagList ul {
       margin-left: 0; }
       .indexTags .tagList ul li {
@@ -46,7 +50,7 @@
     .indexTags .tagList ul li .tag {
       margin-left: 0px; }
 .items {
-  margin-top: 20px; }
+  margin-top: 15px; }
   .items li {
     cursor: default; }
     .items li span:hover {
@@ -66,11 +70,7 @@
 
 .tags .startSearchCaption {
   font-style: italic; }
-.property.name input {
-  width: 150px; }
-
 .property.description textarea {
-  width: 150px;
   height: 50px; }
 
 .property {
@@ -122,6 +122,9 @@
   /*color: blue;*/ }
 html {
   font-family: sans-serif; }
+
+input, textarea {
+  width: 220px; }
 
 ul {
   margin: 0;

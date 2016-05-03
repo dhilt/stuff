@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "a7fb2202e1ce57255365"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "40269db67dbd2ccf2ca9"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -615,7 +615,7 @@
 	var DOMLazyTree = __webpack_require__(33);
 	var DOMProperty = __webpack_require__(27);
 	var ReactBrowserEventEmitter = __webpack_require__(45);
-	var ReactCurrentOwner = __webpack_require__(23);
+	var ReactCurrentOwner = __webpack_require__(24);
 	var ReactDOMComponentTree = __webpack_require__(10);
 	var ReactDOMContainerInfo = __webpack_require__(254);
 	var ReactDOMFeatureFlags = __webpack_require__(258);
@@ -1817,7 +1817,7 @@
 
 	var _assign = __webpack_require__(9);
 
-	var ReactCurrentOwner = __webpack_require__(23);
+	var ReactCurrentOwner = __webpack_require__(24);
 
 	var warning = __webpack_require__(8);
 	var canDefineProperty = __webpack_require__(70);
@@ -2972,136 +2972,6 @@
 
 /***/ },
 /* 23 */
-/***/ function(module, exports) {
-
-	/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactCurrentOwner
-	 */
-
-	'use strict';
-
-	/**
-	 * Keeps track of the current owner.
-	 *
-	 * The current owner is the component who should own any components that are
-	 * currently being constructed.
-	 */
-
-	var ReactCurrentOwner = {
-
-	  /**
-	   * @internal
-	   * @type {ReactComponent}
-	   */
-	  current: null
-
-	};
-
-	module.exports = ReactCurrentOwner;
-
-/***/ },
-/* 24 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports.extractPath = extractPath;
-	exports.parsePath = parsePath;
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _warning = __webpack_require__(16);
-
-	var _warning2 = _interopRequireDefault(_warning);
-
-	function extractPath(string) {
-	  var match = string.match(/^https?:\/\/[^\/]*/);
-
-	  if (match == null) return string;
-
-	  return string.substring(match[0].length);
-	}
-
-	function parsePath(path) {
-	  var pathname = extractPath(path);
-	  var search = '';
-	  var hash = '';
-
-	   false ? _warning2['default'](path === pathname, 'A path must be pathname + search + hash only, not a fully qualified URL like "%s"', path) : undefined;
-
-	  var hashIndex = pathname.indexOf('#');
-	  if (hashIndex !== -1) {
-	    hash = pathname.substring(hashIndex);
-	    pathname = pathname.substring(0, hashIndex);
-	  }
-
-	  var searchIndex = pathname.indexOf('?');
-	  if (searchIndex !== -1) {
-	    search = pathname.substring(searchIndex);
-	    pathname = pathname.substring(0, searchIndex);
-	  }
-
-	  if (pathname === '') pathname = '/';
-
-	  return {
-	    pathname: pathname,
-	    search: search,
-	    hash: hash
-	  };
-	}
-
-/***/ },
-/* 25 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports.falsy = falsy;
-
-	var _react = __webpack_require__(1);
-
-	var func = _react.PropTypes.func;
-	var object = _react.PropTypes.object;
-	var arrayOf = _react.PropTypes.arrayOf;
-	var oneOfType = _react.PropTypes.oneOfType;
-	var element = _react.PropTypes.element;
-	var shape = _react.PropTypes.shape;
-	var string = _react.PropTypes.string;
-
-	function falsy(props, propName, componentName) {
-	  if (props[propName]) return new Error('<' + componentName + '> should not have a "' + propName + '" prop');
-	}
-
-	var history = shape({
-	  listen: func.isRequired,
-	  push: func.isRequired,
-	  replace: func.isRequired,
-	  go: func.isRequired,
-	  goBack: func.isRequired,
-	  goForward: func.isRequired
-	});
-
-	exports.history = history;
-	var component = oneOfType([func, string]);
-	exports.component = component;
-	var components = oneOfType([component, object]);
-	exports.components = components;
-	var route = oneOfType([object, element]);
-	exports.route = route;
-	var routes = oneOfType([route, arrayOf(route)]);
-	exports.routes = routes;
-
-/***/ },
-/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* components */
@@ -3248,6 +3118,136 @@
 	var _createMemoryHistory3 = _interopRequireDefault(_createMemoryHistory2);
 
 	exports.createMemoryHistory = _createMemoryHistory3['default'];
+
+/***/ },
+/* 24 */
+/***/ function(module, exports) {
+
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactCurrentOwner
+	 */
+
+	'use strict';
+
+	/**
+	 * Keeps track of the current owner.
+	 *
+	 * The current owner is the component who should own any components that are
+	 * currently being constructed.
+	 */
+
+	var ReactCurrentOwner = {
+
+	  /**
+	   * @internal
+	   * @type {ReactComponent}
+	   */
+	  current: null
+
+	};
+
+	module.exports = ReactCurrentOwner;
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.extractPath = extractPath;
+	exports.parsePath = parsePath;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _warning = __webpack_require__(16);
+
+	var _warning2 = _interopRequireDefault(_warning);
+
+	function extractPath(string) {
+	  var match = string.match(/^https?:\/\/[^\/]*/);
+
+	  if (match == null) return string;
+
+	  return string.substring(match[0].length);
+	}
+
+	function parsePath(path) {
+	  var pathname = extractPath(path);
+	  var search = '';
+	  var hash = '';
+
+	   false ? _warning2['default'](path === pathname, 'A path must be pathname + search + hash only, not a fully qualified URL like "%s"', path) : undefined;
+
+	  var hashIndex = pathname.indexOf('#');
+	  if (hashIndex !== -1) {
+	    hash = pathname.substring(hashIndex);
+	    pathname = pathname.substring(0, hashIndex);
+	  }
+
+	  var searchIndex = pathname.indexOf('?');
+	  if (searchIndex !== -1) {
+	    search = pathname.substring(searchIndex);
+	    pathname = pathname.substring(0, searchIndex);
+	  }
+
+	  if (pathname === '') pathname = '/';
+
+	  return {
+	    pathname: pathname,
+	    search: search,
+	    hash: hash
+	  };
+	}
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.falsy = falsy;
+
+	var _react = __webpack_require__(1);
+
+	var func = _react.PropTypes.func;
+	var object = _react.PropTypes.object;
+	var arrayOf = _react.PropTypes.arrayOf;
+	var oneOfType = _react.PropTypes.oneOfType;
+	var element = _react.PropTypes.element;
+	var shape = _react.PropTypes.shape;
+	var string = _react.PropTypes.string;
+
+	function falsy(props, propName, componentName) {
+	  if (props[propName]) return new Error('<' + componentName + '> should not have a "' + propName + '" prop');
+	}
+
+	var history = shape({
+	  listen: func.isRequired,
+	  push: func.isRequired,
+	  replace: func.isRequired,
+	  go: func.isRequired,
+	  goBack: func.isRequired,
+	  goForward: func.isRequired
+	});
+
+	exports.history = history;
+	var component = oneOfType([func, string]);
+	exports.component = component;
+	var components = oneOfType([component, object]);
+	exports.components = components;
+	var route = oneOfType([object, element]);
+	exports.route = route;
+	var routes = oneOfType([route, arrayOf(route)]);
+	exports.routes = routes;
 
 /***/ },
 /* 27 */
@@ -4733,7 +4733,7 @@
 
 	var _runTransitionHook2 = _interopRequireDefault(_runTransitionHook);
 
-	var _PathUtils = __webpack_require__(24);
+	var _PathUtils = __webpack_require__(25);
 
 	var _deprecate = __webpack_require__(52);
 
@@ -6345,7 +6345,7 @@
 
 	/* WEBPACK VAR INJECTION */(function(module) {/* REACT HOT LOADER */ if (true) { (function () { var ReactHotAPI = __webpack_require__(4), RootInstanceProvider = __webpack_require__(5), ReactMount = __webpack_require__(2), React = __webpack_require__(1); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -6360,16 +6360,19 @@
 	var SearchInput = function SearchInput(_ref) {
 		var searchString = _ref.searchString;
 		var _onChange = _ref.onChange;
-		return _react2.default.createElement('input', {
+		var entityToken = _ref.entityToken;
+		return _react2.default.createElement("input", {
 			value: searchString,
 			onChange: function onChange(e) {
 				return _onChange(e.target.value);
-			} });
+			},
+			placeholder: "start search " + entityToken });
 	};
 
 	SearchInput.propTypes = {
 		searchString: _react.PropTypes.string,
-		onChange: _react.PropTypes.func.isRequired
+		onChange: _react.PropTypes.func.isRequired,
+		entityToken: _react.PropTypes.string
 	};
 
 	exports.default = SearchInput;
@@ -6402,6 +6405,7 @@
 		var found = _ref.found;
 		var onSelect = _ref.onSelect;
 		var edited = _ref.edited;
+		var entityToken = _ref.entityToken;
 		return _react2.default.createElement(
 			'div',
 			{ className: 'searchList' },
@@ -6426,11 +6430,15 @@
 			) : searching ? _react2.default.createElement(
 				'div',
 				{ className: 'caption' },
-				'searching...'
+				'searching ',
+				entityToken,
+				'...'
 			) : _react2.default.createElement(
 				'div',
 				{ className: 'caption' },
-				'Nothing found...'
+				'No ',
+				entityToken,
+				' found...'
 			)
 		);
 	};
@@ -6446,7 +6454,8 @@
 		edited: _react.PropTypes.shape({
 			id: _react.PropTypes.number,
 			isNew: _react.PropTypes.bool
-		})
+		}),
+		entityToken: _react.PropTypes.string
 	};
 
 	exports.default = SearchList;
@@ -8508,7 +8517,7 @@
 
 	'use strict';
 
-	var ReactCurrentOwner = __webpack_require__(23);
+	var ReactCurrentOwner = __webpack_require__(24);
 	var ReactElement = __webpack_require__(15);
 
 	var getIteratorFn = __webpack_require__(75);
@@ -9588,7 +9597,7 @@
 
 	var _Actions = __webpack_require__(29);
 
-	var _PathUtils = __webpack_require__(24);
+	var _PathUtils = __webpack_require__(25);
 
 	var _ExecutionEnvironment = __webpack_require__(40);
 
@@ -9837,7 +9846,7 @@
 
 	var _deepEqual2 = _interopRequireDefault(_deepEqual);
 
-	var _PathUtils = __webpack_require__(24);
+	var _PathUtils = __webpack_require__(25);
 
 	var _AsyncUtils = __webpack_require__(169);
 
@@ -10128,7 +10137,7 @@
 
 	var _ExecutionEnvironment = __webpack_require__(40);
 
-	var _PathUtils = __webpack_require__(24);
+	var _PathUtils = __webpack_require__(25);
 
 	var _runTransitionHook = __webpack_require__(53);
 
@@ -10279,6 +10288,17 @@
 		value: true
 	});
 	exports.default = getCommonActions;
+
+	var _reactRouter = __webpack_require__(23);
+
+	function changeRoute(globalState, localState) {
+		if (globalState.hasHistory) {
+			_reactRouter.browserHistory.goBack();
+		} else {
+			_reactRouter.browserHistory.push(globalState[localState].path);
+		}
+	}
+
 	function getCommonActions(actionTypes, api, tokens) {
 		return {
 
@@ -10309,10 +10329,11 @@
 			},
 
 			cancelChanges: function cancelChanges() {
-				return function (dispatch) {
+				return function (dispatch, getState) {
 					dispatch({
 						type: actionTypes.cancelChanges
 					});
+					changeRoute(getState(), tokens.state);
 				};
 			},
 
@@ -10325,10 +10346,11 @@
 						});
 					}
 					api.create(edited, function (result) {
-						return dispatch({
+						dispatch({
 							type: actionTypes.receiveAdded,
 							result: result
 						});
+						changeRoute(getState(), tokens.state);
 					});
 				};
 			},
@@ -10342,21 +10364,23 @@
 						});
 					}
 					api.update(edited, function (result) {
-						return dispatch({
+						dispatch({
 							type: actionTypes.receiveChanged,
 							result: result
 						});
+						changeRoute(getState(), tokens.state);
 					});
 				};
 			},
 
 			delete: function _delete() {
 				return function (dispatch, getState) {
-					api.delete(getState()[tokens.state].edited.id, function (result) {
-						return dispatch({
+					return api.delete(getState()[tokens.state].edited.id, function (result) {
+						dispatch({
 							type: actionTypes.delete,
 							id: result.id
 						});
+						changeRoute(getState(), tokens.state);
 					});
 				};
 			}
@@ -11230,7 +11254,7 @@
 
 	var _deprecateObjectProperties2 = _interopRequireDefault(_deprecateObjectProperties);
 
-	var _InternalPropTypes = __webpack_require__(25);
+	var _InternalPropTypes = __webpack_require__(26);
 
 	var InternalPropTypes = _interopRequireWildcard(_InternalPropTypes);
 
@@ -11349,7 +11373,7 @@
 
 	var _PatternUtils = __webpack_require__(32);
 
-	var _InternalPropTypes = __webpack_require__(25);
+	var _InternalPropTypes = __webpack_require__(26);
 
 	var _React$PropTypes = _react2['default'].PropTypes;
 	var string = _React$PropTypes.string;
@@ -13185,7 +13209,7 @@
 	var ReactElement = __webpack_require__(15);
 	var ReactPropTypeLocations = __webpack_require__(48);
 	var ReactPropTypeLocationNames = __webpack_require__(47);
-	var ReactCurrentOwner = __webpack_require__(23);
+	var ReactCurrentOwner = __webpack_require__(24);
 
 	var canDefineProperty = __webpack_require__(70);
 	var getIteratorFn = __webpack_require__(75);
@@ -14315,7 +14339,7 @@
 
 	'use strict';
 
-	var ReactCurrentOwner = __webpack_require__(23);
+	var ReactCurrentOwner = __webpack_require__(24);
 	var ReactInstanceMap = __webpack_require__(68);
 	var ReactUpdates = __webpack_require__(17);
 
@@ -16195,7 +16219,7 @@
 
 	var _Actions = __webpack_require__(29);
 
-	var _PathUtils = __webpack_require__(24);
+	var _PathUtils = __webpack_require__(25);
 
 	var _ExecutionEnvironment = __webpack_require__(40);
 
@@ -16376,7 +16400,7 @@
 
 	var _Actions = __webpack_require__(29);
 
-	var _PathUtils = __webpack_require__(24);
+	var _PathUtils = __webpack_require__(25);
 
 	function createLocation() {
 	  var location = arguments.length <= 0 || arguments[0] === undefined ? '/' : arguments[0];
@@ -16434,7 +16458,7 @@
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _PathUtils = __webpack_require__(24);
+	var _PathUtils = __webpack_require__(25);
 
 	var _Actions = __webpack_require__(29);
 
@@ -17373,7 +17397,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(26);
+	var _reactRouter = __webpack_require__(23);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -17592,13 +17616,13 @@
 		var foundTags = _ref.foundTags;
 		var selectTag = _ref.selectTag;
 		var removeTag = _ref.removeTag;
-		return _react2.default.createElement(
+		return edited ? _react2.default.createElement(
 			'div',
 			{ className: 'item' },
 			_react2.default.createElement(
 				'div',
 				{ className: 'intro' },
-				edited && edited.id ? "Here you can change \"" + original.name + "\" item" : "Here you can create a new item"
+				edited.id ? "Here you can change \"" + original.name + "\" item" : "Here you can create a new item"
 			),
 			_react2.default.createElement(_Property2.default, { property: 'name', type: 'input',
 				original: original, edited: edited, doChange: doLocalChange }),
@@ -17608,7 +17632,7 @@
 				searching: searchingTags, found: foundTags, onSelect: selectTag, onRemove: removeTag }),
 			_react2.default.createElement(_Controls2.default, { original: original, edited: edited,
 				cancelChanges: cancelLocalChanges, acceptChanges: edited.id ? update : create, remove: remove })
-		);
+		) : null;
 	};
 
 	Item.propTypes = {
@@ -17806,16 +17830,18 @@
 			'div',
 			{ className: 'tags' },
 			_react2.default.createElement(
+				'h3',
+				null,
+				'Stuff Items Editor'
+			),
+			_react2.default.createElement(
 				'div',
 				{ className: 'searchControls' },
-				_react2.default.createElement(_SearchInput2.default, { searchString: searchString, onChange: onSearchInputChange }),
+				_react2.default.createElement(_SearchInput2.default, { searchString: searchString, onChange: onSearchInputChange, entityToken: 'items' }),
 				_react2.default.createElement(_AddNew2.default, { onClick: onAddNewClick, disabled: !canAddNew })
 			),
-			searchString ? _react2.default.createElement(_SearchList2.default, { searching: searching, found: found, onSelect: onSelect, edited: edited }) : _react2.default.createElement(
-				'div',
-				{ className: 'startSearchCaption' },
-				'Please start search items...'
-			)
+			searchString ? _react2.default.createElement(_SearchList2.default, { searching: searching, found: found, onSelect: onSelect,
+				edited: edited, entityToken: 'items' }) : null
 		);
 	};
 
@@ -17964,16 +17990,18 @@
 			'div',
 			{ className: 'tags' },
 			_react2.default.createElement(
+				'h3',
+				null,
+				'Stuff Tags Editor'
+			),
+			_react2.default.createElement(
 				'div',
 				{ className: 'searchControls' },
-				_react2.default.createElement(_SearchInput2.default, { searchString: searchString, onChange: onSearchInputChange }),
+				_react2.default.createElement(_SearchInput2.default, { searchString: searchString, onChange: onSearchInputChange, entityToken: 'tags' }),
 				_react2.default.createElement(_AddNew2.default, { onClick: onAddNewTagClick, disabled: !canAddNew })
 			),
-			searchString ? _react2.default.createElement(_SearchList2.default, { searching: searching, found: foundTags, onSelect: onSelectTag, edited: editedTag }) : _react2.default.createElement(
-				'div',
-				{ className: 'startSearchCaption' },
-				'Please start search tags...'
-			)
+			searchString ? _react2.default.createElement(_SearchList2.default, { searching: searching, found: foundTags, onSelect: onSelectTag,
+				edited: editedTag, entityToken: 'tags' }) : null
 		);
 	};
 
@@ -18047,7 +18075,7 @@
 	                onChange: function onChange(e) {
 	                    return onSearchInputChange(e.target.value);
 	                },
-	                placeholder: 'search tags' }),
+	                placeholder: 'start search tags' }),
 	            _react2.default.createElement('span', { className: "clear" + (!canClear() ? " disabled" : ""),
 	                onClick: function onClick() {
 	                    return canClear() ? clearTags() : false;
@@ -18093,7 +18121,7 @@
 	            ) : _react2.default.createElement(
 	                'div',
 	                { className: 'caption' },
-	                'Nothing found...'
+	                'No tags found...'
 	            )
 	        )
 	    );
@@ -18156,12 +18184,12 @@
 				items.map(function (entry) {
 					return _react2.default.createElement(
 						'li',
-						{ key: entry.id, onClick: function onClick() {
-								return clickOnItem(entry);
-							} },
+						{ key: entry.id },
 						_react2.default.createElement(
 							'span',
-							null,
+							{ onClick: function onClick() {
+									return clickOnItem(entry);
+								} },
 							entry.name
 						)
 					);
@@ -18251,7 +18279,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(26);
+	var _reactRouter = __webpack_require__(23);
 
 	var _reactRedux = __webpack_require__(31);
 
@@ -18337,7 +18365,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(26);
+	var _reactRouter = __webpack_require__(23);
 
 	var _reactRedux = __webpack_require__(31);
 
@@ -18368,19 +18396,15 @@
 			},
 			cancelLocalChanges: function cancelLocalChanges() {
 				dispatch(_items2.default.cancelChanges());
-				_reactRouter.browserHistory.push('/items');
 			},
 			create: function create() {
 				dispatch(_items2.default.create());
-				_reactRouter.browserHistory.push('/items');
 			},
 			update: function update() {
 				dispatch(_items2.default.update());
-				_reactRouter.browserHistory.push('/items');
 			},
 			remove: function remove() {
 				dispatch(_items2.default.delete());
-				_reactRouter.browserHistory.push('/items');
 			},
 			searchTags: function searchTags(searchString) {
 				dispatch(_items2.default.searchTags(searchString));
@@ -18417,7 +18441,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(26);
+	var _reactRouter = __webpack_require__(23);
 
 	var _reactRedux = __webpack_require__(31);
 
@@ -18484,7 +18508,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(26);
+	var _reactRouter = __webpack_require__(23);
 
 	var _reactRedux = __webpack_require__(31);
 
@@ -18552,7 +18576,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(26);
+	var _reactRouter = __webpack_require__(23);
 
 	var _reactRedux = __webpack_require__(31);
 
@@ -18621,7 +18645,7 @@
 
 	var _reactRedux = __webpack_require__(31);
 
-	var _reactRouter = __webpack_require__(26);
+	var _reactRouter = __webpack_require__(23);
 
 	var _reactRouterRedux = __webpack_require__(104);
 
@@ -18829,6 +18853,7 @@
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	var initialState = Object.assign({}, (0, _common.getCommonInitialState)(), {
+		path: '/items',
 		receiving: false,
 		searchTagsString: '',
 		searchingTags: false,
@@ -18962,6 +18987,17 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = (0, _redux.combineReducers)({
+		hasHistory: function hasHistory() {
+			var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+			var action = arguments[1];
+
+			if (action.type === '@@router/LOCATION_CHANGE') {
+				return state ? true : action.payload.pathname !== '/' ? true : false;
+			}
+			return state;
+		},
+
+
 		routing: _reactRouterRedux.routerReducer,
 		index: _index2.default,
 		items: _items2.default,
@@ -18989,6 +19025,7 @@
 	var _types = __webpack_require__(30);
 
 	var initialState = Object.assign({}, (0, _common.getCommonInitialState)(), {
+		path: '/tags',
 		all: []
 	});
 
@@ -19779,7 +19816,7 @@
 
 	var _routerWarning2 = _interopRequireDefault(_routerWarning);
 
-	var _InternalPropTypes = __webpack_require__(25);
+	var _InternalPropTypes = __webpack_require__(26);
 
 	/**
 	 * A mixin that adds the "history" instance variable to components.
@@ -19861,7 +19898,7 @@
 
 	var _Redirect2 = _interopRequireDefault(_Redirect);
 
-	var _InternalPropTypes = __webpack_require__(25);
+	var _InternalPropTypes = __webpack_require__(26);
 
 	var _React$PropTypes = _react2['default'].PropTypes;
 	var string = _React$PropTypes.string;
@@ -19928,7 +19965,7 @@
 
 	var _RouteUtils = __webpack_require__(22);
 
-	var _InternalPropTypes = __webpack_require__(25);
+	var _InternalPropTypes = __webpack_require__(26);
 
 	var func = _react2['default'].PropTypes.func;
 
@@ -20064,7 +20101,7 @@
 
 	var _RouteUtils = __webpack_require__(22);
 
-	var _InternalPropTypes = __webpack_require__(25);
+	var _InternalPropTypes = __webpack_require__(26);
 
 	var _React$PropTypes = _react2['default'].PropTypes;
 	var string = _React$PropTypes.string;
@@ -20186,7 +20223,7 @@
 
 	var _createTransitionManager2 = _interopRequireDefault(_createTransitionManager);
 
-	var _InternalPropTypes = __webpack_require__(25);
+	var _InternalPropTypes = __webpack_require__(26);
 
 	var _RouterContext = __webpack_require__(42);
 
@@ -23191,7 +23228,7 @@
 	var _assign = __webpack_require__(9);
 
 	var ReactComponentEnvironment = __webpack_require__(66);
-	var ReactCurrentOwner = __webpack_require__(23);
+	var ReactCurrentOwner = __webpack_require__(24);
 	var ReactElement = __webpack_require__(15);
 	var ReactErrorUtils = __webpack_require__(67);
 	var ReactInstanceMap = __webpack_require__(68);
@@ -27139,7 +27176,7 @@
 	var ReactComponentEnvironment = __webpack_require__(66);
 	var ReactMultiChildUpdateTypes = __webpack_require__(125);
 
-	var ReactCurrentOwner = __webpack_require__(23);
+	var ReactCurrentOwner = __webpack_require__(24);
 	var ReactReconciler = __webpack_require__(34);
 	var ReactChildReconciler = __webpack_require__(249);
 
@@ -29652,7 +29689,7 @@
 
 	'use strict';
 
-	var ReactCurrentOwner = __webpack_require__(23);
+	var ReactCurrentOwner = __webpack_require__(24);
 	var ReactDOMComponentTree = __webpack_require__(10);
 	var ReactInstanceMap = __webpack_require__(68);
 

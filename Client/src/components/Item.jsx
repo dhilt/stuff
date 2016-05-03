@@ -5,10 +5,11 @@ import ItemTags from '../components/ItemTags'
 
 require('../styles/modules/item.scss');
 
-const Item = ({original, edited, doLocalChange, cancelLocalChanges, create, update, remove, searchTagsString, searchTags, searchingTags, foundTags, selectTag, removeTag}) => (
+const Item = ({original, edited, doLocalChange, cancelLocalChanges, create, update, remove, searchTagsString, searchTags, searchingTags, foundTags, selectTag, removeTag}) => 
+	original && edited ? (
 	<div className="item">
 		<div className="intro">
-			{ edited && edited.id ? "Here you can change \"" + original.name + "\" item" : "Here you can create a new item" }
+			{ edited.id ? "Here you can change \"" + original.name + "\" item" : "Here you can create a new item" }
 		</div>
 
 		<TagProperty property="name" type="input"
@@ -22,7 +23,7 @@ const Item = ({original, edited, doLocalChange, cancelLocalChanges, create, upda
 		<Controls original={original} edited={edited}
 							cancelChanges={cancelLocalChanges} acceptChanges={edited.id ? update : create} remove={remove}/>
 	</div>
-);
+	) : (null);
 
 Item.propTypes = {
 	original: PropTypes.shape({

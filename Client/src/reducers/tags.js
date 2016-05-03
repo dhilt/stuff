@@ -2,6 +2,7 @@ import {getCommonInitialState, getCommonStateChanges} from './common'
 import {tagsActionTypes} from './../actions/_types'
 
 let initialState = Object.assign({}, getCommonInitialState(), {
+	path: '/tags',
 	all: []
 });
 
@@ -17,9 +18,14 @@ export default function tags(state = initialState, action) {
 			}
 			else if (action.payload.pathname === '/tags') {
 				stateChanges = {
-					selected: null,
+					origin: null,
 					edited: null
 				};
+			}
+			else {
+				stateChanges = {
+					justEditedId: null
+				}
 			}
 			break;
 
