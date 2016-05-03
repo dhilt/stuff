@@ -13,18 +13,12 @@ export default Object.assign({}, getCommonActions(tagsActionTypes, apiTags, {sta
 			)
 		};
 	},
-
+	
 	search: (searchString) => {
-		return (dispatch, getState) => {
+		return (dispatch) => {
 			dispatch({
 				type: tagsActionTypes.search,
 				searchString: searchString
-			});
-			let found = searchString ? getState().tags.all.filter(item => item.name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1) : [];
-			found.sort((a, b) => a.name.localeCompare(b.name));
-			dispatch({
-				type: tagsActionTypes.receiveFound,
-				found: found
 			});
 		}
 	}

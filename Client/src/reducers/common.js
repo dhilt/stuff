@@ -10,7 +10,9 @@ export function getCommonInitialState() {
 	}
 }
 
-let canAddNew = (nameStr, found) => !!nameStr && !found.find(t => t.name.toLowerCase() === nameStr.toLowerCase());
+export function canAddNewRecord(nameStr, found) {
+	return !!nameStr && !found.find(t => t.name.toLowerCase() === nameStr.toLowerCase());
+}
 
 export function getCommonStateChanges(actionTypes, state, action, entityType = 'tags') {
 
@@ -29,14 +31,11 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 				edited: null,
 				justEditedId: null
 			};
-			break;
-
-		case actionTypes.receiveFound:
-			stateChanges = {
-				searching: false,
-				found: action.found,
-				canAddNew: canAddNew(state.searchString, action.found)
-			};
+			if(entityType === 'tags') {
+				let found = action.searchString ? state.all.filter(rec => rec.name.toLowerCase().indexOf(action.searchString.toLowerCase()) !== -1) : [];
+				found.sort((a, b) => a.name.localeCompare(b.name));
+				stateChanges.found = found;
+			}
 			break;
 
 		case actionTypes.new:
@@ -98,7 +97,7 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 			found = state.found.filter(entity => entity.id !== action.id);
 			stateChanges = {
 				found: found,
-				canAddNew: canAddNew(state.searchString, found),
+				canAddNew: canAddNewRecord(state.searchString, found),
 				origin: null,
 				edited: null
 			};

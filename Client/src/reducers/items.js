@@ -1,4 +1,4 @@
-import {getCommonInitialState, getCommonStateChanges} from './common'
+import {getCommonInitialState, getCommonStateChanges, canAddNewRecord} from './common'
 import {itemsActionTypes} from './../actions/_types'
 
 let initialState = Object.assign({}, getCommonInitialState(), {
@@ -14,6 +14,14 @@ export default function items(state = initialState, action) {
 	let stateChanges = {};
 
 	switch (action.type) {
+
+		case itemsActionTypes.receiveFound:
+			stateChanges = {
+				searching: false,
+				found: action.found,
+				canAddNew: canAddNewRecord(state.searchString, action.found)
+			};
+			break;
 
 		case itemsActionTypes.select:
 			stateChanges = {

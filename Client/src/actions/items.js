@@ -38,7 +38,7 @@ export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {s
 		}
 	},
 
-	searchTags: (searchString) => { // todo dhilt : think about generalization with ./actions/tags/search
+	searchTags: (searchString) => {
 		return (dispatch, getState) => {
 			dispatch({
 				type: itemsActionTypes.searchTags,

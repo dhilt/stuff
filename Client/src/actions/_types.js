@@ -11,7 +11,6 @@ export let indexActionTypes = {
 export let tagsActionTypes = {
 	receiveAll: 'RECEIVE_ALL_TAGS',
 	search: 'SEARCH_TAGS',
-	receiveFound: 'RECEIVE_FOUND_TAGS',
 	new: 'NEW_TAG',
 	select: 'SELECT_TAG',
 	change: 'CHANGE_TAG_LOCALLY',
@@ -39,8 +38,7 @@ export let itemsActionTypes = {
 	receiveAdded: 'RECEIVE_ADDED_ITEM',
 	receiveChanged: 'RECEIVE_CHANGED_ITEM',
 	delete: 'DELETE_ITEM',
-	searchTags: 'SAERCH_ITEM_TAGS',
-	receiveFoundTags: 'RECEIVE_FOUND_ITEM_TAGS',
+	searchTags: 'SEARCH_ITEM_TAGS',
 	addTag: 'ADD_ITEM_TAG',
 	removeTag: 'REMOVE_ITEM_TAG'
 };
