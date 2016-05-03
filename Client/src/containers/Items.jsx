@@ -10,8 +10,9 @@ const mapStateToProps = (state) => {
 		found: state.items.found,
 		searchString: state.items.searchString,
 		canAddNew: state.items.canAddNew,
-		selected: state.items.selected,
-		edited: state.items.edited
+		origin: state.items.origin,
+		edited: state.items.edited,
+		justEditedId: state.items.justEditedId
 	}
 };
 

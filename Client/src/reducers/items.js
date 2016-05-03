@@ -2,6 +2,7 @@ import {getCommonInitialState, getCommonStateChanges} from './common'
 import {itemsActionTypes} from './../actions/_types'
 
 let initialState = Object.assign({}, getCommonInitialState(), {
+	path: '/items',
 	receiving: false,
 	searchTagsString: '',
 	searchingTags: false,
@@ -32,23 +33,28 @@ export default function items(state = initialState, action) {
 			itemTags.sort((a, b) => a.name.localeCompare(b.name));
 			stateChanges = {
 				receiving: false,
-				selected: item,
+				origin: item,
 				edited: Object.assign({}, item, {tags: itemTags})
 			};
 			break;
 
 		case '@@router/LOCATION_CHANGE':
-			if (action.payload.pathname.indexOf('items') !== 1) {
+			if (action.payload.pathname.indexOf('/items') === -1) {
 				stateChanges = Object.assign({}, initialState);
 			}
 			else if (action.payload.pathname === '/items') {
 				stateChanges = {
-					selected: null,
+					origin: null,
 					edited: null,
 					searchTagsString: '',
 					searchingTags: false,
 					foundTags: []
 				};
+			}
+			else {
+				stateChanges = {
+					justEditedId: null
+				}
 			}
 			break;
 

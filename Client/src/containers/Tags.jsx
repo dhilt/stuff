@@ -11,8 +11,9 @@ const mapStateToProps = (state) => {
 		foundTags: state.tags.found,
 		searchString: state.tags.searchString,
 		canAddNew: state.tags.canAddNew,
-		selectedTag: state.tags.selected,
-		editedTag: state.tags.edited
+		selectedTag: state.tags.origin,
+		editedTag: state.tags.edited,
+		justEditedId: state.tags.justEditedId
 	}
 };
 

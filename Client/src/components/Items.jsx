@@ -5,7 +5,7 @@ import SearchList from './entityList/SearchList'
 
 require('../styles/modules/tags.scss');
 
-const Items = ({searching, found, onSearchInputChange, searchString, canAddNew, onAddNewClick, onSelect, edited}) => (
+const Items = ({searching, found, onSearchInputChange, searchString, canAddNew, onAddNewClick, onSelect, justEditedId}) => (
 	<div className="tags">
 		<h3>Stuff Items Editor</h3>
 		<div className="searchControls">
@@ -15,7 +15,7 @@ const Items = ({searching, found, onSearchInputChange, searchString, canAddNew, 
 		{
 			searchString ?
 				<SearchList searching={searching} found={found} onSelect={onSelect} 
-					edited={edited} entityToken="items"/> :
+					edited={justEditedId} entityToken="items"/> :
 				(null)
 		}
 	</div>
@@ -33,10 +33,7 @@ Items.propTypes = {
 	canAddNew: PropTypes.bool,
 	onAddNewClick: PropTypes.func.isRequired,
 	onSelect: PropTypes.func.isRequired,
-	edited: PropTypes.shape({
-		id: PropTypes.number,
-		isNew: PropTypes.bool
-	})
+	justEditedId: PropTypes.number
 };
 
 export default Items

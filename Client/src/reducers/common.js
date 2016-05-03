@@ -4,8 +4,9 @@ export function getCommonInitialState() {
 		searching: false,
 		found: [],
 		canAddNew: false,
-		selected: null,
-		edited: null
+		origin: null,
+		edited: null,
+		justEditedId: null
 	}
 }
 
@@ -24,8 +25,9 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 				found: [],
 				searchString: action.searchString,
 				canAddNew: false,
-				selected: null,
-				edited: null
+				origin: null,
+				edited: null,
+				justEditedId: null
 			};
 			break;
 
@@ -40,7 +42,7 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 		case actionTypes.new:
 			stateChanges = {
 				edited: {name: state.searchString},
-				selected: null
+				origin: {name: state.searchString}
 			};
 			if (entityType === 'items') {
 				stateChanges.edited.tags = [];
@@ -49,7 +51,7 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 
 		case actionTypes.select:
 			stateChanges = {
-				selected: action.selected,
+				origin: action.selected,
 				edited: action.selected
 			};
 			break;
@@ -62,7 +64,7 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 
 		case actionTypes.cancelChanges:
 			stateChanges = {
-				selected: null,
+				origin: null,
 				edited: null
 			};
 			break;
@@ -70,8 +72,9 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 		case actionTypes.receiveAdded:
 			stateChanges = {
 				found: [action.result, ...state.found],
-				selected: null,
-				edited: action.result
+				origin: null,
+				edited: action.result,
+				justEditedId: action.result.id
 			};
 			stateChanges.edited.isNew = true;
 			if (entityType === 'tags') {
@@ -82,8 +85,9 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 		case actionTypes.receiveChanged:
 			stateChanges = {
 				found: state.found.map(entity => entity.id === action.result.id ? action.result : entity),
-				selected: null,
-				edited: action.result
+				origin: null,
+				edited: action.result,
+				justEditedId: action.result.id
 			};
 			if (entityType === 'tags') {
 				stateChanges.all = state.all.map(entity => entity.id === action.result.id ? action.result : entity);
@@ -95,7 +99,7 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 			stateChanges = {
 				found: found,
 				canAddNew: canAddNew(state.searchString, found),
-				selected: null,
+				origin: null,
 				edited: null
 			};
 			if (entityType === 'tags') {

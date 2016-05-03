@@ -5,6 +5,14 @@ import { default as items } from './items'
 import { default as tags } from './tags'
 
 export default combineReducers({
+
+	hasHistory(state = false, action) {
+		if(action.type === '@@router/LOCATION_CHANGE') {
+			return state ? true : ( action.payload.pathname !== '/' ? true : false ); 
+		}
+		return state;
+	}, 
+
 	routing,
 	index,
 	items,

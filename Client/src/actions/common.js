@@ -1,3 +1,15 @@
+import {browserHistory} from 'react-router'
+
+function changeRoute(globalState, localState)
+{
+	if(globalState.hasHistory) {
+		browserHistory.goBack();
+	}
+	else {
+		browserHistory.push(globalState[localState].path);
+	}
+}
+
 export default function getCommonActions(actionTypes, api, tokens) {
 	return {
 
@@ -28,10 +40,11 @@ export default function getCommonActions(actionTypes, api, tokens) {
 		},
 
 		cancelChanges: () => {
-			return (dispatch) => {
+			return (dispatch, getState) => {
 				dispatch({
 					type: actionTypes.cancelChanges
-				})
+				});
+				changeRoute(getState(), tokens.state);
 			}
 		},
 
@@ -41,12 +54,14 @@ export default function getCommonActions(actionTypes, api, tokens) {
 				if (tokens.entity === 'item') {
 					edited.tags = edited.tags.map(t => t.id);
 				}
-				api.create(edited, result =>
+				api.create(edited, result => {
+					result.tags = null;
 					dispatch({
 						type: actionTypes.receiveAdded,
 						result: result
-					})
-				)
+					});
+					changeRoute(getState(), tokens.state);
+				});
 			}
 		},
 
@@ -56,24 +71,26 @@ export default function getCommonActions(actionTypes, api, tokens) {
 				if (tokens.entity === 'item') {
 					edited.tags = edited.tags.map(t => t.id);
 				}
-				api.update(edited, result =>
+				api.update(edited, result => {
+					result.tags = null;
+					changeRoute(getState(), tokens.state);
 					dispatch({
 						type: actionTypes.receiveChanged,
 						result: result
-					})
-				)
+					});
+				});
 			}
 		},
 
 		delete: () => {
-			return (dispatch, getState) => {
-				api.delete(getState()[tokens.state].edited.id, result =>
+			return (dispatch, getState) =>
+				api.delete(getState()[tokens.state].edited.id, result => {
 					dispatch({
 						type: actionTypes.delete,
 						id: result.id
-					})
-				)
-			}
+					});
+					changeRoute(getState(), tokens.state);
+				})
 		}
 	}
 }

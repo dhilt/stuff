@@ -7,7 +7,7 @@ var config = require('./../webpack.config');
 var mockData = require('./mockData.json');
 
 var app = new (require('express'))();
-var port = 5007;
+var port = 5005;
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -18,6 +18,10 @@ app.use(webpackHotMiddleware(compiler));
 
 app.get("/", function (req, res) {
 	res.sendFile(__dirname + '/dist/index.html')
+});
+
+app.get("/tags", function (req, res) {
+	res.sendFile(__dirname + '/dist/index.html');
 });
 
 //-------index-------//
