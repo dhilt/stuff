@@ -31,7 +31,7 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 				edited: null,
 				justEditedId: null
 			};
-			if(entityType === 'tags') {
+			if (entityType === 'tags') {
 				let found = action.searchString ? state.all.filter(rec => rec.name.toLowerCase().indexOf(action.searchString.toLowerCase()) !== -1) : [];
 				found.sort((a, b) => a.name.localeCompare(b.name));
 				stateChanges.found = found;

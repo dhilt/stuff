@@ -73,11 +73,11 @@ export default function getCommonActions(actionTypes, api, tokens) {
 				}
 				api.update(edited, result => {
 					result.tags = null;
-					changeRoute(getState(), tokens.state);
 					dispatch({
 						type: actionTypes.receiveChanged,
 						result: result
 					});
+					changeRoute(getState(), tokens.state);
 				});
 			}
 		},

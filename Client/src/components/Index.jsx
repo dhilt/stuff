@@ -4,7 +4,7 @@ import Items from './index/items'
 
 require('../styles/modules/index.scss');
 
-const Index = ({isTagListOpened, onSearchInputFocus, onOutsideTagsClick, onSearchInputChange, searchString, tagsToSelect, selectedTags, selectTag, removeTag, clearTags, searching, items, clickOnItem}) => {
+const Index = ({isTagListOpened, onSearchInputFocus, onOutsideTagsClick, onSearchInputChange, searchString, tagsToSelect, selectedTags, selectTag, removeTag, clearTags, searching, items, clickOnItem, justEditedItemId}) => {
 	return (
 		<div className="index">
 			<h3>Stuff Welcome Index</h3>
@@ -20,7 +20,12 @@ const Index = ({isTagListOpened, onSearchInputFocus, onOutsideTagsClick, onSearc
 				removeTag={removeTag}
 				clearTags={clearTags}
 			/>
-			<Items hasSelectedTags={!!selectedTags.length} searching={searching} items={items} clickOnItem={clickOnItem}/>
+			<Items 
+				hasSelectedTags={!!selectedTags.length} 
+				searching={searching} 
+				items={items} 
+				clickOnItem={clickOnItem}
+				justEditedItemId={justEditedItemId}/>
 		</div>
 	);
 };
@@ -48,7 +53,8 @@ Index.propTypes = {
 		name: PropTypes.string,
 		description: PropTypes.string
 	})).isRequired,
-	clickOnItem: PropTypes.func.isRequired
+	clickOnItem: PropTypes.func.isRequired,
+	justEditedItemId: PropTypes.number
 };
 
 export default Index

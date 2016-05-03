@@ -1,4 +1,4 @@
-import {indexActionTypes} from './../actions/_types'
+import {indexActionTypes, itemsActionTypes} from './../actions/_types'
 
 let initialState = {
 	isTagListOpened: false,
@@ -6,7 +6,8 @@ let initialState = {
 	tagsToSelect: [],
 	selectedTags: [],
 	searching: false,
-	items: []
+	items: [],
+	justEditedItemId: null
 };
 
 export default function index(state = initialState, action) {
@@ -15,6 +16,14 @@ export default function index(state = initialState, action) {
 	let found;
 
 	switch (action.type) {
+
+		case '@@router/LOCATION_CHANGE':
+			if (action.payload.pathname !== '/') {
+				stateChanges = {
+					justEditedItemId: null
+				}
+			}
+			break;
 
 		case indexActionTypes.openTagList:
 			stateChanges = {
@@ -61,15 +70,26 @@ export default function index(state = initialState, action) {
 				selectedTags: [],
 				tagsToSelect: [],
 				searching: false,
-				items: []
+				items: [],
+				justEditedItemId: null
 			};
 			break;
 
 		case indexActionTypes.receiveItems:
 			stateChanges = {
 				searching: false,
-				items: action.items
+				items: action.items,
+				justEditedItemId: null
 			};
+			break;
+
+		case itemsActionTypes.receiveChanged:
+			if (found = state.items.find(item => item.id === action.result.id)) {
+				stateChanges = {
+					items: state.items.map(item => item.id === action.result.id ? action.result : item),
+					justEditedItemId: action.result.id
+				}
+			}
 			break;
 
 	}

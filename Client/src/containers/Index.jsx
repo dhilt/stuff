@@ -12,7 +12,8 @@ const mapStateToProps = (state) => {
 		tagsToSelect: state.index.tagsToSelect,
 		selectedTags: state.index.selectedTags,
 		searching: state.index.searching,
-		items: state.index.items
+		items: state.index.items,
+		justEditedItemId: state.index.justEditedItemId
 	}
 };
 

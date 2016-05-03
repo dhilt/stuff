@@ -15,6 +15,26 @@ export default function items(state = initialState, action) {
 
 	switch (action.type) {
 
+		case '@@router/LOCATION_CHANGE':
+			if (action.payload.pathname.indexOf('/items') === -1) {
+				stateChanges = Object.assign({}, initialState);
+			}
+			else if (action.payload.pathname === '/items') {
+				stateChanges = {
+					origin: null,
+					edited: null,
+					searchTagsString: '',
+					searchingTags: false,
+					foundTags: []
+				};
+			}
+			else {
+				stateChanges = {
+					justEditedId: null
+				}
+			}
+			break;
+
 		case itemsActionTypes.receiveFound:
 			stateChanges = {
 				searching: false,
@@ -44,26 +64,6 @@ export default function items(state = initialState, action) {
 				origin: item,
 				edited: Object.assign({}, item, {tags: itemTags})
 			};
-			break;
-
-		case '@@router/LOCATION_CHANGE':
-			if (action.payload.pathname.indexOf('/items') === -1) {
-				stateChanges = Object.assign({}, initialState);
-			}
-			else if (action.payload.pathname === '/items') {
-				stateChanges = {
-					origin: null,
-					edited: null,
-					searchTagsString: '',
-					searchingTags: false,
-					foundTags: []
-				};
-			}
-			else {
-				stateChanges = {
-					justEditedId: null
-				}
-			}
 			break;
 
 		case itemsActionTypes.searchTags:
