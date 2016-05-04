@@ -1,4 +1,5 @@
 import {indexActionTypes, itemsActionTypes} from './../actions/_types'
+import Helper from './_helpers'
 
 let initialState = {
 	isTagListOpened: false,
@@ -38,7 +39,7 @@ export default function index(state = initialState, action) {
 			break;
 
 		case indexActionTypes.searchTags:
-			found = action.searchString ? action.allTags.filter(tag => tag.name.toLowerCase().indexOf(action.searchString.toLowerCase()) !== -1) : [];
+			found = action.searchString ? action.allTags.filter(tag => Helper.satisfySearch(tag.name, action.searchString)) : [];
 			stateChanges = {
 				tagsToSelect: found.filter(tag => !state.selectedTags.find(t => t.id === tag.id)),
 				searchString: action.searchString
@@ -58,7 +59,7 @@ export default function index(state = initialState, action) {
 				selectedTags: state.selectedTags.filter(tag => tag.id !== action.tag.id),
 				searching: true
 			};
-			if (action.tag.name.toLowerCase().indexOf(state.searchString.toLowerCase()) !== -1) {
+			if (Helper.satisfySearch(action.tag.name, state.searchString)) {
 				stateChanges.tagsToSelect = [...state.tagsToSelect, action.tag].sort((a, b) => a.name.localeCompare(b.name))
 			}
 			break;

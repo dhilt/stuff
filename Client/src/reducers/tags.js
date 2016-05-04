@@ -1,5 +1,6 @@
-import {getCommonInitialState, getCommonStateChanges, canAddNewRecord} from './common'
+import {getCommonInitialState, getCommonStateChanges} from './common'
 import {tagsActionTypes} from './../actions/_types'
+import Helper from './_helpers'
 
 let initialState = Object.assign({}, getCommonInitialState(), {
 	path: '/tags',
@@ -32,13 +33,13 @@ export default function tags(state = initialState, action) {
 
 		case tagsActionTypes.search:
 			if (action.searchString) {
-				found = state.all.filter(rec => rec.name.toLowerCase().indexOf(action.searchString.toLowerCase()) !== -1);
+				found = state.all.filter(rec => Helper.satisfySearch(rec.name, action.searchString));
 				found.sort((a, b) => a.name.localeCompare(b.name));
 			}
 			stateChanges = {
 				found: found,
 				searchString: action.searchString,
-				canAddNew: canAddNewRecord(action.searchString, found),
+				canAddNew: Helper.canAddNewRecord(action.searchString, found),
 				origin: null,
 				edited: null,
 				justEditedId: null

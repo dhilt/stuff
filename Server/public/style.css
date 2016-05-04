@@ -87,10 +87,11 @@
     opacity: 0.55; }
   .property .revert:not(.disabled):hover {
     opacity: 0.9; }
-.controls {
-  margin-top: 15px; }
-  .controls button {
-    margin-right: 7px; }
+.controls button {
+  margin-right: 7px;
+  margin-bottom: 7px;
+  display: block;
+  width: 70px; }
 .itemTags {
   margin-top: 15px; }
   .itemTags .tagList {
@@ -123,6 +124,14 @@
     margin-top: 7px; }
   .itemTags .tagsSearchList {
     margin-top: 7px; }
+.item .content {
+  margin-top: 0;
+  margin-right: 7px;
+  float: left; }
+.tag .content {
+  margin-top: 0;
+  margin-right: 7px;
+  float: left; }
 html {
   font-family: sans-serif; }
 

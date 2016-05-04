@@ -1,3 +1,5 @@
+import Helper from './_helpers'
+
 export function getCommonInitialState() {
 	return {
 		searchString: '',
@@ -8,16 +10,6 @@ export function getCommonInitialState() {
 		edited: null,
 		justEditedId: null
 	}
-}
-
-export function canAddNewRecord(nameStr, found) {
-	return !!nameStr && !found.find(t => t.name.toLowerCase() === nameStr.toLowerCase());
-}
-
-export function getItemTags(tagIdList, allTags) {
-	let itemTags = tagIdList && tagIdList.length ? allTags.filter(tag => tagIdList.indexOf(tag.id) !== -1) : [];
-	itemTags.sort((a, b) => a.name.localeCompare(b.name));
-	return itemTags;
 }
 
 export function getCommonStateChanges(actionTypes, state, action, entityType = 'tags') {
@@ -33,7 +25,7 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 				origin: action.new
 			};
 			if (entityType === 'items') {
-				stateChanges.edited = Object.assign({}, action.new, {tags: getItemTags(action.new.tags, action.allTags)});
+				stateChanges.edited = Object.assign({}, action.new, {tags: Helper.getItemTags(action.new.tags, action.allTags)});
 			}
 			break;
 
@@ -58,8 +50,14 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 			break;
 
 		case actionTypes.receiveAdded:
+			found = null;
+			if (Helper.satisfySearch(action.result.name, state.searchString)) {
+				found = [action.result, ...state.found];
+				found.sort((a, b) => a.name.localeCompare(b.name));
+			}
 			stateChanges = {
-				found: [action.result, ...state.found],
+				found: found || state.found,
+				canAddNew: found ? Helper.canAddNewRecord(state.searchString, found) : state.canAddNew,
 				origin: null,
 				edited: action.result,
 				justEditedId: action.result.id
@@ -74,8 +72,10 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 			break;
 
 		case actionTypes.receiveChanged:
+			found = state.found.map(entity => entity.id === action.result.id ? action.result : entity);
 			stateChanges = {
-				found: state.found.map(entity => entity.id === action.result.id ? action.result : entity),
+				found: found,
+				canAddNew: Helper.canAddNewRecord(state.searchString, found),
 				origin: null,
 				edited: action.result,
 				justEditedId: action.result.id
@@ -89,7 +89,7 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 			found = state.found.filter(entity => entity.id !== action.id);
 			stateChanges = {
 				found: found,
-				canAddNew: canAddNewRecord(state.searchString, found),
+				canAddNew: Helper.canAddNewRecord(state.searchString, found),
 				origin: null,
 				edited: null
 			};

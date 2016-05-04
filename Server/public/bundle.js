@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "a0520044f9975b686225"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "bb6a5cba644da935b0c1"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -10268,15 +10268,16 @@
 
 	function getCommonActions(actionTypes, api, tokens) {
 		return {
-
-			new: function _new() {
+			new: function _new(newName) {
 				return function (dispatch) {
 					dispatch({
-						type: actionTypes.new
+						type: actionTypes.new,
+						new: {
+							name: newName
+						}
 					});
 				};
 			},
-
 			select: function select(selected) {
 				return function (dispatch) {
 					dispatch({
@@ -10285,7 +10286,6 @@
 					});
 				};
 			},
-
 			change: function change(edited) {
 				return function (dispatch) {
 					dispatch({
@@ -10294,7 +10294,6 @@
 					});
 				};
 			},
-
 			cancelChanges: function cancelChanges() {
 				return function (dispatch, getState) {
 					dispatch({
@@ -10303,8 +10302,7 @@
 					changeRoute(getState(), tokens.state);
 				};
 			},
-
-			create: function create() {
+			create: function create(success) {
 				return function (dispatch, getState) {
 					var edited = getState()[tokens.state].edited;
 					if (tokens.entity === 'item') {
@@ -10313,16 +10311,18 @@
 						});
 					}
 					api.create(edited, function (result) {
-						result.tags = null;
 						dispatch({
 							type: actionTypes.receiveAdded,
 							result: result
 						});
-						changeRoute(getState(), tokens.state);
+						if (success) {
+							success(dispatch, getState, result);
+						} else {
+							changeRoute(getState(), tokens.state);
+						}
 					});
 				};
 			},
-
 			update: function update() {
 				return function (dispatch, getState) {
 					var edited = getState()[tokens.state].edited;
@@ -10341,7 +10341,6 @@
 					});
 				};
 			},
-
 			delete: function _delete() {
 				return function (dispatch, getState) {
 					return api.delete(getState()[tokens.state].edited.id, function (result) {
@@ -10352,6 +10351,18 @@
 						changeRoute(getState(), tokens.state);
 					});
 				};
+			},
+			addNew: function addNew() {
+				return this.create(function (dispatch, getState, newRecord) {
+					dispatch({
+						type: actionTypes.new,
+						new: {
+							name: '',
+							tags: newRecord.tags
+						},
+						allTags: getState().tags.all
+					});
+				});
 			}
 		};
 	}
@@ -10497,23 +10508,29 @@
 		var cancelChanges = _ref.cancelChanges;
 		var acceptChanges = _ref.acceptChanges;
 		var remove = _ref.remove;
+		var acceptAndCreate = _ref.acceptAndCreate;
 		return _react2.default.createElement(
 			'div',
 			{ className: 'controls' },
 			_react2.default.createElement(
 				'button',
-				{ onClick: cancelChanges },
-				'Cancel'
+				{ disabled: !canAccept(original, edited), onClick: acceptChanges },
+				'Accept'
 			),
 			edited.id ? _react2.default.createElement(
 				'button',
 				{ onClick: remove },
 				'Delete'
-			) : null,
+			) : _react2.default.createElement(
+				'button',
+				{ onClick: acceptAndCreate,
+					disabled: !canAccept(original, edited) },
+				'Add+'
+			),
 			_react2.default.createElement(
 				'button',
-				{ disabled: !canAccept(original, edited), onClick: acceptChanges },
-				'Accept'
+				{ onClick: cancelChanges },
+				'Cancel'
 			)
 		);
 	};
@@ -10531,7 +10548,8 @@
 		}),
 		cancelChanges: _react.PropTypes.func.isRequired,
 		acceptChanges: _react.PropTypes.func.isRequired,
-		remove: _react.PropTypes.func.isRequired
+		remove: _react.PropTypes.func.isRequired,
+		acceptAndCreate: _react.PropTypes.func.isRequired
 	};
 
 	exports.default = Controls;
@@ -10634,6 +10652,7 @@
 	});
 	exports.getCommonInitialState = getCommonInitialState;
 	exports.canAddNewRecord = canAddNewRecord;
+	exports.getItemTags = getItemTags;
 	exports.getCommonStateChanges = getCommonStateChanges;
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -10656,6 +10675,16 @@
 		});
 	}
 
+	function getItemTags(tagIdList, allTags) {
+		var itemTags = tagIdList && tagIdList.length ? allTags.filter(function (tag) {
+			return tagIdList.indexOf(tag.id) !== -1;
+		}) : [];
+		itemTags.sort(function (a, b) {
+			return a.name.localeCompare(b.name);
+		});
+		return itemTags;
+	}
+
 	function getCommonStateChanges(actionTypes, state, action) {
 		var entityType = arguments.length <= 3 || arguments[3] === undefined ? 'tags' : arguments[3];
 
@@ -10667,11 +10696,11 @@
 
 			case actionTypes.new:
 				stateChanges = {
-					edited: { name: state.searchString },
-					origin: { name: state.searchString }
+					edited: action.new,
+					origin: action.new
 				};
 				if (entityType === 'items') {
-					stateChanges.edited.tags = [];
+					stateChanges.edited = Object.assign({}, action.new, { tags: getItemTags(action.new.tags, action.allTags) });
 				}
 				break;
 
@@ -10705,6 +10734,8 @@
 				stateChanges.edited.isNew = true;
 				if (entityType === 'tags') {
 					stateChanges.all = [].concat(_toConsumableArray(state.all), [action.result]);
+				} else {
+					stateChanges.edited = Object.assign({}, action.result, { tags: null });
 				}
 				break;
 
@@ -17571,9 +17602,9 @@
 		var create = _ref.create;
 		var update = _ref.update;
 		var remove = _ref.remove;
+		var addNew = _ref.addNew;
 		var searchTagsString = _ref.searchTagsString;
 		var searchTags = _ref.searchTags;
-		var searchingTags = _ref.searchingTags;
 		var foundTags = _ref.foundTags;
 		var selectTag = _ref.selectTag;
 		var removeTag = _ref.removeTag;
@@ -17585,14 +17616,18 @@
 				{ className: 'intro' },
 				edited.id ? "Here you can change \"" + original.name + "\" item" : "Here you can create a new item"
 			),
-			_react2.default.createElement(_Property2.default, { property: 'name', type: 'input',
-				original: original, edited: edited, doChange: doLocalChange }),
-			_react2.default.createElement(_Property2.default, { property: 'description', type: 'textarea',
-				original: original, edited: edited, doChange: doLocalChange }),
-			_react2.default.createElement(_ItemTags2.default, { selected: edited.tags, searchString: searchTagsString, onSearchInputChange: searchTags,
-				searching: searchingTags, found: foundTags, onSelect: selectTag, onRemove: removeTag }),
-			_react2.default.createElement(_Controls2.default, { original: original, edited: edited,
-				cancelChanges: cancelLocalChanges, acceptChanges: edited.id ? update : create, remove: remove })
+			_react2.default.createElement(
+				'div',
+				{ className: 'content' },
+				_react2.default.createElement(_Property2.default, { property: 'name', type: 'input',
+					original: original, edited: edited, doChange: doLocalChange }),
+				_react2.default.createElement(_Property2.default, { property: 'description', type: 'textarea',
+					original: original, edited: edited, doChange: doLocalChange }),
+				_react2.default.createElement(_ItemTags2.default, { selected: edited.tags, searchString: searchTagsString, onSearchInputChange: searchTags,
+					found: foundTags, onSelect: selectTag, onRemove: removeTag })
+			),
+			_react2.default.createElement(_Controls2.default, { original: original, edited: edited, acceptChanges: edited.id ? update : create,
+				cancelChanges: cancelLocalChanges, remove: remove, acceptAndCreate: addNew })
 		) : null;
 	};
 
@@ -17618,10 +17653,9 @@
 		create: _react.PropTypes.func.isRequired,
 		update: _react.PropTypes.func.isRequired,
 		remove: _react.PropTypes.func.isRequired,
+		addNew: _react.PropTypes.func.isRequired,
 
 		searchTagsString: _react.PropTypes.string,
-		searchTags: _react.PropTypes.func.isRequired,
-		searchingTags: _react.PropTypes.bool,
 		foundTags: _react.PropTypes.arrayOf(_react.PropTypes.shape({
 			id: _react.PropTypes.number,
 			name: _react.PropTypes.string,
@@ -17668,7 +17702,6 @@
 		var selected = _ref.selected;
 		var searchString = _ref.searchString;
 		var onSearchInputChange = _ref.onSearchInputChange;
-		var searching = _ref.searching;
 		var found = _ref.found;
 		var onSelect = _ref.onSelect;
 		var onRemove = _ref.onRemove;
@@ -17709,12 +17742,12 @@
 			_react2.default.createElement(
 				'div',
 				{ className: 'tagsSearchControls' },
-				_react2.default.createElement(_SearchInput2.default, { searchString: searchString, onChange: onSearchInputChange })
+				_react2.default.createElement(_SearchInput2.default, { searchString: searchString, onChange: onSearchInputChange, entityToken: 'tags' })
 			),
 			_react2.default.createElement(
 				'div',
 				{ className: 'tagsSearchList' },
-				searchString ? _react2.default.createElement(_SearchList2.default, { searching: searching, found: found, onSelect: onSelect }) : _react2.default.createElement(
+				searchString ? _react2.default.createElement(_SearchList2.default, { searching: false, found: found, onSelect: onSelect, entityToken: 'tags' }) : _react2.default.createElement(
 					'div',
 					{ className: 'caption' },
 					'Please start search tags...'
@@ -17731,7 +17764,6 @@
 		})).isRequired,
 		searchString: _react.PropTypes.string,
 		onSearchInputChange: _react.PropTypes.func.isRequired,
-		searching: _react.PropTypes.bool,
 		found: _react.PropTypes.arrayOf(_react.PropTypes.shape({
 			id: _react.PropTypes.number,
 			name: _react.PropTypes.string,
@@ -17799,7 +17831,9 @@
 				'div',
 				{ className: 'searchControls' },
 				_react2.default.createElement(_SearchInput2.default, { searchString: searchString, onChange: onSearchInputChange, entityToken: 'items' }),
-				_react2.default.createElement(_AddNew2.default, { onClick: onAddNewClick, disabled: !canAddNew })
+				_react2.default.createElement(_AddNew2.default, { onClick: function onClick() {
+						return onAddNewClick(searchString);
+					}, disabled: !canAddNew })
 			),
 			searchString ? _react2.default.createElement(_SearchList2.default, { searching: searching, found: found, onSelect: onSelect,
 				edited: justEditedId, entityToken: 'items' }) : null
@@ -17863,6 +17897,7 @@
 		var create = _ref.create;
 		var update = _ref.update;
 		var remove = _ref.remove;
+		var addNew = _ref.addNew;
 		return original && edited ? _react2.default.createElement(
 			'div',
 			{ className: 'tag' },
@@ -17871,12 +17906,16 @@
 				{ className: 'intro' },
 				edited.id ? "Here you can change \"" + original.name + "\" tag" : "Here you can create a new tag"
 			),
-			_react2.default.createElement(_Property2.default, { property: 'name', type: 'input',
-				original: original, edited: edited, doChange: doLocalChange }),
-			_react2.default.createElement(_Property2.default, { property: 'description', type: 'textarea',
-				original: original, edited: edited, doChange: doLocalChange }),
-			_react2.default.createElement(_Controls2.default, { original: original, edited: edited,
-				cancelChanges: cancelLocalChanges, acceptChanges: edited.id ? update : create, remove: remove })
+			_react2.default.createElement(
+				'div',
+				{ className: 'content' },
+				_react2.default.createElement(_Property2.default, { property: 'name', type: 'input',
+					original: original, edited: edited, doChange: doLocalChange }),
+				_react2.default.createElement(_Property2.default, { property: 'description', type: 'textarea',
+					original: original, edited: edited, doChange: doLocalChange })
+			),
+			_react2.default.createElement(_Controls2.default, { original: original, edited: edited, acceptChanges: edited.id ? update : create,
+				cancelChanges: cancelLocalChanges, remove: remove, acceptAndCreate: addNew })
 		) : null;
 	};
 
@@ -17895,7 +17934,8 @@
 		cancelLocalChanges: _react.PropTypes.func.isRequired,
 		create: _react.PropTypes.func.isRequired,
 		update: _react.PropTypes.func.isRequired,
-		remove: _react.PropTypes.func.isRequired
+		remove: _react.PropTypes.func.isRequired,
+		addNew: _react.PropTypes.func.isRequired
 	};
 
 	exports.default = Tag;
@@ -17956,7 +17996,9 @@
 				'div',
 				{ className: 'searchControls' },
 				_react2.default.createElement(_SearchInput2.default, { searchString: searchString, onChange: onSearchInputChange, entityToken: 'tags' }),
-				_react2.default.createElement(_AddNew2.default, { onClick: onAddNewTagClick, disabled: !canAddNew })
+				_react2.default.createElement(_AddNew2.default, { onClick: function onClick() {
+						return onAddNewTagClick(searchString);
+					}, disabled: !canAddNew })
 			),
 			searchString ? _react2.default.createElement(_SearchList2.default, { searching: searching, found: foundTags, onSelect: onSelectTag,
 				edited: justEditedId, entityToken: 'tags' }) : null
@@ -18346,7 +18388,6 @@
 			original: state.items.origin,
 			edited: state.items.edited,
 			searchTagsString: state.items.searchTagsString,
-			searchingTags: state.items.searchingTags,
 			foundTags: state.items.foundTags
 		};
 	};
@@ -18367,6 +18408,9 @@
 			},
 			remove: function remove() {
 				dispatch(_items2.default.delete());
+			},
+			addNew: function addNew() {
+				dispatch(_items2.default.addNew());
 			},
 			searchTags: function searchTags(searchString) {
 				dispatch(_items2.default.searchTags(searchString));
@@ -18434,8 +18478,8 @@
 			onSearchInputChange: function onSearchInputChange(searchString) {
 				dispatch(_items2.default.search({ searchString: searchString }));
 			},
-			onAddNewClick: function onAddNewClick() {
-				dispatch(_items2.default.new());
+			onAddNewClick: function onAddNewClick(newName) {
+				dispatch(_items2.default.new(newName));
 				_reactRouter.browserHistory.push('/items/new');
 			},
 			onSelect: function onSelect(item) {
@@ -18508,6 +18552,9 @@
 			},
 			remove: function remove() {
 				dispatch(_tags2.default.delete());
+			},
+			addNew: function addNew() {
+				dispatch(_tags2.default.addNew());
 			}
 		};
 	};
@@ -18567,8 +18614,8 @@
 			onSearchInputChange: function onSearchInputChange(searchString) {
 				dispatch(_tags2.default.search(searchString));
 			},
-			onAddNewTagClick: function onAddNewTagClick() {
-				dispatch(_tags2.default.new());
+			onAddNewTagClick: function onAddNewTagClick(newName) {
+				dispatch(_tags2.default.new(newName));
 				_reactRouter.browserHistory.push('/tags/new');
 			},
 			onSelectTag: function onSelectTag(tag) {
@@ -18840,7 +18887,6 @@
 		path: '/items',
 		receiving: false,
 		searchTagsString: '',
-		searchingTags: false,
 		foundTags: []
 	});
 
@@ -18861,7 +18907,6 @@
 						origin: null,
 						edited: null,
 						searchTagsString: '',
-						searchingTags: false,
 						foundTags: []
 					};
 				} else {
@@ -18935,7 +18980,6 @@
 				}
 				stateChanges = {
 					searchTagsString: action.searchString,
-					searchingTags: true,
 					foundTags: found
 				};
 				break;

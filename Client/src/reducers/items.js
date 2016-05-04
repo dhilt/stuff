@@ -1,5 +1,6 @@
-import {getCommonInitialState, getCommonStateChanges, canAddNewRecord} from './common'
+import {getCommonInitialState, getCommonStateChanges} from './common'
 import {itemsActionTypes} from './../actions/_types'
+import Helper from './_helpers'
 
 let initialState = Object.assign({}, getCommonInitialState(), {
 	path: '/items',
@@ -49,7 +50,7 @@ export default function items(state = initialState, action) {
 			stateChanges = {
 				searching: false,
 				found: action.found,
-				canAddNew: canAddNewRecord(state.searchString, action.found)
+				canAddNew: Helper.canAddNewRecord(state.searchString, action.found)
 			};
 			break;
 
@@ -78,9 +79,9 @@ export default function items(state = initialState, action) {
 
 		case itemsActionTypes.searchTags:
 			let found = [];
-			if(action.searchString) {
+			if (action.searchString) {
 				let itemTags = state.edited.tags || [];
-				found = action.allTags.filter(tag => tag.name.toLowerCase().indexOf(action.searchString.toLowerCase()) !== -1 && !itemTags.find( t => t.id === tag.id ));
+				found = action.allTags.filter(tag => Helper.satisfySearch(tag.name, action.searchString) && !itemTags.find(t => t.id === tag.id));
 				found.sort((a, b) => a.name.localeCompare(b.name));
 			}
 			stateChanges = {
@@ -100,7 +101,7 @@ export default function items(state = initialState, action) {
 			stateChanges = {
 				edited: Object.assign({}, state.edited, {tags: state.edited.tags.filter(tag => tag.id !== action.tag.id)})
 			};
-			if(action.tag.name.toLowerCase().indexOf(state.searchTagsString.toLowerCase()) !== -1) {
+			if (Helper.satisfySearch(action.tag.name, state.searchTagsString)) {
 				stateChanges.foundTags = [...state.foundTags, action.tag];
 				stateChanges.foundTags.sort((a, b) => a.name.localeCompare(b.name));
 			}
