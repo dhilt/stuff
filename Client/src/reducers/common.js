@@ -14,6 +14,12 @@ export function canAddNewRecord(nameStr, found) {
 	return !!nameStr && !found.find(t => t.name.toLowerCase() === nameStr.toLowerCase());
 }
 
+export function getItemTags(tagIdList, allTags) {
+	let itemTags = tagIdList && tagIdList.length ? allTags.filter(tag => tagIdList.indexOf(tag.id) !== -1) : [];
+	itemTags.sort((a, b) => a.name.localeCompare(b.name));
+	return itemTags;
+}
+
 export function getCommonStateChanges(actionTypes, state, action, entityType = 'tags') {
 
 	let stateChanges = {};
@@ -23,11 +29,11 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 
 		case actionTypes.new:
 			stateChanges = {
-				edited: {name: state.searchString},
-				origin: {name: state.searchString}
+				edited: action.new,
+				origin: action.new
 			};
 			if (entityType === 'items') {
-				stateChanges.edited.tags = [];
+				stateChanges.edited = Object.assign({}, action.new, {tags: getItemTags(action.new.tags, action.allTags)});
 			}
 			break;
 
@@ -61,6 +67,9 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 			stateChanges.edited.isNew = true;
 			if (entityType === 'tags') {
 				stateChanges.all = [...state.all, action.result];
+			}
+			else {
+				stateChanges.edited = Object.assign({}, action.result, {tags: null});
 			}
 			break;
 

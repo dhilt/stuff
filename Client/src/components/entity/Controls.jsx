@@ -22,13 +22,16 @@ let canAccept = (src, target) => {
 	return false;
 };
 
-const Controls = ({original, edited, cancelChanges, acceptChanges, remove}) => (
+const Controls = ({original, edited, cancelChanges, acceptChanges, remove, acceptAndCreate}) => (
 	<div className="controls">
-		<button onClick={cancelChanges}>Cancel</button>
-		{
-			edited.id ? <button onClick={remove}>Delete</button> : null
-		}
 		<button disabled={!canAccept(original, edited)} onClick={acceptChanges}>Accept</button>
+		{
+			edited.id ? 
+				<button onClick={remove}>Delete</button> :
+				<button onClick={acceptAndCreate}
+					disabled={!canAccept(original, edited)}>Add+</button>
+		}
+		<button onClick={cancelChanges}>Cancel</button>
 	</div>
 );
 
@@ -45,7 +48,8 @@ Controls.propTypes = {
 	}),
 	cancelChanges: PropTypes.func.isRequired,
 	acceptChanges: PropTypes.func.isRequired,
-	remove: PropTypes.func.isRequired
+	remove: PropTypes.func.isRequired,
+	acceptAndCreate: PropTypes.func.isRequired
 };
 
 export default Controls

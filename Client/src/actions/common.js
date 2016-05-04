@@ -13,15 +13,18 @@ function changeRoute(globalState, localState)
 export default function getCommonActions(actionTypes, api, tokens) {
 	return {
 
-		new: () => {
+		new(newName) {
 			return (dispatch) => {
 				dispatch({
-					type: actionTypes.new
+					type: actionTypes.new,
+					new: {
+						name: newName
+					}
 				})
 			}
 		},
 
-		select: (selected) => {
+		select(selected) {
 			return (dispatch) => {
 				dispatch({
 					type: actionTypes.select,
@@ -30,7 +33,7 @@ export default function getCommonActions(actionTypes, api, tokens) {
 			}
 		},
 
-		change: (edited) => {
+		change(edited) {
 			return (dispatch) => {
 				dispatch({
 					type: actionTypes.change,
@@ -39,7 +42,7 @@ export default function getCommonActions(actionTypes, api, tokens) {
 			}
 		},
 
-		cancelChanges: () => {
+		cancelChanges() {
 			return (dispatch, getState) => {
 				dispatch({
 					type: actionTypes.cancelChanges
@@ -48,24 +51,28 @@ export default function getCommonActions(actionTypes, api, tokens) {
 			}
 		},
 
-		create: () => {
+		create(success) {
 			return (dispatch, getState) => {
 				let edited = getState()[tokens.state].edited;
 				if (tokens.entity === 'item') {
 					edited.tags = edited.tags.map(t => t.id);
 				}
 				api.create(edited, result => {
-					result.tags = null;
 					dispatch({
 						type: actionTypes.receiveAdded,
 						result: result
 					});
-					changeRoute(getState(), tokens.state);
+					if(success) {
+						success(dispatch, getState, result);
+					}
+					else {
+						changeRoute(getState(), tokens.state);
+					}
 				});
 			}
 		},
 
-		update: () => {
+		update() {
 			return (dispatch, getState) => {
 				let edited = getState()[tokens.state].edited;
 				if (tokens.entity === 'item') {
@@ -82,7 +89,7 @@ export default function getCommonActions(actionTypes, api, tokens) {
 			}
 		},
 
-		delete: () => {
+		delete() {
 			return (dispatch, getState) =>
 				api.delete(getState()[tokens.state].edited.id, result => {
 					dispatch({
@@ -91,6 +98,19 @@ export default function getCommonActions(actionTypes, api, tokens) {
 					});
 					changeRoute(getState(), tokens.state);
 				})
+		},
+
+		addNew() {
+			return this.create((dispatch, getState, newRecord) => {
+				dispatch({
+					type: actionTypes.new,
+					new: {
+						name: '',
+						tags: newRecord.tags
+					},
+					allTags: getState().tags.all
+				})
+			})
 		}
 	}
 }

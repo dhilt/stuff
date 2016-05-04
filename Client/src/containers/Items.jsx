@@ -21,8 +21,8 @@ const mapDispatchToProps = (dispatch) => {
 		onSearchInputChange: (searchString) => {
 			dispatch(itemsActions.search({ searchString: searchString }));
 		},
-		onAddNewClick: () => {
-			dispatch(itemsActions.new());
+		onAddNewClick: (newName) => {
+			dispatch(itemsActions.new(newName));
 			browserHistory.push(`/items/new`);
 		},
 		onSelect: (item) => {

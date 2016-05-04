@@ -22,8 +22,8 @@ const mapDispatchToProps = (dispatch) => {
 		onSearchInputChange: (searchString) => {
 			dispatch(tagsActions.search(searchString));
 		},
-		onAddNewTagClick: () => {
-			dispatch(tagsActions.new());
+		onAddNewTagClick: (newName) => {
+			dispatch(tagsActions.new(newName));
 			browserHistory.push(`/tags/new`);
 		},
 		onSelectTag: (tag) => {

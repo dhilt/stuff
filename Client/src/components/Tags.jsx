@@ -10,7 +10,7 @@ const Tags = ({searching, foundTags, onSearchInputChange, searchString, canAddNe
 		<h3>Stuff Tags Editor</h3>
 		<div className="searchControls">
 			<SearchInput searchString={searchString} onChange={onSearchInputChange} entityToken="tags"/>
-			<AddNew onClick={onAddNewTagClick} disabled={!canAddNew}/>
+			<AddNew onClick={() => onAddNewTagClick(searchString)} disabled={!canAddNew}/>
 		</div>
 		{
 			searchString ?

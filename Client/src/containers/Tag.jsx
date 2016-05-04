@@ -27,6 +27,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		remove: () => {
 			dispatch(tagsActions.delete());
+		},
+		addNew: () => {
+			dispatch(tagsActions.addNew());
 		}
 	}
 };

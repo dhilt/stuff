@@ -30,6 +30,9 @@ const mapDispatchToProps = (dispatch) => {
 		remove: () => {
 			dispatch(itemsActions.delete());
 		},
+		addNew: () => {
+			dispatch(itemsActions.addNew());
+		},
 		searchTags: (searchString) => {
 			dispatch(itemsActions.searchTags(searchString));
 		},

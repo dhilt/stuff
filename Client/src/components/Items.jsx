@@ -10,7 +10,7 @@ const Items = ({searching, found, onSearchInputChange, searchString, canAddNew, 
 		<h3>Stuff Items Editor</h3>
 		<div className="searchControls">
 			<SearchInput searchString={searchString} onChange={onSearchInputChange} entityToken="items"/>
-			<AddNew onClick={onAddNewClick} disabled={!canAddNew}/>
+			<AddNew onClick={() => onAddNewClick(searchString)} disabled={!canAddNew}/>
 		</div>
 		{
 			searchString ?

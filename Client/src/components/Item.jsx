@@ -5,23 +5,25 @@ import ItemTags from '../components/ItemTags'
 
 require('../styles/modules/item.scss');
 
-const Item = ({original, edited, doLocalChange, cancelLocalChanges, create, update, remove, searchTagsString, searchTags, foundTags, selectTag, removeTag}) => 
+const Item = ({original, edited, doLocalChange, cancelLocalChanges, create, update, remove, addNew, searchTagsString, searchTags, foundTags, selectTag, removeTag}) => 
 	original && edited ? (
 	<div className="item">
 		<div className="intro">
 			{ edited.id ? "Here you can change \"" + original.name + "\" item" : "Here you can create a new item" }
 		</div>
 
-		<TagProperty property="name" type="input"
-			original={original} edited={edited} doChange={doLocalChange}/>
-		<TagProperty property="description" type="textarea"
-			original={original} edited={edited} doChange={doLocalChange}/>
+		<div className="content">
+			<TagProperty property="name" type="input"
+				original={original} edited={edited} doChange={doLocalChange}/>
+			<TagProperty property="description" type="textarea"
+				original={original} edited={edited} doChange={doLocalChange}/>
 
-		<ItemTags selected={edited.tags} searchString={searchTagsString} onSearchInputChange={searchTags}
-			found={foundTags} onSelect={selectTag} onRemove={removeTag}/>
-
-		<Controls original={original} edited={edited}
-			cancelChanges={cancelLocalChanges} acceptChanges={edited.id ? update : create} remove={remove}/>
+			<ItemTags selected={edited.tags} searchString={searchTagsString} onSearchInputChange={searchTags}
+				found={foundTags} onSelect={selectTag} onRemove={removeTag}/>
+		</div>
+		
+		<Controls original={original} edited={edited} acceptChanges={edited.id ? update : create}
+			cancelChanges={cancelLocalChanges} remove={remove} acceptAndCreate={addNew}/>
 	</div>
 	) : (null);
 
@@ -47,6 +49,7 @@ Item.propTypes = {
 	create: PropTypes.func.isRequired,
 	update: PropTypes.func.isRequired,
 	remove: PropTypes.func.isRequired,
+	addNew: PropTypes.func.isRequired,
 
 	searchTagsString: PropTypes.string,
 	foundTags: PropTypes.arrayOf(PropTypes.shape({
