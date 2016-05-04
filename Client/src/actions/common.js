@@ -1,8 +1,7 @@
 import {browserHistory} from 'react-router'
 
-function changeRoute(globalState, localState)
-{
-	if(globalState.hasHistory) {
+function changeRoute(globalState, localState) {
+	if (globalState.hasHistory) {
 		browserHistory.goBack();
 	}
 	else {
@@ -55,17 +54,17 @@ export default function getCommonActions(actionTypes, api, tokens) {
 			return (dispatch, getState) => {
 				let edited = getState()[tokens.state].edited;
 				if (tokens.entity === 'item') {
-					edited.tags = edited.tags.map(t => t.id);
+					edited = Object.assign({}, edited, {tags: edited.tags.map(t => t.id)});
 				}
 				api.create(edited, result => {
-					dispatch({
-						type: actionTypes.receiveAdded,
-						result: result
-					});
-					if(success) {
+					if (success) {
 						success(dispatch, getState, result);
 					}
 					else {
+						dispatch({
+							type: actionTypes.receiveAdded,
+							result: result
+						});
 						changeRoute(getState(), tokens.state);
 					}
 				});
@@ -76,7 +75,7 @@ export default function getCommonActions(actionTypes, api, tokens) {
 			return (dispatch, getState) => {
 				let edited = getState()[tokens.state].edited;
 				if (tokens.entity === 'item') {
-					edited.tags = edited.tags.map(t => t.id);
+					edited = Object.assign({}, edited, {tags: edited.tags.map(t => t.id)});
 				}
 				api.update(edited, result => {
 					result.tags = null;
@@ -98,19 +97,6 @@ export default function getCommonActions(actionTypes, api, tokens) {
 					});
 					changeRoute(getState(), tokens.state);
 				})
-		},
-
-		addNew() {
-			return this.create((dispatch, getState, newRecord) => {
-				dispatch({
-					type: actionTypes.new,
-					new: {
-						name: '',
-						tags: newRecord.tags
-					},
-					allTags: getState().tags.all
-				})
-			})
 		}
 	}
 }

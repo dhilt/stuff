@@ -12,6 +12,7 @@ let initialState = Object.assign({}, getCommonInitialState(), {
 export default function items(state = initialState, action) {
 
 	let stateChanges = {};
+	let found;
 
 	switch (action.type) {
 
@@ -77,8 +78,23 @@ export default function items(state = initialState, action) {
 			};
 			break;
 
+		case itemsActionTypes.receiveAddedAndCreateNew:
+			found = null;
+			if (Helper.satisfySearch(action.result.name, state.searchString)) {
+				found = [action.result, ...state.found];
+				found.sort((a, b) => a.name.localeCompare(b.name));
+			}
+			let newItem = { name: '', description: '' };
+			stateChanges = {
+				found: found || state.found,
+				canAddNew: found ? Helper.canAddNewRecord(state.searchString, found) : state.canAddNew,
+				edited: Object.assign({}, newItem, {tags: state.edited.tags}),
+				origin: Object.assign({}, newItem, {tags: state.edited.tags.map(t => t.id)})
+			};
+			break;
+
 		case itemsActionTypes.searchTags:
-			let found = [];
+			found = [];
 			if (action.searchString) {
 				let itemTags = state.edited.tags || [];
 				found = action.allTags.filter(tag => Helper.satisfySearch(tag.name, action.searchString) && !itemTags.find(t => t.id === tag.id));

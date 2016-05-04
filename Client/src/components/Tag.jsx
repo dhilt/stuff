@@ -4,7 +4,7 @@ import Controls from './entity/Controls'
 
 require('../styles/modules/tag.scss');
 
-const Tag = ({original, edited, doLocalChange, cancelLocalChanges, acceptChanges, create, update, remove, addNew}) =>
+const Tag = ({original, edited, doLocalChange, cancelLocalChanges, acceptChanges, create, update, remove}) =>
 	original && edited ? (
 	<div className="tag">
 		<div className="intro">
@@ -19,7 +19,7 @@ const Tag = ({original, edited, doLocalChange, cancelLocalChanges, acceptChanges
 		</div>
 		
 		<Controls original={original} edited={edited} acceptChanges={edited.id ? update : create}
-			cancelChanges={cancelLocalChanges} remove={remove} acceptAndCreate={addNew}/>
+			cancelChanges={cancelLocalChanges} remove={remove}/>
 	</div>
 	) : (null);
 
@@ -38,8 +38,7 @@ Tag.propTypes = {
 	cancelLocalChanges: PropTypes.func.isRequired,
 	create: PropTypes.func.isRequired,
 	update: PropTypes.func.isRequired,
-	remove: PropTypes.func.isRequired,
-	addNew: PropTypes.func.isRequired
+	remove: PropTypes.func.isRequired
 };
 
 export default Tag

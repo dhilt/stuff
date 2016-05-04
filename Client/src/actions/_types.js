@@ -38,6 +38,7 @@ export let itemsActionTypes = {
 	receiveAdded: 'RECEIVE_ADDED_ITEM',
 	receiveChanged: 'RECEIVE_CHANGED_ITEM',
 	delete: 'DELETE_ITEM',
+	receiveAddedAndCreateNew: 'RECEIVE_ADDED_AND_CREATE_NEW_ITEM',
 	searchTags: 'SEARCH_ITEM_TAGS',
 	addTag: 'ADD_ITEM_TAG',
 	removeTag: 'REMOVE_ITEM_TAG'

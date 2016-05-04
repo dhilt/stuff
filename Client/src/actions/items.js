@@ -27,7 +27,7 @@ export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {s
 				type: itemsActionTypes.search,
 				searchString: searchParams.searchString
 			});
-			if(searchParams.searchString) {
+			if (searchParams.searchString) {
 				apiItems.search(searchParams, items =>
 					dispatch({
 						type: itemsActionTypes.receiveFound,
@@ -36,6 +36,15 @@ export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {s
 				)
 			}
 		}
+	},
+
+	addNew() {
+		return this.create((dispatch, getState, newRecord) => {
+			dispatch({
+				type: itemsActionTypes.receiveAddedAndCreateNew,
+				result: newRecord
+			})
+		})
 	},
 
 	searchTags: (searchString) => {

@@ -15,7 +15,7 @@ let canAccept = (src, target) => {
 		if (src.tags.length !== target.tags.length) {
 			return true;
 		}
-		if(target.tags.find(t => src.tags.indexOf(t.id) === -1)) {
+		if (target.tags.find(t => src.tags.indexOf(t.id) === -1)) {
 			return true;
 		}
 	}
@@ -26,10 +26,12 @@ const Controls = ({original, edited, cancelChanges, acceptChanges, remove, accep
 	<div className="controls">
 		<button disabled={!canAccept(original, edited)} onClick={acceptChanges}>Accept</button>
 		{
-			edited.id ? 
-				<button onClick={remove}>Delete</button> :
-				<button onClick={acceptAndCreate}
-					disabled={!canAccept(original, edited)}>Add+</button>
+			edited.id ?
+				<button onClick={remove}>Delete</button> : (
+				acceptAndCreate ?
+					<button onClick={acceptAndCreate}
+							disabled={!canAccept(original, edited)}>Add+</button> : (null)
+			)
 		}
 		<button onClick={cancelChanges}>Cancel</button>
 	</div>
@@ -49,7 +51,7 @@ Controls.propTypes = {
 	cancelChanges: PropTypes.func.isRequired,
 	acceptChanges: PropTypes.func.isRequired,
 	remove: PropTypes.func.isRequired,
-	acceptAndCreate: PropTypes.func.isRequired
+	acceptAndCreate: PropTypes.func
 };
 
 export default Controls

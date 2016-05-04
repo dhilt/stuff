@@ -20,13 +20,13 @@ export function getCommonStateChanges(actionTypes, state, action, entityType = '
 	switch (action.type) {
 
 		case actionTypes.new:
+			if(entityType === 'items') {
+				action.new.tags = [];
+			}
 			stateChanges = {
 				edited: action.new,
 				origin: action.new
 			};
-			if (entityType === 'items') {
-				stateChanges.edited = Object.assign({}, action.new, {tags: Helper.getItemTags(action.new.tags, action.allTags)});
-			}
 			break;
 
 		case actionTypes.select:
