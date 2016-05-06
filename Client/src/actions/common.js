@@ -1,4 +1,5 @@
 import {browserHistory} from 'react-router'
+import Popup from '../utils/popup'
 
 function changeRoute(globalState, localState) {
 	if (globalState.hasHistory) {
@@ -57,6 +58,10 @@ export default function getCommonActions(actionTypes, api, tokens) {
 					edited = Object.assign({}, edited, {tags: edited.tags.map(t => t.id)});
 				}
 				api.create(edited, result => {
+					Popup.show({
+						message: 'Record was successfully created.',
+						level: 'success'
+					});
 					if (success) {
 						success(dispatch, getState, result);
 					}
@@ -78,6 +83,10 @@ export default function getCommonActions(actionTypes, api, tokens) {
 					edited = Object.assign({}, edited, {tags: edited.tags.map(t => t.id)});
 				}
 				api.update(edited, result => {
+					Popup.show({
+						message: 'Record was successfully updated.',
+						level: 'success'
+					});
 					result.tags = null;
 					dispatch({
 						type: actionTypes.receiveChanged,
@@ -91,6 +100,10 @@ export default function getCommonActions(actionTypes, api, tokens) {
 		delete() {
 			return (dispatch, getState) =>
 				api.delete(getState()[tokens.state].edited.id, result => {
+					Popup.show({
+						message: 'Record was successfully deleted.',
+						level: 'success'
+					});
 					dispatch({
 						type: actionTypes.delete,
 						id: result.id

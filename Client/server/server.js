@@ -160,9 +160,8 @@ app.delete("/api/items/:id", function (req, res) {
 	var itemId = req.body.id;
 	for (var i = mockData.items.length - 1; i >= 0; i--) {
 		if (mockData.items[i].id === itemId) {
-			result.id = itemId;
+			res.send(mockData.items[i]);
 			mockData.items.splice(i, 1);
-			res.send({id: itemId});
 			return;
 		}
 	}

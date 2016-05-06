@@ -21,6 +21,7 @@
     "react-addons-test-utils": "^15.0.1",
     "react-click-outside": "^2.1.0",
     "react-dom": "^15.0.1",
+    "react-notification-system": "^0.2.7",
     "react-redux": "^4.4.4",
     "react-router": "^2.2.2",
     "react-router-redux": "^4.0.2",
