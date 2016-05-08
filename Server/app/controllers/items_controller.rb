@@ -6,7 +6,7 @@ class ItemsController < ApplicationController
     filter = params[:searchString] || ''
     filter = filter.tr('^A-Za-zА-Яа-я0-9', '')
     unless filter.blank?
-      @items = Item.where('name like ?', "%#{filter}%").order(:name)
+      @items = Item.where('lower(name) like ?', "%#{filter.mb_chars.downcase.to_s}%").order(:name)
     end
   end
 

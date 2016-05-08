@@ -6,7 +6,7 @@ class TagsController < ApplicationController
     filter = params[:searchString] || ''
     filter = filter.tr('^A-Za-zА-Яа-я0-9', '')
     if not filter.blank?
-      @tags = Tag.where('name like ?', "%#{filter}%").order(:name)
+      @tags = Tag.where('lower(name) like ?', "%#{filter.mb_chars.downcase.to_s}%").order(:name)
     else
       @tags = Tag.all
     end
