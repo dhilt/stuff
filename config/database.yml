@@ -22,7 +22,7 @@ test:
 
 production:
   adapter: postgresql
-  database: stuff
-  username: dhilt
-  password: pass000
-  host: localhost
+  database: d513g9k39si85e
+  username: svqnuueodrdfvu
+  password: vxx-nZUeANbQkyoizo4E9vMJHl
+  host: ec2-54-163-226-155.compute-1.amazonaws.com
