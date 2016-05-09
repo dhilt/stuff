@@ -4,6 +4,7 @@ import Helper from './_helpers'
 let initialState = {
 	isTagListOpened: false,
 	searchString: '',
+	searchType: 'union',
 	tagsToSelect: [],
 	selectedTags: [],
 	searching: false,
@@ -43,6 +44,12 @@ export default function index(state = initialState, action) {
 			stateChanges = {
 				tagsToSelect: found.filter(tag => !state.selectedTags.find(t => t.id === tag.id)),
 				searchString: action.searchString
+			};
+			break;
+
+		case indexActionTypes.changeSearchType:
+			stateChanges = {
+				searchType: action.searchType
 			};
 			break;
 

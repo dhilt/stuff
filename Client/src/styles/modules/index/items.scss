@@ -1,10 +1,12 @@
+@import '../../variables';
+
 .items {
   margin-top: 15px;
 
   li {
     cursor: default;
     span:hover {
-      color: #a00;
+      color: $hover-color;
     }
   }
 }

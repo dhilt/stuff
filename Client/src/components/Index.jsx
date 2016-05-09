@@ -4,7 +4,7 @@ import Items from './index/items'
 
 require('../styles/modules/index.scss');
 
-const Index = ({isTagListOpened, onSearchInputFocus, onOutsideTagsClick, onSearchInputChange, searchString, tagsToSelect, selectedTags, selectTag, removeTag, clearTags, searching, items, clickOnItem, justEditedItemId}) => {
+const Index = ({isTagListOpened, onSearchInputFocus, onOutsideTagsClick, onSearchInputChange, searchString, searchType, changeSearchType, tagsToSelect, selectedTags, selectTag, removeTag, clearTags, searching, items, clickOnItem, justEditedItemId}) => {
 	return (
 		<div className="index">
 			<h3>Stuff Welcome Index</h3>
@@ -14,6 +14,8 @@ const Index = ({isTagListOpened, onSearchInputFocus, onOutsideTagsClick, onSearc
 				onOutsideTagsClick={onOutsideTagsClick}
 				onSearchInputChange={onSearchInputChange}
 				searchString={searchString}
+				searchType={searchType}
+				changeSearchType={changeSearchType}
 				tagsToSelect={tagsToSelect}
 				selectedTags={selectedTags}
 				selectTag={selectTag}
@@ -22,7 +24,7 @@ const Index = ({isTagListOpened, onSearchInputFocus, onOutsideTagsClick, onSearc
 			/>
 			<Items 
 				hasSelectedTags={!!selectedTags.length} 
-				searching={searching} 
+				searching={searching}
 				items={items} 
 				clickOnItem={clickOnItem}
 				justEditedItemId={justEditedItemId}/>
@@ -41,6 +43,8 @@ Index.propTypes = {
 		name: PropTypes.string
 	})).isRequired,
 	searchString: PropTypes.string,
+	searchType: PropTypes.string,
+    changeSearchType: PropTypes.func.isRequired,
 	onSearchInputFocus: PropTypes.func.isRequired,
 	onOutsideTagsClick: PropTypes.func.isRequired,
 	onSearchInputChange: PropTypes.func.isRequired,

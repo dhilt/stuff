@@ -29,6 +29,15 @@ export default {
 		}
 	},
 
+	changeSearchType: (searchType) => {
+		return (dispatch, getState) => {
+			dispatch({
+				type: indexActionTypes.changeSearchType,
+				searchType: searchType
+			});
+		}
+	},
+
 	clearTags: () => {
 		return (dispatch) => {
 			dispatch({
@@ -59,11 +68,20 @@ export default {
 	getItems: () => {
 		return (dispatch, getState) => {
 			let tags = getState().index.selectedTags.map(t => t.id);
-			apiIndex.getItemsByTags(tags, items => dispatch({
+			let searchType = getState().index.searchType;
+			if (tags && tags.length) {
+				apiIndex.getItemsByTags(tags, searchType, items => dispatch({
+						type: indexActionTypes.receiveItems,
+						items: items
+					})
+				)
+			}
+			else {
+				dispatch({
 					type: indexActionTypes.receiveItems,
-					items: items
+					items: []
 				})
-			)
+			}
 		}
 	}
 }

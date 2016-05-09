@@ -8,6 +8,7 @@ import IndexComponent from './../components/Index'
 const mapStateToProps = (state) => {
 	return {
 		searchString: state.index.searchString,
+		searchType: state.index.searchType,
 		isTagListOpened: state.index.isTagListOpened,
 		tagsToSelect: state.index.tagsToSelect,
 		selectedTags: state.index.selectedTags,
@@ -29,6 +30,10 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		onSearchInputChange: (searchString) => {
 			dispatch(indexActions.searchTags(searchString));
+		},
+		changeSearchType: (newSearchType) => {
+			dispatch(indexActions.changeSearchType(newSearchType));
+			dispatch(indexActions.getItems());
 		},
 		selectTag: (tag) => {
 			dispatch(indexActions.selectTag(tag));

@@ -31,17 +31,19 @@
       "id": 1,
       "name": "Item1",
       "description": "Description for item with id = 1",
-      "tags": [1, 2, 3]
+      "tags": [1]
     },
     {
       "id": 2,
       "name": "Item2",
-      "description": "Description for item with id = 2"
+      "description": "Description for item with id = 2",
+      "tags": [1, 2]
     },
     {
       "id": 3,
       "name": "Item3",
-      "description": "Description for item with id = 3"
+      "description": "Description for item with id = 3",
+      "tags": [1, 2, 3]
     },
     {
       "id": 4,
@@ -52,7 +54,8 @@
     {
       "id": 5,
       "name": "MyItem2",
-      "description": "Description for item with id = 5"
+      "description": "Description for item with id = 5",
+      "tags": [1, 2, 3, 4, 5]
     }
   ]
 }
