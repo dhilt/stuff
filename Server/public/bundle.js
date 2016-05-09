@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "050ec6df8fc6d5f5c3ab"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "95de2987f65e380a5947"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -3642,6 +3642,7 @@
 		openTagList: 'OPEN_INDEX_TAG_LIST',
 		closeTagList: 'CLOSE_INDEX_TAG_LIST',
 		searchTags: 'SEARCH_INDEX_TAGS',
+		changeSearchType: 'CHANGE_SEARCH_TYPE',
 		clearTags: 'CLEAR_INDEX_TAGS',
 		selectTag: 'SELECT_INDEX_TAG',
 		removeTag: 'REMOVE_INDEX_TAG',
@@ -17354,6 +17355,15 @@
 			};
 		},
 
+		changeSearchType: function changeSearchType(searchType) {
+			return function (dispatch, getState) {
+				dispatch({
+					type: _types.indexActionTypes.changeSearchType,
+					searchType: searchType
+				});
+			};
+		},
+
 		clearTags: function clearTags() {
 			return function (dispatch) {
 				dispatch({
@@ -17385,12 +17395,20 @@
 				var tags = getState().index.selectedTags.map(function (t) {
 					return t.id;
 				});
-				_index2.default.getItemsByTags(tags, function (items) {
-					return dispatch({
-						type: _types.indexActionTypes.receiveItems,
-						items: items
+				var searchType = getState().index.searchType;
+				if (tags && tags.length) {
+					_index2.default.getItemsByTags(tags, searchType, function (items) {
+						return dispatch({
+							type: _types.indexActionTypes.receiveItems,
+							items: items
+						});
 					});
-				});
+				} else {
+					dispatch({
+						type: _types.indexActionTypes.receiveItems,
+						items: []
+					});
+				}
 			};
 		}
 	};
@@ -17413,8 +17431,8 @@
 	var _utils = __webpack_require__(59);
 
 	exports.default = {
-		getItemsByTags: function getItemsByTags(tags, success, fail) {
-			return (0, _utils.myDataFetch)('/api/index', (0, _utils.generateApiData)('POST', { tags: tags }), success, fail);
+		getItemsByTags: function getItemsByTags(tags, type, success, fail) {
+			return (0, _utils.myDataFetch)('/api/index', (0, _utils.generateApiData)('POST', { tags: tags, type: type }), success, fail);
 		}
 	};
 
@@ -17630,6 +17648,8 @@
 		var onOutsideTagsClick = _ref.onOutsideTagsClick;
 		var onSearchInputChange = _ref.onSearchInputChange;
 		var searchString = _ref.searchString;
+		var searchType = _ref.searchType;
+		var changeSearchType = _ref.changeSearchType;
 		var tagsToSelect = _ref.tagsToSelect;
 		var selectedTags = _ref.selectedTags;
 		var selectTag = _ref.selectTag;
@@ -17654,6 +17674,8 @@
 				onOutsideTagsClick: onOutsideTagsClick,
 				onSearchInputChange: onSearchInputChange,
 				searchString: searchString,
+				searchType: searchType,
+				changeSearchType: changeSearchType,
 				tagsToSelect: tagsToSelect,
 				selectedTags: selectedTags,
 				selectTag: selectTag,
@@ -17680,6 +17702,8 @@
 			name: _react.PropTypes.string
 		})).isRequired,
 		searchString: _react.PropTypes.string,
+		searchType: _react.PropTypes.string,
+		changeSearchType: _react.PropTypes.func.isRequired,
 		onSearchInputFocus: _react.PropTypes.func.isRequired,
 		onOutsideTagsClick: _react.PropTypes.func.isRequired,
 		onSearchInputChange: _react.PropTypes.func.isRequired,
@@ -18171,7 +18195,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+		value: true
 	});
 
 	var _react = __webpack_require__(1);
@@ -18183,100 +18207,132 @@
 	__webpack_require__(155);
 
 	var Tags = function Tags(_ref) {
-	    var isTagListOpened = _ref.isTagListOpened;
-	    var onSearchInputFocus = _ref.onSearchInputFocus;
-	    var onSearchInputChange = _ref.onSearchInputChange;
-	    var searchString = _ref.searchString;
-	    var tagsToSelect = _ref.tagsToSelect;
-	    var selectedTags = _ref.selectedTags;
-	    var selectTag = _ref.selectTag;
-	    var removeTag = _ref.removeTag;
-	    var clearTags = _ref.clearTags;
+		var isTagListOpened = _ref.isTagListOpened;
+		var onSearchInputFocus = _ref.onSearchInputFocus;
+		var onSearchInputChange = _ref.onSearchInputChange;
+		var searchString = _ref.searchString;
+		var searchType = _ref.searchType;
+		var changeSearchType = _ref.changeSearchType;
+		var tagsToSelect = _ref.tagsToSelect;
+		var selectedTags = _ref.selectedTags;
+		var selectTag = _ref.selectTag;
+		var removeTag = _ref.removeTag;
+		var clearTags = _ref.clearTags;
 
-	    var canClear = function canClear() {
-	        return searchString || selectedTags.length;
-	    };
+		var canClear = function canClear() {
+			return searchString || selectedTags.length;
+		};
 
-	    return _react2.default.createElement(
-	        'div',
-	        { className: 'indexTags' },
-	        _react2.default.createElement(
-	            'div',
-	            { className: 'searchControls' },
-	            _react2.default.createElement('input', {
-	                value: searchString,
-	                onFocus: onSearchInputFocus,
-	                onChange: function onChange(e) {
-	                    return onSearchInputChange(e.target.value);
-	                },
-	                placeholder: 'start search tags' }),
-	            _react2.default.createElement('span', { className: "clear" + (!canClear() ? " disabled" : ""),
-	                onClick: function onClick() {
-	                    return canClear() ? clearTags() : false;
-	                } })
-	        ),
-	        _react2.default.createElement(
-	            'div',
-	            { className: "tagList" + (!isTagListOpened || !searchString ? " hide" : "") },
-	            selectedTags.length ? _react2.default.createElement(
-	                'ul',
-	                { className: 'selectedTags' },
-	                selectedTags.map(function (entry) {
-	                    return _react2.default.createElement(
-	                        'li',
-	                        { key: entry.id, onClick: function onClick() {
-	                                return removeTag(entry);
-	                            } },
-	                        _react2.default.createElement('span', { className: 'marked' }),
-	                        _react2.default.createElement(
-	                            'span',
-	                            { className: 'tag' },
-	                            entry.name
-	                        )
-	                    );
-	                })
-	            ) : null,
-	            tagsToSelect.length ? _react2.default.createElement(
-	                'ul',
-	                { className: 'tagsToSelect' },
-	                tagsToSelect.map(function (entry) {
-	                    return _react2.default.createElement(
-	                        'li',
-	                        { key: entry.id, onClick: function onClick() {
-	                                return selectTag(entry);
-	                            } },
-	                        _react2.default.createElement(
-	                            'span',
-	                            { className: 'tag' },
-	                            entry.name
-	                        )
-	                    );
-	                })
-	            ) : _react2.default.createElement(
-	                'div',
-	                { className: 'caption' },
-	                'No tags found...'
-	            )
-	        )
-	    );
+		return _react2.default.createElement(
+			'div',
+			{ className: 'indexTags' },
+			_react2.default.createElement(
+				'div',
+				{ className: 'searchControls' },
+				_react2.default.createElement('input', {
+					value: searchString,
+					onFocus: onSearchInputFocus,
+					onChange: function onChange(e) {
+						return onSearchInputChange(e.target.value);
+					},
+					placeholder: 'start search tags' }),
+				_react2.default.createElement('span', {
+					className: "clear" + (!canClear() ? " disabled" : ""),
+					onClick: function onClick() {
+						return canClear() ? clearTags() : false;
+					} }),
+				_react2.default.createElement(
+					'div',
+					{ className: 'searchType' },
+					_react2.default.createElement(
+						'span',
+						{ className: 'caption' },
+						'Tags search type:'
+					),
+					_react2.default.createElement(
+						'span',
+						{
+							className: "option" + (searchType === "union" ? " selected" : ""),
+							onClick: function onClick() {
+								return searchType !== "union" ? changeSearchType("union") : null;
+							} },
+						'union'
+					),
+					_react2.default.createElement(
+						'span',
+						{
+							className: "option" + (searchType === "intersect" ? " selected" : ""),
+							onClick: function onClick() {
+								return searchType !== "intersect" ? changeSearchType("intersect") : null;
+							} },
+						'intersect'
+					)
+				)
+			),
+			_react2.default.createElement(
+				'div',
+				{ className: "tagList" + (!isTagListOpened || !searchString ? " hide" : "") },
+				selectedTags.length ? _react2.default.createElement(
+					'ul',
+					{ className: 'selectedTags' },
+					selectedTags.map(function (entry) {
+						return _react2.default.createElement(
+							'li',
+							{ key: entry.id, onClick: function onClick() {
+									return removeTag(entry);
+								} },
+							_react2.default.createElement('span', { className: 'marked' }),
+							_react2.default.createElement(
+								'span',
+								{ className: 'tag' },
+								entry.name
+							)
+						);
+					})
+				) : null,
+				tagsToSelect.length ? _react2.default.createElement(
+					'ul',
+					{ className: 'tagsToSelect' },
+					tagsToSelect.map(function (entry) {
+						return _react2.default.createElement(
+							'li',
+							{ key: entry.id, onClick: function onClick() {
+									return selectTag(entry);
+								} },
+							_react2.default.createElement(
+								'span',
+								{ className: 'tag' },
+								entry.name
+							)
+						);
+					})
+				) : _react2.default.createElement(
+					'div',
+					{ className: 'caption' },
+					'No tags found...'
+				)
+			)
+		);
 	};
 
 	Tags.propTypes = {
-	    isTagListOpened: _react.PropTypes.bool,
-	    tagsToSelect: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-	        id: _react.PropTypes.number,
-	        name: _react.PropTypes.string
-	    })).isRequired,
-	    selectedTags: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-	        id: _react.PropTypes.number,
-	        name: _react.PropTypes.string
-	    })).isRequired,
-	    searchString: _react.PropTypes.string,
-	    onSearchInputFocus: _react.PropTypes.func.isRequired,
-	    onSearchInputChange: _react.PropTypes.func.isRequired,
-	    selectTag: _react.PropTypes.func.isRequired,
-	    removeTag: _react.PropTypes.func.isRequired,
-	    clearTags: _react.PropTypes.func.isRequired
+		isTagListOpened: _react.PropTypes.bool,
+		tagsToSelect: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+			id: _react.PropTypes.number,
+			name: _react.PropTypes.string
+		})).isRequired,
+		selectedTags: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+			id: _react.PropTypes.number,
+			name: _react.PropTypes.string
+		})).isRequired,
+		searchString: _react.PropTypes.string,
+		searchType: _react.PropTypes.string,
+		changeSearchType: _react.PropTypes.func.isRequired,
+		onSearchInputFocus: _react.PropTypes.func.isRequired,
+		onSearchInputChange: _react.PropTypes.func.isRequired,
+		selectTag: _react.PropTypes.func.isRequired,
+		removeTag: _react.PropTypes.func.isRequired,
+		clearTags: _react.PropTypes.func.isRequired
 	};
 
 	exports.default = Tags;
@@ -18440,6 +18496,7 @@
 	var mapStateToProps = function mapStateToProps(state) {
 		return {
 			searchString: state.index.searchString,
+			searchType: state.index.searchType,
 			isTagListOpened: state.index.isTagListOpened,
 			tagsToSelect: state.index.tagsToSelect,
 			selectedTags: state.index.selectedTags,
@@ -18461,6 +18518,10 @@
 			},
 			onSearchInputChange: function onSearchInputChange(searchString) {
 				dispatch(_index2.default.searchTags(searchString));
+			},
+			changeSearchType: function changeSearchType(newSearchType) {
+				dispatch(_index2.default.changeSearchType(newSearchType));
+				dispatch(_index2.default.getItems());
 			},
 			selectTag: function selectTag(tag) {
 				dispatch(_index2.default.selectTag(tag));
@@ -18889,6 +18950,7 @@
 	var initialState = {
 		isTagListOpened: false,
 		searchString: '',
+		searchType: 'union',
 		tagsToSelect: [],
 		selectedTags: [],
 		searching: false,
@@ -18937,6 +18999,12 @@
 						});
 					}),
 					searchString: action.searchString
+				};
+				break;
+
+			case _types.indexActionTypes.changeSearchType:
+				stateChanges = {
+					searchType: action.searchType
 				};
 				break;
 
