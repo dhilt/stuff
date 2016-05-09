@@ -31,10 +31,10 @@ const Tags = ({isTagListOpened, onSearchInputFocus, onSearchInputChange, searchS
 					</span>
 				</div>
 			</div>
-			<div className={"tagList" + (!isTagListOpened || !searchString ? " hide" : "")}>
+			<div className={"tagList" + (!isTagListOpened || (!searchString && !selectedTags.length) ? " hide" : "")}>
 				{
 					selectedTags.length ? (
-						<ul className="selectedTags">
+						<ul className={"selectedTags" + (tagsToSelect.length || searchString ? " plus" : "")}>
 							{selectedTags.map(entry =>
 								<li key={entry.id} onClick={() => removeTag(entry)}>
 									<span className="marked"></span>
@@ -53,11 +53,7 @@ const Tags = ({isTagListOpened, onSearchInputFocus, onSearchInputChange, searchS
 								</li>
 							 )}
 						</ul>
-					) : (
-						<div className="caption">
-							No tags found...
-						</div>
-					)
+					) : ( searchString ? <div className="caption">No tags found...</div> : (null) )
 				}
 			</div>
 		</div>

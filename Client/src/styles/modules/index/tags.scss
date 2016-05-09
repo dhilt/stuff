@@ -47,6 +47,7 @@
   }
 
   .tagList {
+    margin-top: -28px;
     border: 1px solid #aaa;
     padding: 5px;
     width: $input-width - 8;
@@ -69,11 +70,6 @@
     }
 
     ul.selectedTags {
-      border: 0px dashed #ccc;
-      border-bottom-width: 1px;
-      margin-bottom: 5px;
-      padding-bottom: 5px;
-
       li {
         .marked {
           @include markedBase64();
@@ -91,6 +87,13 @@
           margin-left: 0px;
         }
       }
+    }
+
+    .plus {
+      border: 0px dashed #ccc;
+      border-bottom-width: 1px;
+      margin-bottom: 5px;
+      padding-bottom: 5px;
     }
   }
 }
