@@ -3,13 +3,14 @@ import TagProperty from './entity/Property'
 import Controls from './entity/Controls'
 import ItemTags from '../components/ItemTags'
 
+import i18n from '../utils/i18n'
 require('../styles/modules/item.scss');
 
 const Item = ({original, edited, doLocalChange, cancelLocalChanges, create, update, remove, addNew, searchTagsString, searchTags, foundTags, selectTag, removeTag}) => 
 	original && edited ? (
 	<div className="item">
 		<div className="intro">
-			{ edited.id ? "Here you can change \"" + original.name + "\" item" : "Here you can create a new item" }
+			{ edited.id ? i18n.text('Item.editItemIntro') : i18n.text('Item.newItemIntro') }
 		</div>
 
 		<div className="content">
@@ -23,7 +24,7 @@ const Item = ({original, edited, doLocalChange, cancelLocalChanges, create, upda
 		</div>
 		
 		<Controls original={original} edited={edited} acceptChanges={edited.id ? update : create}
-			cancelChanges={cancelLocalChanges} remove={remove} acceptAndCreate={addNew}/>
+			cancelChanges={cancelLocalChanges} remove={remove} acceptAndCreate={addNew} entityToken="Item"/>
 	</div>
 	) : (null);
 

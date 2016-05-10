@@ -16,6 +16,10 @@ import Item from './containers/Item'
 import Tags from './containers/Tags'
 import Tag from './containers/Tag'
 
+import i18n from './utils/i18n'
+
+i18n.setLang('ru');
+
 const store = createStore(
 	reducer,
 	applyMiddleware(...[

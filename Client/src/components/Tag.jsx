@@ -2,13 +2,14 @@ import React, {PropTypes} from 'react'
 import TagProperty from './entity/Property'
 import Controls from './entity/Controls'
 
+import i18n from '../utils/i18n'
 require('../styles/modules/tag.scss');
 
 const Tag = ({original, edited, doLocalChange, cancelLocalChanges, acceptChanges, create, update, remove}) =>
 	original && edited ? (
 	<div className="tag">
 		<div className="intro">
-			{ edited.id ? "Here you can change \"" + original.name + "\" tag" : "Here you can create a new tag" }
+			{ edited.id ? i18n.text('Tag.editTagIntro') : i18n.text('Tag.newTagIntro') }
 		</div>
 
 		<div className="content">
@@ -19,7 +20,7 @@ const Tag = ({original, edited, doLocalChange, cancelLocalChanges, acceptChanges
 		</div>
 		
 		<Controls original={original} edited={edited} acceptChanges={edited.id ? update : create}
-			cancelChanges={cancelLocalChanges} remove={remove}/>
+			cancelChanges={cancelLocalChanges} remove={remove} entityToken="Tag"/>
 	</div>
 	) : (null);
 

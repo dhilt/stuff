@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
 
+import i18n from '../../utils/i18n'
 require('../../styles/modules/index/items.scss');
 
 const Items = ({hasSelectedTags, searching, items, clickOnItem, justEditedItemId}) => (
@@ -17,11 +18,11 @@ const Items = ({hasSelectedTags, searching, items, clickOnItem, justEditedItemId
 		) : (
 			searching ?
 				<div className="caption">
-					searching...
+					{i18n.text('Index.Items.searching')}
 				</div> : (
 				hasSelectedTags ?
 					<div className="caption">
-						No items found...
+						{i18n.text('Index.Items.notFound')}
 					</div> : (null)
 			)
 		)}

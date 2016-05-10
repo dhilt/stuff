@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
 
+import i18n from '../../utils/i18n'
 require('../../styles/modules/index/tags.scss');
 
 const Tags = ({isTagListOpened, onSearchInputFocus, onSearchInputChange, searchString, searchType, changeSearchType, tagsToSelect, selectedTags, selectTag, removeTag, clearTags}) => {
@@ -12,22 +13,23 @@ const Tags = ({isTagListOpened, onSearchInputFocus, onSearchInputChange, searchS
 					value={searchString}
 					onFocus={onSearchInputFocus}
 					onChange={(e) => onSearchInputChange(e.target.value)}
-					placeholder="start search tags"/>
+					placeholder={i18n.text('Index.Tags.searchInputPlaceholder')}/>
 				<span
 					className={"clear" + (!canClear() ? " disabled" : "")}
 					onClick={ () =>  canClear() ? clearTags() : false }>
 				</span>
 				<div className="searchType">
-					<span className="caption">Tags search type:</span>
+					<span className="caption">{i18n.text('Index.Tags.searchTypeCaption')}</span>
 					<span 
 						className={"option" + (searchType === "union" ? " selected" : "")}
 						onClick={() => searchType !== "union" ? changeSearchType("union") : null}>
-							union
+							{i18n.text('Index.Tags.searchTypeUnion')}
 					</span>
+					<span>{i18n.text('Index.Tags.searchTypeDelimiter')}</span>
 					<span 
 						className={"option" + (searchType === "intersect" ? " selected" : "")}
 						onClick={() => searchType !== "intersect" ? changeSearchType("intersect") : null}>
-							intersect
+							{i18n.text('Index.Tags.searchTypeIntersect')}
 					</span>
 				</div>
 			</div>
@@ -53,7 +55,7 @@ const Tags = ({isTagListOpened, onSearchInputFocus, onSearchInputChange, searchS
 								</li>
 							 )}
 						</ul>
-					) : ( searchString ? <div className="caption">No tags found...</div> : (null) )
+					) : ( searchString ? <div className="caption">{i18n.text('Index.Tags.notFound')}</div> : (null) )
 				}
 			</div>
 		</div>

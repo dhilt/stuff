@@ -2,12 +2,13 @@ import React, {PropTypes} from 'react'
 import TagsWrapper from './index/tagsWrapper'
 import Items from './index/items'
 
+import i18n from '../utils/i18n'
 require('../styles/modules/index.scss');
 
 const Index = ({isTagListOpened, onSearchInputFocus, onOutsideTagsClick, onSearchInputChange, searchString, searchType, changeSearchType, tagsToSelect, selectedTags, selectTag, removeTag, clearTags, searching, items, clickOnItem, justEditedItemId}) => {
 	return (
 		<div className="index">
-			<h3>Stuff Welcome Index</h3>
+			<h3>{i18n.text("Index.title")}</h3>
 			<TagsWrapper
 				isTagListOpened={isTagListOpened}
 				onSearchInputFocus={onSearchInputFocus}

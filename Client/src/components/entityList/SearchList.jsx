@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
 
+import i18n from '../../utils/i18n'
 require('../../styles/modules/tags/searchList.scss');
 
 const SearchList = ({searching, found, onSelect, edited, entityToken}) => (
@@ -17,10 +18,10 @@ const SearchList = ({searching, found, onSelect, edited, entityToken}) => (
 			) : (
 			searching ?
 				<div className="caption">
-					searching {entityToken}...
+					{i18n.text(entityToken + '.searching')}
 				</div> :
 				<div className="caption">
-					No {entityToken} found...
+					{i18n.text(entityToken + '.notFound')}
 				</div>
 			)
 		}
