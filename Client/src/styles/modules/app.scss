@@ -1,3 +1,5 @@
+@import '../variables';
+
 .app {
 	ul.menu {
 		li {
@@ -8,6 +10,29 @@
 			float: none;
 		}
 	}
+
+	ul.languages {
+		font-size: smaller;
+		position: absolute;
+		top: 8px;
+		left: 240px;
+
+		li {
+			cursor: default;
+			float: left;
+			margin-left: 5px;
+			color: #777;
+		}
+
+		li:hover {
+			color: $hover-color;
+		}
+
+		.selected {
+			font-weight: bolder;
+		}
+	}
+
 	.content {
 		margin-top: 15px;
 	}
