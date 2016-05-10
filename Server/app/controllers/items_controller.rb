@@ -30,7 +30,8 @@ class ItemsController < ApplicationController
     unless params[:tags].blank?
       @item.tags = Tag.find params[:tags]
     end
-    @item.id = Item.maximum("id") + 1
+    lastId = Item.maximum('id')
+    @item.id = lastId === nil ? 1 : lastId + 1
     respond_to do |format|
       if @item.save
         format.json { render :show, status: :created, location: @item }

@@ -16,7 +16,8 @@ class TagsController < ApplicationController
   # POST /tags.json
   def create
     @tag = Tag.new(tag_params)
-    @tag.id = Tag.maximum("id") + 1
+    lastId = Tag.maximum('id')
+    @tag.id = lastId === nil ? 1 : lastId + 1
     respond_to do |format|
       if @tag.save
         format.json { render :show, status: :created, location: @tag }
