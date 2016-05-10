@@ -23,9 +23,9 @@
 
     .searchType {
       margin-top: 10px;
+      font-size: smaller;
 
       .caption {
-        font-size: smaller;
         font-style: normal;
       }
 
@@ -33,7 +33,8 @@
         color: $hover-color;
       }
 
-      .option {
+      span {
+        font-size: smaller;
         margin-left: 7px;
         cursor: default;
       }
