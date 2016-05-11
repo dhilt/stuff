@@ -5,6 +5,21 @@
 .app ul.menu li:last-child {
   float: none; }
 
+.app ul.languages {
+  font-size: smaller;
+  position: absolute;
+  top: 8px;
+  left: 240px; }
+  .app ul.languages li {
+    cursor: default;
+    float: left;
+    margin-left: 5px;
+    color: #777; }
+  .app ul.languages li:hover {
+    color: #a00; }
+  .app ul.languages .selected {
+    font-weight: bolder; }
+
 .app .content {
   margin-top: 15px; }
 .indexTags {
