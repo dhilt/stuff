@@ -2,14 +2,14 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import appActions from '../actions/app'
 import NotificationSystem from 'react-notification-system'
-import Popup from '../utils/popup'
+import popup from '../utils/popup'
 import i18n from '../utils/i18n'
 import AppComponent from '../components/App'
 
 class AppWrapper extends React.Component {
 	
 	componentDidMount() {
-		Popup.initialize(this, 'notificationSystem');
+		popup.initialize(this, 'notificationSystem', () => this.props.i18n);
 	}
 
 	render() {

@@ -1,5 +1,5 @@
 import {browserHistory} from 'react-router'
-import Popup from '../utils/popup'
+import popup from '../utils/popup'
 
 function changeRoute(globalState, localState) {
 	if (globalState.hasHistory) {
@@ -54,12 +54,12 @@ export default function getCommonActions(actionTypes, api, tokens) {
 		create(success) {
 			return (dispatch, getState) => {
 				let edited = getState()[tokens.state].edited;
-				if (tokens.entity === 'item') {
+				if (tokens.entity === 'Item') {
 					edited = Object.assign({}, edited, {tags: edited.tags.map(t => t.id)});
 				}
 				api.create(edited, result => {
-					Popup.show({
-						message: 'Record was successfully created.',
+					popup.show({
+						messageToken: tokens.entity + '.actions.created',
 						level: 'success'
 					});
 					if (success) {
@@ -79,12 +79,12 @@ export default function getCommonActions(actionTypes, api, tokens) {
 		update() {
 			return (dispatch, getState) => {
 				let edited = getState()[tokens.state].edited;
-				if (tokens.entity === 'item') {
+				if (tokens.entity === 'Item') {
 					edited = Object.assign({}, edited, {tags: edited.tags.map(t => t.id)});
 				}
 				api.update(edited, result => {
-					Popup.show({
-						message: 'Record was successfully updated.',
+					popup.show({
+						messageToken: tokens.entity + '.actions.updated',
 						level: 'success'
 					});
 					result.tags = null;
@@ -100,8 +100,8 @@ export default function getCommonActions(actionTypes, api, tokens) {
 		delete() {
 			return (dispatch, getState) =>
 				api.delete(getState()[tokens.state].edited.id, result => {
-					Popup.show({
-						message: 'Record was successfully deleted.',
+					popup.show({
+						messageToken: tokens.entity + '.actions.removed',
 						level: 'success'
 					});
 					dispatch({

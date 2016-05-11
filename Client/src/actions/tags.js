@@ -2,7 +2,7 @@ import {tagsActionTypes} from './_types'
 import apiTags from './../api/tags'
 import getCommonActions from './common'
 
-export default Object.assign({}, getCommonActions(tagsActionTypes, apiTags, {state: 'tags', entity: 'tag'}), {
+export default Object.assign({}, getCommonActions(tagsActionTypes, apiTags, {state: 'tags', entity: 'Tag'}), {
 	getAll: () => {
 		return (dispatch) => {
 			apiTags.getAll(tags =>

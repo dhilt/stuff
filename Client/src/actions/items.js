@@ -2,7 +2,7 @@ import {itemsActionTypes} from './_types'
 import apiItems from './../api/items'
 import getCommonActions from './common'
 
-export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {state: 'items', entity: 'item'}), {
+export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {state: 'items', entity: 'Item'}), {
 
 	select: (selected) => {
 		return (dispatch, getState) => {

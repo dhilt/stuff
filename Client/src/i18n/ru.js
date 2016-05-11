@@ -45,6 +45,11 @@ export default {
 			acceptAndCreate: 'Сохранить+',
 			remove: 'Удалить',
 			cancel: 'Отменить'
+		},
+		actions: {
+			created: 'Предмет благополучно создан.',
+			updated: 'Предмет отредактирован.',
+			removed: 'Предмет благополучно удален.'
 		}
 	},
 	Tag: {
@@ -54,6 +59,11 @@ export default {
 			accept: 'Сохранить',
 			remove: 'Удалить',
 			cancel: 'Отменить'
+		},
+		actions: {
+			created: 'Тег благополучно создан.',
+			updated: 'Тег отредактирован.',
+			removed: 'Тег благополучно удален.'
 		}
 	}
 }

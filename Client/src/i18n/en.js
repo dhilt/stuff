@@ -45,6 +45,11 @@ export default {
 			acceptAndCreate: 'Add+',
 			remove: 'Delete',
 			cancel: 'Cancel'
+		},
+		actions: {
+			created: 'Item was successfully created',
+			updated: 'Item was successfully updated.',
+			removed: 'Item was successfully removed.'
 		}
 	},
 	Tag: {
@@ -54,6 +59,11 @@ export default {
 			accept: 'Accept',
 			remove: 'Delete',
 			cancel: 'Cancel'
+		},
+		actions: {
+			created: 'Tag was successfully created.',
+			updated: 'Tag was successfully updated.',
+			removed: 'Tag was successfully removed.'
 		}
 	}
 }
