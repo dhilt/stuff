@@ -7,7 +7,7 @@ const Property = ({property, type, original, edited, doChange}) => {
 	let canRevert = () => {
 		return edited.id && edited[property] !== original[property];
 	};
-	
+
 	let pasteInputElement = () => {
 		switch (type) {
 			case "textarea":
@@ -27,7 +27,7 @@ const Property = ({property, type, original, edited, doChange}) => {
 			{pasteInputElement()}
 
 			<span className={"revert" + (!canRevert() ? " disabled" : "")}
-				onClick={ () =>  canRevert() ? doChange({ [property]: original[property] }) : false }>
+						onClick={ () =>  canRevert() ? doChange({ [property]: original[property] }) : false }>
 			</span>
 		</div>
 	);

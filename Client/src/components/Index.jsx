@@ -2,14 +2,14 @@ import React, {PropTypes} from 'react'
 import TagsWrapper from './index/tagsWrapper'
 import Items from './index/items'
 
-import i18n from '../utils/i18n'
 require('../styles/modules/index.scss');
 
-const Index = ({isTagListOpened, onSearchInputFocus, onOutsideTagsClick, onSearchInputChange, searchString, searchType, changeSearchType, tagsToSelect, selectedTags, selectTag, removeTag, clearTags, searching, items, clickOnItem, justEditedItemId}) => {
+const Index = ({i18n, isTagListOpened, onSearchInputFocus, onOutsideTagsClick, onSearchInputChange, searchString, searchType, changeSearchType, tagsToSelect, selectedTags, selectTag, removeTag, clearTags, searching, items, clickOnItem, justEditedItemId}) => {
 	return (
 		<div className="index">
-			<h3>{i18n.text("Index.title")}</h3>
+			<h3>{i18n("Index.title")}</h3>
 			<TagsWrapper
+				i18n={i18n}
 				isTagListOpened={isTagListOpened}
 				onSearchInputFocus={onSearchInputFocus}
 				onOutsideTagsClick={onOutsideTagsClick}
@@ -21,12 +21,12 @@ const Index = ({isTagListOpened, onSearchInputFocus, onOutsideTagsClick, onSearc
 				selectedTags={selectedTags}
 				selectTag={selectTag}
 				removeTag={removeTag}
-				clearTags={clearTags}
-			/>
-			<Items 
-				hasSelectedTags={!!selectedTags.length} 
+				clearTags={clearTags}/>
+			<Items
+				i18n={i18n}
+				hasSelectedTags={!!selectedTags.length}
 				searching={searching}
-				items={items} 
+				items={items}
 				clickOnItem={clickOnItem}
 				justEditedItemId={justEditedItemId}/>
 		</div>
@@ -34,6 +34,7 @@ const Index = ({isTagListOpened, onSearchInputFocus, onOutsideTagsClick, onSearc
 };
 
 Index.propTypes = {
+	i18n: PropTypes.func.isRequired,
 	isTagListOpened: PropTypes.bool,
 	tagsToSelect: PropTypes.arrayOf(PropTypes.shape({
 		id: PropTypes.number,
@@ -45,7 +46,7 @@ Index.propTypes = {
 	})).isRequired,
 	searchString: PropTypes.string,
 	searchType: PropTypes.string,
-    changeSearchType: PropTypes.func.isRequired,
+	changeSearchType: PropTypes.func.isRequired,
 	onSearchInputFocus: PropTypes.func.isRequired,
 	onOutsideTagsClick: PropTypes.func.isRequired,
 	onSearchInputChange: PropTypes.func.isRequired,

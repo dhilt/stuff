@@ -1,9 +1,8 @@
 import React, {PropTypes} from 'react'
 
-import i18n from '../../utils/i18n'
 require('../../styles/modules/index/tags.scss');
 
-const Tags = ({isTagListOpened, onSearchInputFocus, onSearchInputChange, searchString, searchType, changeSearchType, tagsToSelect, selectedTags, selectTag, removeTag, clearTags}) => {
+const Tags = ({i18n, isTagListOpened, onSearchInputFocus, onSearchInputChange, searchString, searchType, changeSearchType, tagsToSelect, selectedTags, selectTag, removeTag, clearTags}) => {
 	let canClear = () => searchString || selectedTags.length;
 
 	return (
@@ -13,23 +12,23 @@ const Tags = ({isTagListOpened, onSearchInputFocus, onSearchInputChange, searchS
 					value={searchString}
 					onFocus={onSearchInputFocus}
 					onChange={(e) => onSearchInputChange(e.target.value)}
-					placeholder={i18n.text('Index.Tags.searchInputPlaceholder')}/>
+					placeholder={i18n('Index.Tags.searchInputPlaceholder')}/>
 				<span
 					className={"clear" + (!canClear() ? " disabled" : "")}
 					onClick={ () =>  canClear() ? clearTags() : false }>
 				</span>
 				<div className="searchType">
-					<span className="caption">{i18n.text('Index.Tags.searchTypeCaption')}</span>
+					<span className="caption">{i18n('Index.Tags.searchTypeCaption')}</span>
 					<span 
 						className={"option" + (searchType === "union" ? " selected" : "")}
 						onClick={() => searchType !== "union" ? changeSearchType("union") : null}>
-							{i18n.text('Index.Tags.searchTypeUnion')}
+							{i18n('Index.Tags.searchTypeUnion')}
 					</span>
-					<span>{i18n.text('Index.Tags.searchTypeDelimiter')}</span>
+					<span>{i18n('Index.Tags.searchTypeDelimiter')}</span>
 					<span 
 						className={"option" + (searchType === "intersect" ? " selected" : "")}
 						onClick={() => searchType !== "intersect" ? changeSearchType("intersect") : null}>
-							{i18n.text('Index.Tags.searchTypeIntersect')}
+							{i18n('Index.Tags.searchTypeIntersect')}
 					</span>
 				</div>
 			</div>
@@ -55,7 +54,7 @@ const Tags = ({isTagListOpened, onSearchInputFocus, onSearchInputChange, searchS
 								</li>
 							 )}
 						</ul>
-					) : ( searchString ? <div className="caption">{i18n.text('Index.Tags.notFound')}</div> : (null) )
+					) : ( searchString ? <div className="caption">{i18n('Index.Tags.notFound')}</div> : (null) )
 				}
 			</div>
 		</div>
@@ -63,6 +62,7 @@ const Tags = ({isTagListOpened, onSearchInputFocus, onSearchInputChange, searchS
 };
 
 Tags.propTypes = {
+	i18n: PropTypes.func.isRequired,
 	isTagListOpened: PropTypes.bool,
 	tagsToSelect: PropTypes.arrayOf(PropTypes.shape({
 		id: PropTypes.number,

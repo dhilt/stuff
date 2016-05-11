@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 
-import i18n from '../../utils/i18n'
 require('../../styles/modules/common/controls.scss');
 
 let canAccept = (src, target) => {
@@ -23,22 +22,25 @@ let canAccept = (src, target) => {
 	return false;
 };
 
-const Controls = ({original, edited, cancelChanges, acceptChanges, remove, acceptAndCreate, entityToken}) => (
+const Controls = ({i18n, original, edited, cancelChanges, acceptChanges, remove, acceptAndCreate, entityToken}) => (
 	<div className="controls">
-		<button disabled={!canAccept(original, edited)} onClick={acceptChanges}>{i18n.text(entityToken + '.Controls.accept')}</button>
+		<button disabled={!canAccept(original, edited)}
+						onClick={acceptChanges}>{i18n(entityToken + '.Controls.accept')}</button>
 		{
 			edited.id ?
-				<button onClick={remove}>{i18n.text(entityToken + '.Controls.remove')}</button> : (
-				acceptAndCreate ?
-					<button onClick={acceptAndCreate}
-							disabled={!canAccept(original, edited)}>{i18n.text(entityToken + '.Controls.acceptAndCreate')}</button> : (null)
-			)
+				<button onClick={remove}>{i18n(entityToken + '.Controls.remove')}</button> : (
+					acceptAndCreate ?
+						<button onClick={acceptAndCreate}
+										disabled={!canAccept(original, edited)}>{i18n(entityToken + '.Controls.acceptAndCreate')}</button> :
+						(null)
+				)
 		}
-		<button onClick={cancelChanges}>{i18n.text(entityToken + '.Controls.cancel')}</button>
+		<button onClick={cancelChanges}>{i18n(entityToken + '.Controls.cancel')}</button>
 	</div>
 );
 
 Controls.propTypes = {
+	i18n: PropTypes.func.isRequired,
 	original: PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string,

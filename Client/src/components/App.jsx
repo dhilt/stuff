@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react'
-
 import Menu from './app/Menu'
 import Languages from './app/Languages'
 

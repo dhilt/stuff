@@ -27,6 +27,6 @@ export default function tags(state = initialState, action) {
 			};
 			break;
 	}
-
+	
 	return Object.assign({}, state, stateChanges);
 }

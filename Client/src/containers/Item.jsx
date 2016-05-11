@@ -1,11 +1,12 @@
 import React, {Component, PropTypes} from 'react'
-import {browserHistory} from 'react-router'
 import {connect} from 'react-redux'
+import i18n from '../utils/i18n'
 import itemsActions from './../actions/items'
 import ItemComponent from './../components/Item'
 
 const mapStateToProps = (state) => {
 	return {
+		i18n: (token) => i18n(state, token),
 		original: state.items.origin,
 		edited: state.items.edited,
 		searchTagsString: state.items.searchTagsString,

@@ -3,32 +3,36 @@ import TagProperty from './entity/Property'
 import Controls from './entity/Controls'
 import ItemTags from '../components/ItemTags'
 
-import i18n from '../utils/i18n'
 require('../styles/modules/item.scss');
 
-const Item = ({original, edited, doLocalChange, cancelLocalChanges, create, update, remove, addNew, searchTagsString, searchTags, foundTags, selectTag, removeTag}) => 
+const Item = ({i18n, original, edited, doLocalChange, cancelLocalChanges, create, update, remove, addNew, searchTagsString, searchTags, foundTags, selectTag, removeTag}) =>
 	original && edited ? (
-	<div className="item">
-		<div className="intro">
-			{ edited.id ? i18n.text('Item.editItemIntro') : i18n.text('Item.newItemIntro') }
-		</div>
+		<div className="item">
+			<div className="intro">
+				{ edited.id ? i18n('Item.editItemIntro') : i18n('Item.newItemIntro') }
+			</div>
 
-		<div className="content">
-			<TagProperty property="name" type="input"
-				original={original} edited={edited} doChange={doLocalChange}/>
-			<TagProperty property="description" type="textarea"
-				original={original} edited={edited} doChange={doLocalChange}/>
+			<div className="content">
+				<TagProperty property="name" type="input"
+										 original={original} edited={edited} doChange={doLocalChange}/>
+				<TagProperty property="description" type="textarea"
+										 original={original} edited={edited} doChange={doLocalChange}/>
 
-			<ItemTags selected={edited.tags} searchString={searchTagsString} onSearchInputChange={searchTags}
-				found={foundTags} onSelect={selectTag} onRemove={removeTag}/>
+				<ItemTags i18n={i18n} searchString={searchTagsString} found={foundTags} selected={edited.tags}
+									onSearchInputChange={searchTags} onSelect={selectTag} onRemove={removeTag}/>
+			</div>
+
+			<Controls i18n={i18n} entityToken="Item"
+								original={original} edited={edited}
+								acceptChanges={edited.id ? update : create}
+								acceptAndCreate={addNew}
+								remove={remove}
+								cancelChanges={cancelLocalChanges}/>
 		</div>
-		
-		<Controls original={original} edited={edited} acceptChanges={edited.id ? update : create}
-			cancelChanges={cancelLocalChanges} remove={remove} acceptAndCreate={addNew} entityToken="Item"/>
-	</div>
 	) : (null);
 
 Item.propTypes = {
+	i18n: PropTypes.func.isRequired,
 	original: PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string,

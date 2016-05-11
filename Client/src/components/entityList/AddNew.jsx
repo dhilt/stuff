@@ -2,8 +2,8 @@ import React, {PropTypes} from 'react'
 
 const AddNew = ({onClick, disabled}) => (
 	<button className="addNew"
-		onClick={onClick}
-		disabled={!!disabled}> +
+					onClick={onClick}
+					disabled={!!disabled}> +
 	</button>
 );
 

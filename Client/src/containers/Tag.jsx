@@ -1,11 +1,12 @@
 import React, {Component, PropTypes} from 'react'
-import {browserHistory} from 'react-router'
 import {connect} from 'react-redux'
+import i18n from '../utils/i18n'
 import tagsActions from './../actions/tags'
 import TagComponent from './../components/Tag'
 
 const mapStateToProps = (state) => {
 	return {
+		i18n: (token) => i18n(state, token),
 		original: state.tags.origin,
 		edited: state.tags.edited
 	}
@@ -17,7 +18,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(tagsActions.change(tag));
 		},
 		cancelLocalChanges: () => {
-			dispatch(tagsActions.cancelChanges()); 
+			dispatch(tagsActions.cancelChanges());
 		},
 		create: () => {
 			dispatch(tagsActions.create());

@@ -1,9 +1,8 @@
 import React, {PropTypes} from 'react'
 
-import i18n from '../../utils/i18n'
 require('../../styles/modules/tags/searchList.scss');
 
-const SearchList = ({searching, found, onSelect, edited, entityToken}) => (
+const SearchList = ({i18n, searching, found, onSelect, edited, entityToken}) => (
 	<div className="searchList">
 		{ found.length ? (
 			<ul>
@@ -15,20 +14,21 @@ const SearchList = ({searching, found, onSelect, edited, entityToken}) => (
 					</li>
 				)}
 			</ul>
-			) : (
+		) : (
 			searching ?
 				<div className="caption">
-					{i18n.text(entityToken + '.searching')}
+					{i18n(entityToken + '.searching')}
 				</div> :
 				<div className="caption">
-					{i18n.text(entityToken + '.notFound')}
+					{i18n(entityToken + '.notFound')}
 				</div>
-			)
+		)
 		}
 	</div>
 );
 
 SearchList.propTypes = {
+	i18n: PropTypes.func.isRequired,
 	searching: PropTypes.bool,
 	found: PropTypes.arrayOf(PropTypes.shape({
 		id: PropTypes.number,

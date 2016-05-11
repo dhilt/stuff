@@ -2,13 +2,12 @@ import React, {PropTypes} from 'react'
 import SearchInput from './entityList/SearchInput'
 import SearchList from './entityList/SearchList'
 
-import i18n from '../utils/i18n'
 require('../styles/modules/itemTags.scss');
 
-const ItemTags = ({selected, searchString, onSearchInputChange, found, onSelect, onRemove}) => (
+const ItemTags = ({i18n, selected, searchString, onSearchInputChange, found, onSelect, onRemove}) => (
 	<div className="itemTags">
 
-		<div>{i18n.text('Item.Tags.title')}</div>
+		<div>{i18n('Item.Tags.title')}</div>
 		<div className="tagList">
 			{
 				selected.length ?
@@ -20,18 +19,18 @@ const ItemTags = ({selected, searchString, onSearchInputChange, found, onSelect,
 							</li>
 						)}
 					</ul> :
-					<div className="caption">{i18n.text('Item.Tags.noTags')}</div>
+					<div className="caption">{i18n('Item.Tags.noTags')}</div>
 			}
 		</div>
 
 		<div className="tagsSearchControls">
-			<SearchInput searchString={searchString} onChange={onSearchInputChange} entityToken="Tags"/>
+			<SearchInput i18n={i18n} entityToken="Tags" searchString={searchString} onChange={onSearchInputChange}/>
 		</div>
-		
+
 		<div className="tagsSearchList">
 			{
 				searchString ?
-					<SearchList searching={false} found={found} onSelect={onSelect} entityToken="Tags"/> :
+					<SearchList i18n={i18n} entityToken="Tags" searching={false} found={found} onSelect={onSelect}/> :
 					(null)
 			}
 		</div>
@@ -39,6 +38,7 @@ const ItemTags = ({selected, searchString, onSearchInputChange, found, onSelect,
 );
 
 ItemTags.propTypes = {
+	i18n: PropTypes.func.isRequired,
 	selected: PropTypes.arrayOf(PropTypes.shape({
 		id: PropTypes.number,
 		name: PropTypes.string,

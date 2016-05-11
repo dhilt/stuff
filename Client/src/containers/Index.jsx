@@ -1,12 +1,14 @@
 import React, {Component, PropTypes} from 'react'
 import {browserHistory} from 'react-router'
 import {connect} from 'react-redux'
+import i18n from '../utils/i18n'
 import indexActions from './../actions/index'
 import itemsActions from './../actions/items'
 import IndexComponent from './../components/Index'
 
 const mapStateToProps = (state) => {
 	return {
+		i18n: (token) => i18n(state, token),
 		searchString: state.index.searchString,
 		searchType: state.index.searchType,
 		isTagListOpened: state.index.isTagListOpened,

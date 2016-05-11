@@ -1,9 +1,8 @@
 import React, {PropTypes} from 'react'
 
-import i18n from '../../utils/i18n'
 require('../../styles/modules/index/items.scss');
 
-const Items = ({hasSelectedTags, searching, items, clickOnItem, justEditedItemId}) => (
+const Items = ({i18n, hasSelectedTags, searching, items, clickOnItem, justEditedItemId}) => (
 	<div className="items">
 		{ items.length ? (
 			<ul>
@@ -18,11 +17,11 @@ const Items = ({hasSelectedTags, searching, items, clickOnItem, justEditedItemId
 		) : (
 			searching ?
 				<div className="caption">
-					{i18n.text('Index.Items.searching')}
+					{i18n('Index.Items.searching')}
 				</div> : (
 				hasSelectedTags ?
 					<div className="caption">
-						{i18n.text('Index.Items.notFound')}
+						{i18n('Index.Items.notFound')}
 					</div> : (null)
 			)
 		)}
@@ -30,6 +29,7 @@ const Items = ({hasSelectedTags, searching, items, clickOnItem, justEditedItemId
 );
 
 Items.propTypes = {
+	i18n: PropTypes.func.isRequired,
 	hasSelectedTags: PropTypes.bool,
 	searching: PropTypes.bool,
 	items: PropTypes.arrayOf(PropTypes.shape({

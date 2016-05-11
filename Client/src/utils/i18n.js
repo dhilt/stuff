@@ -1,37 +1,28 @@
-import en from '../i18n/en'
-import ru from '../i18n/ru'
+let defaultLang = null;
 
-const languages = [
-	{token: 'en', translations: en},
-	{token: 'ru', translations: ru}
-];
-const findLang = (langToken) => languages.find(lang => lang.token === langToken);
-const defaultLang = findLang('en');
-
-class I18n {
-	constructor(langToken) {
-		this.setLang(langToken);
+function getDefaultLang(state) {
+	if (!defaultLang) {
+		defaultLang = state.app.languages.find(lang => lang.token === state.app.defaultLangToken);
 	}
-
-	getAllLanguages() {
-		return languages;
-	}
-
-	setLang(langToken) {
-		this.lang = findLang(langToken) || defaultLang;
-	}
-
-	getLangToken() {
-		return this.lang.token;
-	}
-
-	text(token) {
-		let result = null;
-		token.split('.').forEach(t => result = result ? result[t] : this.lang.translations[t]);
-		return result;
-	}
+	return defaultLang;
 }
 
-const i18n = new I18n();
+function translate(state, lang, token) {
+	let result = null;
+	let tokenItems = token.split('.');
+	for (let i = 0; i < tokenItems.length; i++) {
+		let tokenItem = tokenItems[i];
+		result = result ? result[tokenItem] : lang.translations[tokenItem];
+		if (result === undefined) {
+			if (lang.token !== state.app.defaultLangToken) {
+				return translate(state, getDefaultLang(state), token);
+			}
+			return tokenItems.join('-');
+		}
+	}
+	return result;
+}
 
-export default i18n;
+export default function i18n(state, token) {
+	return translate(state, state.app.lang, token);
+};

@@ -3,26 +3,26 @@ import SearchInput from './entityList/SearchInput'
 import AddNew from './entityList/AddNew'
 import SearchList from './entityList/SearchList'
 
-import i18n from '../utils/i18n'
 require('../styles/modules/tags.scss');
 
-const Tags = ({searching, foundTags, onSearchInputChange, searchString, canAddNew, onAddNewTagClick, onSelectTag, justEditedId}) => (
+const Tags = ({i18n, searching, foundTags, onSearchInputChange, searchString, canAddNew, onAddNewTagClick, onSelectTag, justEditedId}) => (
 	<div className="tags">
-		<h3>{i18n.text('Tags.title')}</h3>
+		<h3>{i18n('Tags.title')}</h3>
 		<div className="searchControls">
-			<SearchInput searchString={searchString} onChange={onSearchInputChange} entityToken="Tags"/>
+			<SearchInput i18n={i18n} entityToken="Tags" searchString={searchString} onChange={onSearchInputChange}/>
 			<AddNew onClick={() => onAddNewTagClick(searchString)} disabled={!canAddNew}/>
 		</div>
 		{
 			searchString ?
-				<SearchList searching={searching} found={foundTags} onSelect={onSelectTag} 
-					edited={justEditedId} entityToken="Tags"/> :
+				<SearchList i18n={i18n} entityToken="Tags"
+										searching={searching} found={foundTags} onSelect={onSelectTag} edited={justEditedId}/> :
 				(null)
 		}
 	</div>
 );
 
 Tags.propTypes = {
+	i18n: PropTypes.func.isRequired,
 	searching: PropTypes.bool,
 	foundTags: PropTypes.arrayOf(PropTypes.shape({
 		id: PropTypes.number,
