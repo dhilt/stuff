@@ -7,9 +7,10 @@ import {syncHistoryWithStore} from 'react-router-redux'
 import logger from 'redux-logger'
 import thunk from 'redux-thunk'
 import reducer from './reducers/reducers'
+import appActions from './actions/app'
 import tagsActions from './actions/tags'
 
-import App from './components/App'
+import App from './containers/App'
 import Index from './containers/Index'
 import Items from './containers/Items'
 import Item from './containers/Item'
@@ -29,6 +30,7 @@ const store = createStore(
 );
 const history = syncHistoryWithStore(browserHistory, store);
 
+store.dispatch(appActions.loadAllLanguages());
 store.dispatch(tagsActions.getAll());
 
 require('./styles/index.scss');

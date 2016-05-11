@@ -1,51 +1,30 @@
-import React from 'react'
-import {Link} from 'react-router'
-import NotificationSystem from 'react-notification-system'
-import Popup from '../utils/popup'
+import React, {PropTypes} from 'react'
 
-import i18n from '../utils/i18n'
+import Menu from './app/Menu'
+import Languages from './app/Languages'
+
 require('../styles/modules/app.scss');
 
-class App extends React.Component {
+const App = ({i18n, languages, lang, selectLang}) => {
+	return (
+		<div>
+			<Menu i18n={i18n}/>
+			<Languages languages={languages} lang={lang} selectLang={selectLang}/>
+		</div>
+	);
+};
 
-	componentDidMount() {
-		Popup.initialize(this, "notificationSystem");
-	}
-
-	render() {
-		return (
-			<div className="app">
-
-				<NotificationSystem ref="notificationSystem"/>
-
-				<ul className="menu">
-					<li><Link to="/">{i18n.text("App.mainMenu.index")}</Link></li>
-					<li><Link to="/items">{i18n.text("App.mainMenu.items")}</Link></li>
-					<li><Link to="/tags">{i18n.text("App.mainMenu.tags")}</Link></li>
-				</ul>
-
-				<ul className="languages">
-					{i18n.getAllLanguages().map(lang =>
-						<li key={lang.token}
-							className={i18n.getLangToken() === lang.token ? "selected" : ""}
-							onClick={() => {
-								if(i18n.getLangToken() !== lang.token) {
-									i18n.setLang(lang.token);
-									this.forceUpdate();
-								}
-							}}>
-								{lang.token}
-						</li>
-					)}
-				</ul>
-
-				<div className="content">
-					{this.props.children}
-				</div>
-
-			</div>
-		)
-	}
-}
+App.propTypes = {
+	i18n: PropTypes.func.isRequired,
+	languages: PropTypes.arrayOf(PropTypes.shape({
+		token: PropTypes.string.isRequired,
+		translations: PropTypes.object.isRequired
+	})).isRequired,
+	lang: PropTypes.shape({
+		token: PropTypes.string.isRequired,
+		translations: PropTypes.object.isRequired
+	}).isRequired,
+	selectLang: PropTypes.func.isRequired
+};
 
 export default App;

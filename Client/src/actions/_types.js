@@ -1,3 +1,9 @@
+export let appActionTypes = {
+	receiveAllLanguages: 'APP_RECEIVE_ALL_LANGUAGES',
+	loadLanguage: 'APP_LOAD_LANGUAGE',
+	selectLanguage: 'APP_SELECT_LANGUAGE'
+};
+
 export let indexActionTypes = {
 	openTagList: 'OPEN_INDEX_TAG_LIST',
 	closeTagList: 'CLOSE_INDEX_TAG_LIST',

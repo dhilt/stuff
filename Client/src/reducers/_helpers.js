@@ -1,5 +1,9 @@
 export default {
 
+	findLang(languages, langToken) {
+		return languages.find(lang => lang.token === langToken);
+	},
+
 	canAddNewRecord(nameStr, found) {
 		return !!nameStr && !found.find(t => t.name.toLowerCase() === nameStr.toLowerCase());
 	},
