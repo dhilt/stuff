@@ -7,6 +7,9 @@ export default {
 		},
 		authDialog: {
 			title: '302 Требуется авторизация',
+			loginPlaceholder: 'логин',
+			passwordPlaceholder: 'пароль',
+			send: 'Авторизоваться',
 			close: 'Закрыть'
 		}
 	},

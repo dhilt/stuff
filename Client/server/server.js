@@ -24,6 +24,20 @@ app.get("/tags", function (req, res) {
 	res.sendFile(__dirname + '/dist/index.html');
 });
 
+//-------login-------//
+
+app.post("/api/login", function (req, res) {
+	var login = req.body.login;
+	var password = req.body.password;
+	console.log('------auth----------');
+	console.log(login + '/' + password);
+	if(password === '1' && login === '1') {
+		res.send({ok: true});
+	}
+	res.statusCode = 302;
+	res.end();
+});
+
 //-------index-------//
 
 app.post("/api/index", function (req, res) {
@@ -50,7 +64,10 @@ app.post("/api/index", function (req, res) {
 //-------tags-------//
 
 app.get("/api/tags", function (req, res) {
-	res.send(mockData.tags);
+	console.log('==============================');
+	res.statusCode = 302;
+	res.end();
+	//res.send(mockData.tags);
 });
 
 app.post("/api/tags", function (req, res) {

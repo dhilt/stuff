@@ -1,25 +1,23 @@
 class SessionsController < ApplicationController
 
-  def new
-  end
-
   def create
-    user = User.find_by_email(params[:email])
-    # If the user exists AND the password entered is correct.
+    user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
-      # Save the user id inside the browser cookie. This is how we keep the user 
-      # logged in when they navigate around our website.
-      session[:user_id] = user.id
-      redirect_to '/'
+      self.current_user = user
+      render(
+          json: SessionSerializer.new(user, root: false).to_json,
+          status: 201
+      )
     else
-    # If user's login doesn't work, send them back to the login form.
-      redirect_to '/login'
+      render(
+          status: 401
+      )
     end
   end
 
-  def destroy
-    session[:user_id] = nil
-    redirect_to '/login'
+  private
+  def create_params
+    params.require(:user).permit(:email, :password)
   end
 
 end

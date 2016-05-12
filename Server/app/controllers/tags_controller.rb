@@ -1,6 +1,6 @@
 class TagsController < ApplicationController
 
-  before_filter :authorize
+  before_filter :authenticate
 
   # GET /tags
   # GET /tags.json

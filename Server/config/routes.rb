@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   scope :api do 
     resources :items
     resources :tags
+    resources :users, only: [:index, :create, :show, :update, :destroy]
     post 'index' => 'index#items'
+    post 'login' => 'auth#login'
   end
 end

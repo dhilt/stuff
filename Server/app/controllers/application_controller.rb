@@ -1,16 +1,27 @@
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
+
   protect_from_forgery with: :null_session
 
-  def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
-  end
-  helper_method :current_user
-
-  def authorize
-    respond_to do |format|
-      format.json { render plain: 'Unauthorized request.', status: :found }
+  protected
+  def authenticate
+    if cookies[:auth].blank?
+      render json: { error: 'Bad credentials' }, status: 302
+    else
+      User.find_by(auth_token: token)
     end
   end
+
+  def authenticate_user!
+    token, options = ActionController::HttpAuthentication::Token.token_and_options(request)
+
+    user_email = options.blank?? nil : options[:email]
+    user = user_email && User.find_by(email: user_email)
+
+    if user && ActiveSupport::SecurityUtils.secure_compare(user.authentication_token, token)
+      @current_user = user
+    else
+      render json: { error: 'Bad credentials' }, status: 401
+    end
+  end
+
 end
