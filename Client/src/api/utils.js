@@ -1,3 +1,5 @@
+import auth from '../utils/auth'
+
 export function generateApiData(method, payload) {
 	return {
 		method: method,
@@ -9,13 +11,17 @@ export function generateApiData(method, payload) {
 	};
 }
 
-export function myFetch (url, success, fail = () => null, data = null) {
+export function myFetch(url, success, fail = () => null, data = null) {
 	let args = data ? [url, data] : [url];
 
 	let fetchResult = fetch.apply(null, args);
 
 	return fetchResult
 		.then(result => {
+			if (result.status === 302) {
+				auth.show();
+				return Promise.reject(result.text());
+			}
 			if (result.status === 400) {
 				return Promise.reject(result.text());
 			}
@@ -35,9 +41,10 @@ export function myFetch (url, success, fail = () => null, data = null) {
 					fail(error);
 					return Promise.reject(error);
 				});
-			});
+			})
+		.catch( e => console.log(e));
 }
 
-export function myDataFetch (url, data, success, fail) {
+export function myDataFetch(url, data, success, fail) {
 	return myFetch(url, success, fail, data);
 }
