@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def authorize
-    redirect_to '/login' unless current_user
+    respond_to do |format|
+      format.json { render plain: 'Unauthorized request.', status: :found }
+    end
   end
 end
