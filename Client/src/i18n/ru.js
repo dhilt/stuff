@@ -4,6 +4,10 @@ export default {
 			index: 'Главная',
 			items: 'Предметы',
 			tags: 'Теги'
+		},
+		authDialog: {
+			title: '302 Требуется авторизация',
+			close: 'Закрыть'
 		}
 	},
 	Index: {

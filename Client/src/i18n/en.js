@@ -4,6 +4,10 @@ export default {
 			index: 'Index',
 			items: 'Items',
 			tags: 'Tags'
+		},
+		authDialog: {
+			title: '302 Authorization is needed',
+			close: 'Close'
 		}
 	},
 	Index: {

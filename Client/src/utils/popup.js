@@ -8,7 +8,7 @@ function checkPopupInitParams(context, ref, get_i18n) {
 	if (!context.refs[ref]) {
 		throw('utils/popup: can\'t access popup container reference on the app context');
 	}
-	if (typeof context.refs[ref].addNotificationMethod !== 'function') {
+	if (typeof context.refs[ref].addNotification !== 'function') {
 		throw('utils/popup: can\'t obtain addNotification method');
 	}
 	if (typeof get_i18n !== 'function') {
