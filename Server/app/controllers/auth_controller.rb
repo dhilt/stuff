@@ -11,7 +11,23 @@ class AuthController < ApplicationController
           return
         end
       end
-      render json: { error: 'Bad credentials' }, status: :unauthorized
+      render plain: 'Bad credentials', status: :bad_request
+  end
+
+  # Get /logout
+  def logout
+    token = get_bearer_token
+    unless token.blank?
+      @user = User.find_by(token: token)
+      if @user
+        @user.update(token: nil)
+        render json: { ok: true }, status: :ok
+      else
+        render plain: 'User not found', status: :bad_request
+      end
+    else
+      render plain: 'No authorization token', status: :bad_request
+    end
   end
 
 end

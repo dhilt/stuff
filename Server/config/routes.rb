@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :tags
     post 'index' => 'index#items'
     post 'login' => 'auth#login'
+    get 'logout' => 'auth#logout'
   end
 
 end
