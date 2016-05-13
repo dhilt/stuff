@@ -18,14 +18,14 @@ auth.close = function () {
 };
 
 auth.getToken = function () {
-  let name = 'auth';
-  let value = "; " + document.cookie;
-  let parts = value.split("; " + name + "=");
-  if (parts.length == 2)
-  	return parts.pop().split(";").shift();
+	let name = 'auth';
+	let value = "; " + document.cookie;
+	let parts = value.split("; " + name + "=");
+	if (parts.length == 2)
+		return parts.pop().split(";").shift();
 };
 
-auth.send = function (login, pass) {
+auth.login = function (login, pass) {
 	apiAuth.login(login, pass, result => {
 			if (result && result.token) {
 				var date = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -34,6 +34,15 @@ auth.send = function (login, pass) {
 			}
 		}
 	);
+};
+
+let logoutCallback = () => {
+	document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	auth.show();
+};
+
+auth.logout = function () {
+	apiAuth.logout(logoutCallback);
 };
 
 export default auth

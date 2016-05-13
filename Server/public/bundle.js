@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "4f37362d499cad667a0d"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "c805b12afa9f03441a42"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -6603,7 +6603,7 @@
 		if (parts.length == 2) return parts.pop().split(";").shift();
 	};
 
-	auth.send = function (login, pass) {
+	auth.login = function (login, pass) {
 		_auth2.default.login(login, pass, function (result) {
 			if (result && result.token) {
 				var date = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -6611,6 +6611,15 @@
 				auth.close();
 			}
 		});
+	};
+
+	var logoutCallback = function logoutCallback() {
+		document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+		auth.show();
+	};
+
+	auth.logout = function () {
+		_auth2.default.logout(logoutCallback);
 	};
 
 	exports.default = auth;
@@ -19118,6 +19127,10 @@
 	exports.default = {
 		login: function login(_login, password, success, fail) {
 			return (0, _utils.myDataFetch)('/api/login', (0, _utils.generateApiData)('POST', { login: _login, password: password }), success, fail);
+		},
+
+		logout: function logout(success) {
+			return (0, _utils.myFetch)('/api/logout', success, success);
 		}
 	};
 
@@ -19271,7 +19284,7 @@
 		}, {
 			key: 'handleSendClick',
 			value: function handleSendClick(e) {
-				_auth2.default.send(this.state.login, this.state.pass);
+				_auth2.default.login(this.state.login, this.state.pass);
 				this.setState({
 					pass: ''
 				});
@@ -19357,6 +19370,7 @@
 
 	var App = function App(_ref) {
 		var i18n = _ref.i18n;
+		var logout = _ref.logout;
 		var languages = _ref.languages;
 		var lang = _ref.lang;
 		var selectLang = _ref.selectLang;
@@ -19364,13 +19378,14 @@
 		return _react2.default.createElement(
 			'div',
 			null,
-			_react2.default.createElement(_Menu2.default, { i18n: i18n }),
+			_react2.default.createElement(_Menu2.default, { i18n: i18n, logout: logout }),
 			_react2.default.createElement(_Languages2.default, { languages: languages, lang: lang, selectLang: selectLang })
 		);
 	};
 
 	App.propTypes = {
 		i18n: _react.PropTypes.func.isRequired,
+		logout: _react.PropTypes.func.isRequired,
 		languages: _react.PropTypes.arrayOf(_react.PropTypes.shape({
 			token: _react.PropTypes.string.isRequired,
 			translations: _react.PropTypes.object.isRequired
@@ -20053,6 +20068,7 @@
 
 	var Menu = function Menu(_ref) {
 		var i18n = _ref.i18n;
+		var logout = _ref.logout;
 		return _react2.default.createElement(
 			'ul',
 			{ className: 'menu' },
@@ -20082,12 +20098,18 @@
 					{ to: '/tags' },
 					i18n("App.mainMenu.tags")
 				)
+			),
+			_react2.default.createElement(
+				'li',
+				{ className: 'logout', onClick: logout },
+				i18n("App.mainMenu.logout")
 			)
 		);
 	};
 
 	Menu.propTypes = {
-		i18n: _react.PropTypes.func.isRequired
+		i18n: _react.PropTypes.func.isRequired,
+		logout: _react.PropTypes.func.isRequired
 	};
 
 	exports.default = Menu;
@@ -20389,6 +20411,8 @@
 		value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
@@ -20472,7 +20496,7 @@
 							shouldCloseOnOverlayClick: false },
 						_react2.default.createElement(_2.default, { i18n: this.props.i18n })
 					),
-					_react2.default.createElement(_App2.default, this.props),
+					_react2.default.createElement(_App2.default, _extends({}, this.props, { logout: _auth2.default.logout })),
 					_react2.default.createElement(
 						'div',
 						{ className: 'content' },
@@ -20928,7 +20952,8 @@
 			mainMenu: {
 				index: 'Index',
 				items: 'Items',
-				tags: 'Tags'
+				tags: 'Tags',
+				logout: 'Logout'
 			},
 			authDialog: {
 				title: '302 Authorization is needed',
@@ -21019,7 +21044,8 @@
 			mainMenu: {
 				index: 'Главная',
 				items: 'Предметы',
-				tags: 'Теги'
+				tags: 'Теги',
+				logout: 'Выход'
 			},
 			authDialog: {
 				title: '302 Требуется авторизация',

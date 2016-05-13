@@ -4,10 +4,10 @@ import Languages from './app/Languages'
 
 require('../styles/modules/app.scss');
 
-const App = ({i18n, languages, lang, selectLang}) => {
+const App = ({i18n, logout, languages, lang, selectLang}) => {
 	return (
 		<div>
-			<Menu i18n={i18n}/>
+			<Menu i18n={i18n} logout={logout}/>
 			<Languages languages={languages} lang={lang} selectLang={selectLang}/>
 		</div>
 	);
@@ -15,6 +15,7 @@ const App = ({i18n, languages, lang, selectLang}) => {
 
 App.propTypes = {
 	i18n: PropTypes.func.isRequired,
+	logout: PropTypes.func.isRequired,
 	languages: PropTypes.arrayOf(PropTypes.shape({
 		token: PropTypes.string.isRequired,
 		translations: PropTypes.object.isRequired

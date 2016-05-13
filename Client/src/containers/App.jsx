@@ -7,7 +7,7 @@ import popup from '../utils/popup'
 import auth from '../utils/auth'
 import i18n from '../utils/i18n'
 import AuthModalDialog from '../components/302'
-import AppComponent from '../components/App' 
+import AppComponent from '../components/App'
 
 class AppWrapper extends React.Component {
 
@@ -29,7 +29,8 @@ class AppWrapper extends React.Component {
 					<AuthModalDialog i18n={this.props.i18n}/>
 				</Modal>
 
-				<AppComponent {...this.props}/>
+				<AppComponent {...this.props} logout={auth.logout}/>
+
 				<div className="content">
 					{this.props.children}
 				</div>

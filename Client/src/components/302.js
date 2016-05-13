@@ -21,7 +21,7 @@ class AuthModalDialog extends React.Component {
 	}
 
 	handleSendClick(e) {
-		auth.send(this.state.login, this.state.pass);
+		auth.login(this.state.login, this.state.pass);
 		this.setState({
 			pass: ''
 		});

@@ -3,7 +3,8 @@ export default {
 		mainMenu: {
 			index: 'Index',
 			items: 'Items',
-			tags: 'Tags'
+			tags: 'Tags',
+			logout: 'Logout'
 		},
 		authDialog: {
 			title: '302 Authorization is needed',

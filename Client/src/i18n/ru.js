@@ -3,7 +3,8 @@ export default {
 		mainMenu: {
 			index: 'Главная',
 			items: 'Предметы',
-			tags: 'Теги'
+			tags: 'Теги',
+			logout: 'Выход'
 		},
 		authDialog: {
 			title: '302 Требуется авторизация',
