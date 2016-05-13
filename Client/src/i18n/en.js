@@ -7,11 +7,14 @@ export default {
 			logout: 'Logout'
 		},
 		authDialog: {
-			title: '302 Authorization is needed',
+			title: 'Authorization is needed',
 			loginPlaceholder: 'login',
 			passwordPlaceholder: 'password',
 			send: 'Authorize',
-			close: 'Close'
+			close: 'Close',
+			actions: {
+				login: 'You successfully logged in!'
+			}
 		}
 	},
 	Index: {

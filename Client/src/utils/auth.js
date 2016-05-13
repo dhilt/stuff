@@ -1,4 +1,5 @@
 import apiAuth from '../api/auth'
+import popup from './popup'
 
 let auth = {};
 
@@ -25,14 +26,20 @@ auth.getToken = function () {
 		return parts.pop().split(";").shift();
 };
 
-auth.login = function (login, pass) {
+auth.login = function (login, pass, fail) {
 	apiAuth.login(login, pass, result => {
 			if (result && result.token) {
 				var date = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
 				document.cookie = "auth=" + result.token + "; path=/; expires=" + date.toUTCString();
 				auth.close();
+				popup.show({
+					messageToken: 'App.authDialog.actions.login',
+					level: 'success'
+				});
+				return;
 			}
-		}
+			fail();
+		}, fail
 	);
 };
 

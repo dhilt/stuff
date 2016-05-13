@@ -7,11 +7,14 @@ export default {
 			logout: 'Выход'
 		},
 		authDialog: {
-			title: '302 Требуется авторизация',
+			title: 'Требуется авторизация',
 			loginPlaceholder: 'логин',
 			passwordPlaceholder: 'пароль',
 			send: 'Авторизоваться',
-			close: 'Закрыть'
+			close: 'Закрыть',
+			actions: {
+				login: 'Авторизация успешно завершена!'
+			}
 		}
 	},
 	Index: {

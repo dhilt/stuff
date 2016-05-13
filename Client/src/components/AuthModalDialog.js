@@ -11,7 +11,6 @@ class AuthModalDialog extends React.Component {
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSendClick = this.handleSendClick.bind(this);
-		this.handleCloseClick = this.handleCloseClick.bind(this);
 	}
 
 	handleChange(e) {
@@ -21,18 +20,7 @@ class AuthModalDialog extends React.Component {
 	}
 
 	handleSendClick(e) {
-		auth.login(this.state.login, this.state.pass);
-		this.setState({
-			pass: ''
-		});
-	}
-
-	handleCloseClick(e) {
-		auth.close();
-		this.setState({
-			login: '',
-			pass: ''
-		});
+		auth.login(this.state.login, this.state.pass, () => this.setState({pass: ''}));
 	}
 
 	render() {
@@ -43,9 +31,9 @@ class AuthModalDialog extends React.Component {
 				<input name="login" type="text"
 					   placeholder={this.props.i18n('App.authDialog.loginPlaceholder')}
 					   value={this.state.login} onChange={this.handleChange}/>
-				
+
 				<br/>
-				
+
 				<input name="pass" type="password"
 					   placeholder={this.props.i18n('App.authDialog.passwordPlaceholder')}
 					   value={this.state.pass} onChange={this.handleChange}/>
@@ -54,10 +42,6 @@ class AuthModalDialog extends React.Component {
 
 				<button onClick={this.handleSendClick}>
 					{this.props.i18n('App.authDialog.send')}
-				</button>
-
-				<button onClick={this.handleCloseClick}>
-					{this.props.i18n('App.authDialog.close')}
 				</button>
 			</div>
 		)
