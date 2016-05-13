@@ -4,7 +4,7 @@ class AuthController < ApplicationController
   def login
       if !params[:login].blank? and !params[:password].blank?
         @user = User.find_by(name: params[:login])
-        if @user.password == params[:password]
+        if @user and @user.password == params[:password]
           token = Digest::SHA1.hexdigest([Time.now, rand].join)
           @user.update(token: token)
           render json: { ok: true, token: token }, status: :ok

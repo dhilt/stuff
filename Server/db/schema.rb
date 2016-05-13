@@ -40,8 +40,8 @@ ActiveRecord::Schema.define(version: 20160511230925) do
     t.string   "email"
     t.string   "password_hash"
     t.string   "token"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
 end

@@ -1,27 +1,22 @@
 class ApplicationController < ActionController::Base
 
-  protect_from_forgery with: :null_session
-
   protected
   def authenticate
-    if cookies[:auth].blank?
-      render json: { error: 'Bad credentials' }, status: 302
-    else
-      User.find_by(auth_token: token)
+  	#logger.info("-----------======================------------")
+  	#logger.info("bearer_token: #{bearer_token}")
+  	#logger.info("-----------======================------------")
+    unless bearer_token.blank?
+      if User.find_by(token: bearer_token)
+      	return true
+      end
     end
+    render plain: 'Authorization is needed.', status: 302
   end
 
-  def authenticate_user!
-    token, options = ActionController::HttpAuthentication::Token.token_and_options(request)
-
-    user_email = options.blank?? nil : options[:email]
-    user = user_email && User.find_by(email: user_email)
-
-    if user && ActiveSupport::SecurityUtils.secure_compare(user.authentication_token, token)
-      @current_user = user
-    else
-      render json: { error: 'Bad credentials' }, status: 401
-    end
+  private
+  def bearer_token
+    pattern = /^Bearer /
+    header  = request.env["HTTP_AUTHORIZATION"] # <= env
+    header.gsub(pattern, '') if header && header.match(pattern)
   end
-
 end

@@ -1,5 +1,7 @@
 class IndexController < ApplicationController
 
+  before_filter :authenticate
+
   # POST /items
   # POST /items.json
   def items

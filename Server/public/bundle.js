@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "a9f474aa081ac8c33db3"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "b0079f8bb4eecf45de60"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -4266,7 +4266,8 @@
 			method: method,
 			headers: {
 				'Accept': 'application/json',
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + _auth2.default.getToken()
 			},
 			body: JSON.stringify(payload)
 		};
@@ -4278,7 +4279,12 @@
 		} : arguments[2];
 		var data = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
 
-		var args = data ? [url, data] : [url];
+		var args = data ? [url, data] : [url, {
+			method: 'GET',
+			headers: {
+				'Authorization': 'Bearer ' + _auth2.default.getToken()
+			}
+		}];
 
 		var fetchResult = fetch.apply(null, args);
 
@@ -6590,10 +6596,18 @@
 		auth.context.forceUpdate();
 	};
 
+	auth.getToken = function () {
+		var name = 'auth';
+		var value = "; " + document.cookie;
+		var parts = value.split("; " + name + "=");
+		if (parts.length == 2) return parts.pop().split(";").shift();
+	};
+
 	auth.send = function (login, pass) {
-		console.log(login + '/' + pass);
 		_auth2.default.login(login, pass, function (result) {
-			if (result) {
+			if (result && result.token) {
+				var date = new Date(new Date().getTime() + 60 * 1000);
+				document.cookie = "auth=" + result.token + "; path=/; expires=" + date.toUTCString();
 				auth.close();
 			}
 		});
@@ -11229,33 +11243,15 @@
 
 		return {
 			create: function create(item, cb) {
-				fetch('/api/' + entityToken, (0, _utils.generateApiData)('POST', item)).then(function (res) {
-					return res.json();
-				}).then(function (resJson) {
-					return cb(resJson);
-				}).catch(function (err) {
-					return console.log(err);
-				});
+				return (0, _utils.myDataFetch)('/api/' + entityToken, (0, _utils.generateApiData)('POST', item), cb);
 			},
 
 			update: function update(item, cb) {
-				fetch('/api/' + entityToken + '/' + item.id, (0, _utils.generateApiData)('PUT', item)).then(function (res) {
-					return res.json();
-				}).then(function (resJson) {
-					return cb(resJson);
-				}).catch(function (err) {
-					return console.log(err);
-				});
+				return (0, _utils.myDataFetch)('/api/' + entityToken + '/' + item.id, (0, _utils.generateApiData)('PUT', item), cb);
 			},
 
 			delete: function _delete(id, cb) {
-				fetch('/api/' + entityToken + '/' + id, (0, _utils.generateApiData)('DELETE', { id: id })).then(function (res) {
-					return res.json();
-				}).then(function (resJson) {
-					return cb(resJson);
-				}).catch(function (err) {
-					return console.log(err);
-				});
+				return (0, _utils.myDataFetch)('/api/' + entityToken + '/' + id, (0, _utils.generateApiData)('DELETE', { id: id }), cb);
 			}
 		};
 	}
