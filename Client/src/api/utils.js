@@ -5,14 +5,20 @@ export function generateApiData(method, payload) {
 		method: method,
 		headers: {
 			'Accept': 'application/json',
-			'Content-Type': 'application/json'
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer ' + auth.getToken()
 		},
 		body: JSON.stringify(payload)
 	};
 }
 
 export function myFetch(url, success, fail = () => null, data = null) {
-	let args = data ? [url, data] : [url];
+	let args = data ? [url, data] : [url, {
+		method: 'GET',
+		headers: {
+			'Authorization': 'Bearer ' + auth.getToken()
+		}
+	}];
 
 	let fetchResult = fetch.apply(null, args);
 
