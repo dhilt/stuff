@@ -2,6 +2,14 @@
   float: left;
   margin-right: 5px; }
 
+.app ul.menu li, .app ul.menu li a {
+  text-decoration: underline;
+  cursor: default;
+  color: #551a8b; }
+
+.app ul.menu li:hover, .app ul.menu li a:hover {
+  color: #a00; }
+
 .app ul.menu li:last-child {
   float: none; }
 

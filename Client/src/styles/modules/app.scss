@@ -6,6 +6,14 @@
 			float: left;
 			margin-right: 5px;
 		}
+		li, li a {
+			text-decoration: underline;
+			cursor: default;
+			color: rgb(85, 26, 139);
+		}
+		li:hover, li a:hover {
+			color: $hover-color;
+		}
 		li:last-child {
 			float: none;
 		}

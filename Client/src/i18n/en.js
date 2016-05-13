@@ -3,7 +3,18 @@ export default {
 		mainMenu: {
 			index: 'Index',
 			items: 'Items',
-			tags: 'Tags'
+			tags: 'Tags',
+			logout: 'Logout'
+		},
+		authDialog: {
+			title: 'Authorization is needed',
+			loginPlaceholder: 'login',
+			passwordPlaceholder: 'password',
+			send: 'Authorize',
+			close: 'Close',
+			actions: {
+				login: 'You successfully logged in!'
+			}
 		}
 	},
 	Index: {

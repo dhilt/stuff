@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
-import TagsWrapper from './index/tagsWrapper'
-import Items from './index/items'
+import TagsWrapper from './index/TagsWrapper'
+import Items from './index/Items'
 
 require('../styles/modules/index.scss');
 

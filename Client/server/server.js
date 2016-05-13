@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleware = require('webpack-hot-middleware');
 var bodyParser = require('webpack-body-parser');
+var uuid = require('node-uuid');
 
 var config = require('./../webpack.config');
 var mockData = require('./mockData.json');
@@ -22,6 +23,20 @@ app.get("/", function (req, res) {
 
 app.get("/tags", function (req, res) {
 	res.sendFile(__dirname + '/dist/index.html');
+});
+
+//-------login-------//
+
+app.post("/api/login", function (req, res) {
+	var login = req.body.login;
+	var password = req.body.password;
+	if(password === '1' && login === '1') {
+		var token = uuid.v4();
+		res.send({ok: true, token: token});
+		return;
+	}
+	res.statusCode = 400;
+	res.send('Bad credentials');
 });
 
 //-------index-------//

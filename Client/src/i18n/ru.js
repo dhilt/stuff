@@ -3,7 +3,18 @@ export default {
 		mainMenu: {
 			index: 'Главная',
 			items: 'Предметы',
-			tags: 'Теги'
+			tags: 'Теги',
+			logout: 'Выход'
+		},
+		authDialog: {
+			title: 'Требуется авторизация',
+			loginPlaceholder: 'логин',
+			passwordPlaceholder: 'пароль',
+			send: 'Авторизоваться',
+			close: 'Закрыть',
+			actions: {
+				login: 'Авторизация успешно завершена!'
+			}
 		}
 	},
 	Index: {

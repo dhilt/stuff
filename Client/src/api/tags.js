@@ -1,10 +1,8 @@
 import getCommonApi from './common'
+import {myFetch} from './utils'
 
 export default Object.assign({}, getCommonApi('tags'), {
-	getAll(cb) {
-		fetch('/api/tags')
-			.then(res => res.json())
-			.then(resJson => cb(resJson))
-			.catch(err => console.log(err));
-	}
+
+	getAll: (cb) => myFetch('/api/tags', cb)
+
 })
