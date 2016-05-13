@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "b0079f8bb4eecf45de60"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "4f37362d499cad667a0d"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -6606,7 +6606,7 @@
 	auth.send = function (login, pass) {
 		_auth2.default.login(login, pass, function (result) {
 			if (result && result.token) {
-				var date = new Date(new Date().getTime() + 60 * 1000);
+				var date = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
 				document.cookie = "auth=" + result.token + "; path=/; expires=" + date.toUTCString();
 				auth.close();
 			}

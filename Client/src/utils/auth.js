@@ -28,7 +28,7 @@ auth.getToken = function () {
 auth.send = function (login, pass) {
 	apiAuth.login(login, pass, result => {
 			if (result && result.token) {
-				var date = new Date(new Date().getTime() + 60 * 1000);
+				var date = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
 				document.cookie = "auth=" + result.token + "; path=/; expires=" + date.toUTCString();
 				auth.close();
 			}
