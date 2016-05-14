@@ -1,19 +1,20 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import appActions from '../actions/app'
-import NotificationSystem from 'react-notification-system'
-import Modal from 'react-modal'
 import popup from '../utils/popup'
 import auth from '../utils/auth'
 import i18n from '../utils/i18n'
+import NotificationSystem from 'react-notification-system'
 import AuthModalDialog from '../components/AuthModalDialog'
 import AppComponent from '../components/App'
+
+let authModalDialogRef = 'authModalDialog';
 
 class AppWrapper extends React.Component {
 
 	componentDidMount() {
 		popup.initialize(this, 'notificationSystem', () => this.props.i18n);
-		auth.initialize(this, 'authorizationDialog');
+		auth.initialize(this, authModalDialogRef);
 	}
 
 	render() {
@@ -22,12 +23,12 @@ class AppWrapper extends React.Component {
 			<div className="app">
 				<NotificationSystem ref="notificationSystem"/>
 
-				<Modal ref="authorizationDialog"
+				<AuthModalDialog
+					   reference={authModalDialogRef}
+					   i18n={this.props.i18n}
 					   isOpen={auth.modalIsOpen}
-					   onRequestClose={auth.close}
-					   shouldCloseOnOverlayClick={false}>
-					<AuthModalDialog i18n={this.props.i18n}/>
-				</Modal>
+					   doLogin={auth.login}
+					   onClose={auth.close}/>
 
 				<AppComponent {...this.props} logout={auth.logout}/>
 

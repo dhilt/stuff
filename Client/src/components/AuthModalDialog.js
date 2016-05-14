@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react'
-import auth from '../utils/auth'
+import Modal from 'react-modal'
+
+require('../styles/modules/authModalDialog.scss');
 
 class AuthModalDialog extends React.Component {
 
@@ -20,30 +22,39 @@ class AuthModalDialog extends React.Component {
 	}
 
 	handleSendClick(e) {
-		auth.login(this.state.login, this.state.pass, () => this.setState({pass: ''}));
+		this.props.doLogin(this.state.login, this.state.pass, () => this.setState({pass: ''}));
 	}
 
 	render() {
 		return (
-			<div className="modalDialog">
-				<h2>{this.props.i18n('App.authDialog.title')}</h2>
+			<Modal ref={this.props.reference}
+				   overlayClassName="modalDialogOverlay"
+				   className="authModalDialog"
+				   isOpen={this.props.isOpen}
+				   onRequestClose={this.props.onClose}
+				   shouldCloseOnOverlayClick={false}>
 
-				<input name="login" type="text"
-					   placeholder={this.props.i18n('App.authDialog.loginPlaceholder')}
-					   value={this.state.login} onChange={this.handleChange}/>
+				<div className="content">
+					<h2>{this.props.i18n('App.authDialog.title')}</h2>
 
-				<br/>
+					<input name="login" type="text"
+						   placeholder={this.props.i18n('App.authDialog.loginPlaceholder')}
+						   value={this.state.login} onChange={this.handleChange}/>
 
-				<input name="pass" type="password"
-					   placeholder={this.props.i18n('App.authDialog.passwordPlaceholder')}
-					   value={this.state.pass} onChange={this.handleChange}/>
+					<br/><br/>
 
-				<br/><br/>
+					<input name="pass" type="password"
+						   placeholder={this.props.i18n('App.authDialog.passwordPlaceholder')}
+						   value={this.state.pass} onChange={this.handleChange}/>
 
-				<button onClick={this.handleSendClick}>
-					{this.props.i18n('App.authDialog.send')}
-				</button>
-			</div>
+					<br/><br/>
+
+					<button onClick={this.handleSendClick}>
+						{this.props.i18n('App.authDialog.send')}
+					</button>
+				</div>
+
+			</Modal>
 		)
 	}
 }

@@ -1,3 +1,23 @@
+.modalDialogOverlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(255, 255, 255, 0.74902); }
+
+.authModalDialog {
+  margin: 30px auto;
+  width: 350px;
+  top: 40px;
+  bottom: 40px;
+  border: 1px solid #cccccc;
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  background: white;
+  height: 200px; }
 .app ul.menu li {
   float: left;
   margin-right: 5px; }
