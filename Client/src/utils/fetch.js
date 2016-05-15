@@ -1,26 +1,22 @@
 import auth from './auth'
 
 export function generateApiData(method, payload) {
+	let headers = payload ? {
+		'Accept': 'application/json',
+		'Content-Type': 'application/json'
+	} : {	};
+	headers['Authorization'] = 'Bearer ' + auth.getToken();
+	
 	return {
 		method: method,
-		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json',
-			'Authorization': 'Bearer ' + auth.getToken()
-		},
+		headers: headers,
 		body: JSON.stringify(payload)
 	};
 }
 
-export function myFetch(url, data = null) {
-	let args = data ? [url, data] : [url, {
-		method: 'GET',
-		headers: {
-			'Authorization': 'Bearer ' + auth.getToken()
-		}
-	}];
-
-	let fetchResult = fetch.apply(null, args);
+export function myFetch(url, method = 'GET', payload) {
+	
+	let fetchResult = fetch.apply(null, [url, generateApiData(method, payload)]);
 
 	return fetchResult
 		.then(result => {

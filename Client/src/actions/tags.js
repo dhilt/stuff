@@ -3,23 +3,19 @@ import apiTags from './../api/tags'
 import getCommonActions from './common'
 
 export default Object.assign({}, getCommonActions(tagsActionTypes, apiTags, {state: 'tags', entity: 'Tag'}), {
-	getAll: () => {
-		return (dispatch) => {
-			apiTags.getAll(tags =>
+	getAll: () =>
+		(dispatch) =>
+			apiTags.getAll().then(tags =>
 				dispatch({
 					type: tagsActionTypes.receiveAll,
 					all: tags
 				})
-			)
-		};
-	},
-	
-	search: (searchString) => {
-		return (dispatch) => {
+			),
+
+	search: (searchString) =>
+		(dispatch) =>
 			dispatch({
 				type: tagsActionTypes.search,
 				searchString: searchString
-			});
-		}
-	}
+			})
 })

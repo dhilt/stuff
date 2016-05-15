@@ -1,9 +1,8 @@
-import {myFetch, myDataFetch, generateApiData} from './utils'
+import {myFetch} from '../utils/fetch'
 
 export default {
-	login: (login, password, success, fail) =>
-		myDataFetch('/api/login', generateApiData('POST', {login: login, password: password}), success, fail),
+	login: (login, password) =>
+		myFetch('/api/login', 'POST', {login: login, password: password}),
 
-	logout: (success) =>
-		myFetch('/api/logout', success, success)
+	logout: () => myFetch('/api/logout')
 }

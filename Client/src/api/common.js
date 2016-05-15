@@ -1,15 +1,14 @@
-import {generateApiData, myDataFetch} from './utils'
+import {myFetch} from '../utils/fetch'
 
 export default function getCommonApi(entityToken) {
-
 	return {
-		create: (item, cb) =>
-			myDataFetch('/api/' + entityToken, generateApiData('POST', item), cb),
+		create: (item) =>
+			myFetch('/api/' + entityToken, 'POST', item),
 
-		update: (item, cb) => 
-			myDataFetch('/api/' + entityToken + '/' + item.id, generateApiData('PUT', item), cb),
+		update: (item) =>
+			myFetch('/api/' + entityToken + '/' + item.id, 'PUT', item),
 
-		delete: (id, cb) => 
-			myDataFetch('/api/' + entityToken + '/' + id, generateApiData('DELETE', {id: id}), cb)
+		delete: (id) =>
+			myFetch('/api/' + entityToken + '/' + id, 'DELETE', {id: id})
 	}
 }

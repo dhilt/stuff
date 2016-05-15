@@ -10,22 +10,17 @@ const languages = [
 
 export default {
 
-	loadAllLanguages: () => {
-		return (dispatch) => {
+	loadAllLanguages: () =>
+		(dispatch) =>
 			dispatch({
 				type: appActionTypes.receiveAllLanguages,
 				all: languages
-			});
-		}
-	},
+			}),
 
-	selectLanguage: (lang) => {
-		return (dispatch) => {
+	selectLanguage: (lang) =>
+		(dispatch) =>
 			dispatch({
 				type: appActionTypes.selectLanguage,
 				selected: lang
-			});
-		}
-	}
-
+			})
 }

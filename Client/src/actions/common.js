@@ -21,28 +21,26 @@ export default function getCommonActions(actionTypes, api, tokens) {
 						name: newName
 					}
 				});
-				if(tokens.entity === 'Item') { // need to remove after Tags refactoring
+				if (tokens.entity === 'Item') { // need to remove after Tags refactoring
 					browserHistory.push(`/items/new`);
 				}
 			}
 		},
 
 		select(selected) {
-			return (dispatch) => {
+			return (dispatch) =>
 				dispatch({
 					type: actionTypes.select,
 					selected: selected
 				})
-			}
 		},
 
 		change(edited) {
-			return (dispatch) => {
+			return (dispatch) =>
 				dispatch({
 					type: actionTypes.change,
 					edited: edited
 				})
-			}
 		},
 
 		cancelChanges() {
@@ -60,7 +58,7 @@ export default function getCommonActions(actionTypes, api, tokens) {
 				if (tokens.entity === 'Item') {
 					edited = Object.assign({}, edited, {tags: edited.tags.map(t => t.id)});
 				}
-				api.create(edited, result => {
+				api.create(edited).then(result => {
 					popup.show({
 						messageToken: tokens.entity + '.actions.created',
 						level: 'success'
@@ -85,7 +83,7 @@ export default function getCommonActions(actionTypes, api, tokens) {
 				if (tokens.entity === 'Item') {
 					edited = Object.assign({}, edited, {tags: edited.tags.map(t => t.id)});
 				}
-				api.update(edited, result => {
+				api.update(edited).then(result => {
 					popup.show({
 						messageToken: tokens.entity + '.actions.updated',
 						level: 'success'
@@ -102,7 +100,7 @@ export default function getCommonActions(actionTypes, api, tokens) {
 
 		delete() {
 			return (dispatch, getState) =>
-				api.delete(getState()[tokens.state].edited.id, result => {
+				api.delete(getState()[tokens.state].edited.id).then(result => {
 					popup.show({
 						messageToken: tokens.entity + '.actions.removed',
 						level: 'success'

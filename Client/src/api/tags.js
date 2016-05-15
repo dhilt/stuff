@@ -1,8 +1,8 @@
 import getCommonApi from './common'
-import {myFetch} from './utils'
+import {myFetch} from '../utils/fetch'
 
 export default Object.assign({}, getCommonApi('tags'), {
 
-	getAll: (cb) => myFetch('/api/tags', cb)
+	getAll: () => myFetch('/api/tags')
 
 })

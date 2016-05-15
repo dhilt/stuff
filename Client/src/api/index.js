@@ -1,6 +1,6 @@
-import {myDataFetch, generateApiData} from './utils'
+import {myFetch} from '../utils/fetch'
 
 export default {
-	getItemsByTags: (tags, type, success, fail) =>
-		myDataFetch('/api/index', generateApiData('POST', {tags: tags, type: type}), success, fail)
+	getItemsByTags: (tags, type) =>
+		myFetch('/api/index', 'POST', {tags: tags, type: type})
 }

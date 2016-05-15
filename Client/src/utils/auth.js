@@ -27,7 +27,7 @@ auth.getToken = function () {
 };
 
 auth.login = function (login, pass, fail) {
-	apiAuth.login(login, pass, result => {
+	apiAuth.login(login, pass).then(result => {
 			if (result && result.token) {
 				var date = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
 				document.cookie = "auth=" + result.token + "; path=/; expires=" + date.toUTCString();
@@ -43,11 +43,13 @@ auth.login = function (login, pass, fail) {
 	);
 };
 
+let logoutCallback = () => {
+	document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	auth.show();
+};
+
 auth.logout = function () {
-	apiAuth.logout(() => {
-		document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-		auth.show();
-	});
+	apiAuth.logout().then(logoutCallback, logoutCallback);
 };
 
 export default auth

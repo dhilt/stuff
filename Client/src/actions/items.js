@@ -6,7 +6,7 @@ import popup from '../utils/popup'
 
 export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {state: 'items', entity: 'Item'}), {
 
-	select: (selected) => 
+	select: (selected) =>
 		(dispatch, getState) => {
 			dispatch({
 				type: itemsActionTypes.select
@@ -18,7 +18,7 @@ export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {s
 						allTags: getState().tags.all
 					});
 					browserHistory.push(`/items/${item.id}`);
-				}, () => { 
+				}, () => {
 					dispatch({
 						type: itemsActionTypes.cancelSelect
 					});
@@ -30,7 +30,7 @@ export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {s
 			);
 		},
 
-	search: (searchParams) => 
+	search: (searchParams) =>
 		(dispatch) => {
 			dispatch({
 				type: itemsActionTypes.search,
@@ -55,7 +55,7 @@ export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {s
 		)
 	},
 
-	searchTags: (searchString) => 
+	searchTags: (searchString) =>
 		(dispatch, getState) =>
 			dispatch({
 				type: itemsActionTypes.searchTags,
@@ -63,14 +63,14 @@ export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {s
 				allTags: searchString ? getState().tags.all : null
 			}),
 
-	addTag: (tag) => 
+	addTag: (tag) =>
 		(dispatch) =>
 			dispatch({
 				type: itemsActionTypes.addTag,
 				tag: tag
 			}),
 
-	removeTag: (tag) => 
+	removeTag: (tag) =>
 		(dispatch) =>
 			dispatch({
 				type: itemsActionTypes.removeTag,
