@@ -36,7 +36,10 @@ export default {
 		title: 'Редактор предметов dhilt/stuff',
 		searchInputPlaceholder: 'начните поиск предметов',
 		searching: 'ведется поиск...',
-		notFound: 'Не найдено ни одного предмета...'
+		notFound: 'Не найдено ни одного предмета...',
+		actions: {
+			selectFail: 'Ошибка выбора предмета.'
+		}
 	},
 	Tags: {
 		title: 'Редактор тегов dhilt/stuff',

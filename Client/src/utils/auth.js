@@ -43,13 +43,11 @@ auth.login = function (login, pass, fail) {
 	);
 };
 
-let logoutCallback = () => {
-	document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-	auth.show();
-};
-
 auth.logout = function () {
-	apiAuth.logout(logoutCallback);
+	apiAuth.logout(() => {
+		document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+		auth.show();
+	});
 };
 
 export default auth

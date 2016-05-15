@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import {browserHistory} from 'react-router'
 import {connect} from 'react-redux'
 import i18n from '../utils/i18n'
 import itemsActions from './../actions/items'
@@ -20,18 +19,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onSearchInputChange: (searchString) => {
-			dispatch(itemsActions.search({searchString: searchString}));
-		},
-		onAddNewClick: (newName) => {
-			dispatch(itemsActions.new(newName));
-			browserHistory.push(`/items/new`);
-		},
-		onSelect: (item) => {
-			dispatch(itemsActions.select(item)).then((result) => {
-				browserHistory.push(`/items/${item.id}`);
-			}, r => console.log(r));
-		}
+		onSearchInputChange: (searchString) => 
+			dispatch(itemsActions.search({searchString: searchString}))
+		,
+		onAddNewClick: (newName) => 
+			dispatch(itemsActions.new(newName))
+		,
+		onSelect: (item) => 
+			dispatch(itemsActions.select(item))
 	}
 };
 

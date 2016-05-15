@@ -36,7 +36,10 @@ export default {
 		title: 'Stuff Items Editor',
 		searchInputPlaceholder: 'start search items',
 		searching: 'searching items...',
-		notFound: 'No items found...'
+		notFound: 'No items found...',
+		actions: {
+			selectFail: 'Can\'t select item.'
+		}
 	},
 	Tags: {
 		title: 'Stuff Tags Editor',

@@ -20,7 +20,10 @@ export default function getCommonActions(actionTypes, api, tokens) {
 					new: {
 						name: newName
 					}
-				})
+				});
+				if(tokens.entity === 'Item') { // need to remove after Tags refactoring
+					browserHistory.push(`/items/new`);
+				}
 			}
 		},
 

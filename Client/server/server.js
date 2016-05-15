@@ -65,6 +65,9 @@ app.post("/api/index", function (req, res) {
 //-------tags-------//
 
 app.get("/api/tags", function (req, res) {
+	/*res.statusCode = 302;
+	res.send('test');
+	return;*/
 	res.send(mockData.tags);
 });
 
