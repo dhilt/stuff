@@ -7,11 +7,13 @@ export function generateApiData(method, payload) {
 	} : {	};
 	headers['Authorization'] = 'Bearer ' + auth.getToken();
 	
-	return {
+	let result = {
 		method: method,
-		headers: headers,
-		body: JSON.stringify(payload)
+		headers: headers
 	};
+	if(payload)
+		result.body = JSON.stringify(payload);
+	return result;
 }
 
 export function myFetch(url, method = 'GET', payload) {
