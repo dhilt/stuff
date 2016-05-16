@@ -4,6 +4,7 @@ import Helper from './_helpers'
 
 let initialState = Object.assign({}, getCommonInitialState(), {
 	path: '/tags',
+	receiving: false,
 	all: []
 });
 
@@ -46,9 +47,22 @@ export default function tags(state = initialState, action) {
 			};
 			break;
 
-		case tagsActionTypes.receiveAll:
+		case tagsActionTypes.receiveAllStart:
 			stateChanges = {
+				receiving: true
+			};
+			break;
+
+		case tagsActionTypes.receiveAllDone:
+			stateChanges = {
+				receiving: true,
 				all: action.all
+			};
+			break;
+
+		case tagsActionTypes.receiveAllFail:
+			stateChanges = {
+				receiving: false
 			};
 			break;
 

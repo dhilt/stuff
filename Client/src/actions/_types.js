@@ -16,7 +16,9 @@ export let indexActionTypes = {
 };
 
 export let tagsActionTypes = {
-	receiveAll: 'RECEIVE_ALL_TAGS',
+	receiveAllStart: 'RECEIVE_ALL_TAGS_START',
+	receiveAllDone: 'RECEIVE_ALL_TAGS_DONE',
+	receiveAllFail: 'RECEIVE_ALL_TAGS_FAIL',
 	search: 'SEARCH_TAGS',
 	new: 'NEW_TAG',
 	select: 'SELECT_TAG',
