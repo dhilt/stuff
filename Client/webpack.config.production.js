@@ -37,8 +37,8 @@ module.exports = {
 			allChunks: true
 		}), 
 		new webpack.ProvidePlugin({
-			'window.fetch': 'exports?self.fetch!whatwg-fetch'
-			//'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+		    'Promise': 'exports?global.Promise!es6-promise',
+		    'window.fetch': 'exports?self.fetch!whatwg-fetch'
 		}),
 		new webpack.DefinePlugin({
 			'process.env': {
