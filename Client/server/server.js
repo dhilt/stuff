@@ -19,7 +19,7 @@ app.use(webpackHotMiddleware(compiler));
 
 var redirect302 = function (res) {
 	res.statusCode = 302;
-	res.send('test');
+	res.send('Authorization is needed.');
 };
 
 var handle = function (method, url, callback) {

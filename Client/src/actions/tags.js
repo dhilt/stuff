@@ -17,8 +17,7 @@ export default Object.assign({}, getCommonActions(tagsActionTypes, apiTags, {sta
 							all: tags
 						})
 					, (e) => {
-						//todo dhilt : refactor this, code is needed
-						if(e === "Authorization is needed.") {
+						if(e === 302) {
 							auth.pushPending(getAllTags);
 						}
 						dispatch({

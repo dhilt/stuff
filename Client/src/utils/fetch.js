@@ -24,7 +24,7 @@ export function myFetch(url, method = 'GET', payload) {
 		.then(result => {
 			if (result.status === 302) {
 				auth.show();
-				return Promise.reject(result.text());
+				return Promise.reject(302);
 			}
 			if (result.status === 400) {
 				return Promise.reject(result.text());
