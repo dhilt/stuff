@@ -61,6 +61,28 @@ app.post("/api/login", function (req, res) {
 	res.send('Bad credentials');
 });
 
+app.get("/api/logout", function (req, res) {
+	var authHeader = req.headers.authorization;
+	if(authHeader) {
+		var bearer = authHeader.substr(7);
+		if(bearer && bearer.length > 10) {
+			for(var i = mockData.users.length - 1; i >= 0; i--) {
+				if(mockData.users[i].token === bearer) {
+					mockData.users[i].token = null;
+					res.send({ ok: true });
+					return;
+				}
+			}
+			res.statusCode = 400;
+			res.send('User not found.');
+			return;
+		}
+	}
+	res.statusCode = 400;
+	res.send('No authorization token.');
+	return;
+});
+
 //-------index-------//
 
 handle("post", "/api/index", function (req, res) {
