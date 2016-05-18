@@ -1,4 +1,12 @@
 {
+  "users": [
+    {
+      "name": "1",
+      "email": "1",
+      "password_hash": "1",
+      "token": null
+    }
+  ],
   "tags": [
     {
       "id": 1,

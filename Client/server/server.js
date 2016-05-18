@@ -17,23 +17,45 @@ var compiler = webpack(config);
 app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath}));
 app.use(webpackHotMiddleware(compiler));
 
-app.get("/", function (req, res) {
-	res.sendFile(__dirname + '/dist/index.html')
-});
+var redirect302 = function (res) {
+	res.statusCode = 302;
+	res.send('test');
+};
 
-app.get("/tags", function (req, res) {
-	res.sendFile(__dirname + '/dist/index.html');
-});
+var handle = function (method, url, callback) {
+	var processedCallback = function (req, res) {
+		var authHeader = req.headers.authorization;
+		if(!authHeader) {
+			return redirect302(res);
+		}
+		var bearer = authHeader.substr(7);
+		if(!bearer || bearer.length < 10) {
+			return redirect302(res);
+		}
+		for(var i = mockData.users.length - 1; i >= 0; i--) {
+			if(mockData.users[i].token === bearer) {
+				return callback(req, res);
+			}
+		}
+		redirect302(res);
+	};
+	app[method](url, processedCallback);
+};
 
 //-------login-------//
 
 app.post("/api/login", function (req, res) {
 	var login = req.body.login;
 	var password = req.body.password;
-	if(password === '1' && login === '1') {
-		var token = uuid.v4();
-		res.send({ok: true, token: token});
-		return;
+	for(var i = mockData.users.length - 1; i >= 0; i--) {
+		if(mockData.users[i].name === login) {
+			if(mockData.users[i].password_hash === password) {
+				var token = uuid.v4();
+				mockData.users[i].token = token;
+				res.send({ok: true, token: token});
+				return;
+			}
+		}
 	}
 	res.statusCode = 400;
 	res.send('Bad credentials');
@@ -41,7 +63,7 @@ app.post("/api/login", function (req, res) {
 
 //-------index-------//
 
-app.post("/api/index", function (req, res) {
+handle("post", "/api/index", function (req, res) {
 	var tags = req.body.tags;
 	if(!tags || !tags.length) {
 		return res.send(null);
@@ -64,14 +86,11 @@ app.post("/api/index", function (req, res) {
 
 //-------tags-------//
 
-app.get("/api/tags", function (req, res) {
-	/*res.statusCode = 302;
-	res.send('test');
-	return;*/
+handle("get", "/api/tags", function (req, res) {
 	res.send(mockData.tags);
 });
 
-app.post("/api/tags", function (req, res) {
+handle("post", "/api/tags", function (req, res) {
 	var newTag = req.body;
 	var maxId = 0;
 	for (var i = mockData.tags.length - 1; i >= 0; i--) {
@@ -87,7 +106,7 @@ app.post("/api/tags", function (req, res) {
 	res.send(newTag);
 });
 
-app.put("/api/tags/:id", function (req, res) {
+handle("put", "/api/tags/:id", function (req, res) {
 	var editTag = req.body;
 	for (var i = mockData.tags.length - 1; i >= 0; i--) {
 		if (mockData.tags[i].id === editTag.id) {
@@ -100,7 +119,7 @@ app.put("/api/tags/:id", function (req, res) {
 	res.send(null);
 });
 
-app.delete("/api/tags/:id", function (req, res) {
+handle("delete", "/api/tags/:id", function (req, res) {
 	var tagId = req.body.id;
 	var result = {};
 	for (var i = mockData.tags.length - 1; i >= 0; i--) {
@@ -115,7 +134,7 @@ app.delete("/api/tags/:id", function (req, res) {
 
 //-------items-------//
 
-app.get("/api/items", function (req, res) {
+handle("get", "/api/items", function (req, res) {
 	var searchString = req.query.searchString;
 	var result = [];
 	for (var i = mockData.items.length - 1; i >= 0; i--) {
@@ -129,7 +148,7 @@ app.get("/api/items", function (req, res) {
 	res.send(result);
 });
 
-app.get("/api/items/:id", function (req, res) {
+handle("get", "/api/items/:id", function (req, res) {
 	var id = parseInt(req.params.id, 10);
 	if (!id) {
 		res.status(400).send('Can not parse id ' + req.params.id);
@@ -144,7 +163,7 @@ app.get("/api/items/:id", function (req, res) {
 	res.status(400).send('Can not get item with id = ' + req.params.id);
 });
 
-app.post("/api/items", function (req, res) {
+handle("post", "/api/items", function (req, res) {
 	var newItem = req.body;
 	var maxId = 0;
 	for (var i = mockData.items.length - 1; i >= 0; i--) {
@@ -160,7 +179,7 @@ app.post("/api/items", function (req, res) {
 	res.send(newItem);
 });
 
-app.put("/api/items/:id", function (req, res) {
+handle("put", "/api/items/:id", function (req, res) {
 	var editItem = req.body;
 	for (var i = mockData.items.length - 1; i >= 0; i--) {
 		if (mockData.items[i].id === editItem.id) {
@@ -174,7 +193,7 @@ app.put("/api/items/:id", function (req, res) {
 	res.send(null);
 });
 
-app.delete("/api/items/:id", function (req, res) {
+handle("delete", "/api/items/:id", function (req, res) {
 	var itemId = req.body.id;
 	for (var i = mockData.items.length - 1; i >= 0; i--) {
 		if (mockData.items[i].id === itemId) {
@@ -186,6 +205,15 @@ app.delete("/api/items/:id", function (req, res) {
 	res.send(null);
 });
 
+//-------redirects-------//
+
+app.get("/tags", function (req, res) {
+	res.redirect('/');
+});
+
+app.get("/items", function (req, res) {
+	res.redirect('/');
+});
 
 //-------start-------//
 
