@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "3c3850ce13f86547edea"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "afb18d2872dae96f99b4"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -2880,7 +2880,7 @@
 	};
 
 	var tagsActionTypes = exports.tagsActionTypes = {
-		receiveAllStart: 'RECEIVE_ALL_TAGS_Start',
+		receiveAllStart: 'RECEIVE_ALL_TAGS_START',
 		receiveAllDone: 'RECEIVE_ALL_TAGS_DONE',
 		receiveAllFail: 'RECEIVE_ALL_TAGS_FAIL',
 		search: 'SEARCH_TAGS',
@@ -4292,7 +4292,6 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.generateApiData = generateApiData;
 	exports.myFetch = myFetch;
 
 	var _auth = __webpack_require__(64);
@@ -4326,10 +4325,10 @@
 		return fetchResult.then(function (result) {
 			if (result.status === 302) {
 				_auth2.default.show();
-				return Promise.reject(result.text());
+				return Promise.reject(302);
 			}
 			if (result.status === 400) {
-				return Promise.reject(result.text());
+				return Promise.reject({ status: 400, message: result.text() });
 			}
 			if (!result.ok) {
 				return Promise.reject(result.statusText);
@@ -6495,8 +6494,7 @@
 							all: tags
 						});
 					}, function (e) {
-						//todo dhilt : refactor this, code is needed
-						if (e === "Authorization is needed.") {
+						if (e === 302) {
 							_auth2.default.pushPending(getAllTags);
 						}
 						dispatch({
@@ -6664,7 +6662,29 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function loginSuccessCallback(success) {
+		_popup2.default.show({
+			messageToken: 'App.authDialog.actions.loginSuccess',
+			level: 'success'
+		});
+		success();
+	}
+
+	function loginFailCallback(e, fail) {
+		_popup2.default.show({
+			messageToken: 'App.authDialog.actions.login' + (e === Object(e) && e.status === 400 ? 'Fail' : 'Error'),
+			level: 'warning'
+		});
+		fail();
+	}
+
+	function logoutCallback() {
+		document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+		auth.show();
+	}
+
 	var auth = {};
+
 	auth.pending = [];
 
 	auth.initialize = function (context, ref) {
@@ -6695,33 +6715,28 @@
 
 	auth.getToken = function () {
 		var name = 'auth';
-		var value = "; " + document.cookie;
-		var parts = value.split("; " + name + "=");
-		if (parts.length == 2) return parts.pop().split(";").shift();
+		var value = '; ' + document.cookie;
+		var parts = value.split('; ' + name + '=');
+		if (parts.length == 2) return parts.pop().split(';').shift();
+		return '';
 	};
 
-	auth.login = function (login, pass, fail) {
+	auth.login = function (login, pass, success, fail) {
 		_auth2.default.login(login, pass).then(function (result) {
 			if (result && result.token) {
 				var date = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
-				document.cookie = "auth=" + result.token + "; path=/; expires=" + date.toUTCString();
-				_popup2.default.show({
-					messageToken: 'App.authDialog.actions.login',
-					level: 'success'
-				});
+				document.cookie = 'auth=' + result.token + '; path=/; expires=' + date.toUTCString();
+				loginSuccessCallback(success);
 				auth.pending.forEach(function (p) {
-					p();
+					return p();
 				});
 				auth.close();
 				return;
 			}
-			fail();
-		}, fail);
-	};
-
-	var logoutCallback = function logoutCallback() {
-		document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-		auth.show();
+			loginFailCallback(null, fail);
+		}, function (e) {
+			return loginFailCallback(e, fail);
+		});
 	};
 
 	auth.logout = function () {
@@ -20458,6 +20473,8 @@
 				var _this2 = this;
 
 				this.props.doLogin(this.state.login, this.state.pass, function () {
+					return _this2.setState({ login: '', pass: '' });
+				}, function () {
 					return _this2.setState({ pass: '' });
 				});
 			}
@@ -22059,7 +22076,9 @@
 				send: 'Authorize',
 				close: 'Close',
 				actions: {
-					login: 'You successfully logged in!'
+					loginSuccess: 'You successfully logged in!',
+					loginFail: 'Can\'t login. Bad credentials.',
+					loginError: 'Can\'t login. Server error.'
 				}
 			}
 		},
@@ -22157,7 +22176,9 @@
 				send: 'Авторизоваться',
 				close: 'Закрыть',
 				actions: {
-					login: 'Авторизация успешно завершена!'
+					loginSuccess: 'Авторизация успешно завершена!',
+					loginFail: 'Авторизация отклонена. Неверные логин или пароль.',
+					loginError: 'Авторизация отклонена. Ошибка на сервере.'
 				}
 			}
 		},

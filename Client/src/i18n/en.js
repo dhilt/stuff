@@ -13,7 +13,9 @@ export default {
 			send: 'Authorize',
 			close: 'Close',
 			actions: {
-				login: 'You successfully logged in!'
+				loginSuccess: 'You successfully logged in!',
+				loginFail: 'Can\'t login. Bad credentials.',
+				loginError: 'Can\'t login. Server error.'
 			}
 		}
 	},

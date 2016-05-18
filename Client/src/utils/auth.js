@@ -1,7 +1,30 @@
 import apiAuth from '../api/auth'
 import popup from './popup'
 
+function loginSuccessCallback (success) {
+	popup.show({
+		messageToken: 'App.authDialog.actions.loginSuccess',
+		level: 'success'
+	});
+	success();
+}
+
+function loginFailCallback (e, fail) {
+	popup.show({
+		messageToken: 'App.authDialog.actions.login' +
+		((e === Object(e) && e.status === 400) ? 'Fail' : 'Error'),
+		level: 'warning'
+	});
+	fail();
+}
+
+function logoutCallback () {
+	document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	auth.show();
+}
+
 let auth = {};
+
 auth.pending = [];
 
 auth.initialize = function (context, ref) {
@@ -14,10 +37,10 @@ auth.pushPending = function (item) {
 };
 
 auth.show = function (authPendingCallback) {
-	if(authPendingCallback) {
+	if (authPendingCallback) {
 		auth.pending.push(authPendingCallback);
 	}
-	if(auth.modalIsOpen) {
+	if (auth.modalIsOpen) {
 		return;
 	}
 	auth.modalIsOpen = true;
@@ -32,33 +55,26 @@ auth.close = function () {
 
 auth.getToken = function () {
 	let name = 'auth';
-	let value = "; " + document.cookie;
-	let parts = value.split("; " + name + "=");
+	let value = '; ' + document.cookie;
+	let parts = value.split('; ' + name + '=');
 	if (parts.length == 2)
-		return parts.pop().split(";").shift();
+		return parts.pop().split(';').shift();
+	return '';
 };
 
-auth.login = function (login, pass, fail) {
+auth.login = function (login, pass, success, fail) {
 	apiAuth.login(login, pass).then(result => {
 			if (result && result.token) {
 				var date = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
-				document.cookie = "auth=" + result.token + "; path=/; expires=" + date.toUTCString();
-				popup.show({
-					messageToken: 'App.authDialog.actions.login',
-					level: 'success'
-				});
-				auth.pending.forEach(p => { p(); });
+				document.cookie = 'auth=' + result.token + '; path=/; expires=' + date.toUTCString();
+				loginSuccessCallback(success);
+				auth.pending.forEach(p => p());
 				auth.close();
 				return;
 			}
-			fail();
-		}, fail
+			loginFailCallback(null, fail);
+		}, (e) => loginFailCallback(e, fail)
 	);
-};
-
-let logoutCallback = () => {
-	document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-	auth.show();
 };
 
 auth.logout = function () {
