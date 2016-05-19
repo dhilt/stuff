@@ -8,4 +8,6 @@ Rails.application.routes.draw do
     get 'logout' => 'auth#logout'
   end
 
+  get '*path' => redirect('/')
+
 end
