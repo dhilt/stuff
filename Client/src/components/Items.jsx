@@ -16,7 +16,7 @@ const Items = ({i18n, searching, found, countPage, countBefore, countAfter, sear
 		{
 			searchString ? (
 				<div>
-					<SearchPaging i18n={i18n} page={countPage} before={countBefore} after={countAfter} getPage={getPage}/>
+					<SearchPaging i18n={i18n} amount={found.length} page={countPage} before={countBefore} after={countAfter} getPage={getPage}/>
 					<SearchList i18n={i18n} entityToken="Items"
 											searching={searching} found={found} 
 											onSelect={onSelect} edited={justEditedId}/>

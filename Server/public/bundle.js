@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "1646180116284dc1920e"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "c5a771d4d90ffc8999b9"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -20954,7 +20954,7 @@
 			searchString ? _react2.default.createElement(
 				'div',
 				null,
-				_react2.default.createElement(_SearchPaging2.default, { i18n: i18n, page: countPage, before: countBefore, after: countAfter, getPage: getPage }),
+				_react2.default.createElement(_SearchPaging2.default, { i18n: i18n, amount: found.length, page: countPage, before: countBefore, after: countAfter, getPage: getPage }),
 				_react2.default.createElement(_SearchList2.default, { i18n: i18n, entityToken: 'Items',
 					searching: searching, found: found,
 					onSelect: onSelect, edited: justEditedId })
@@ -21306,6 +21306,7 @@
 
 	var SearchList = function SearchList(_ref) {
 		var i18n = _ref.i18n;
+		var amount = _ref.amount;
 		var page = _ref.page;
 		var before = _ref.before;
 		var after = _ref.after;
@@ -21320,21 +21321,23 @@
 			{ className: 'searchPaging' },
 			_react2.default.createElement(
 				'button',
-				{ disabled: !pagesBefore, onClick: function onClick() {
+				{ disabled: !amount || !pagesBefore,
+					onClick: function onClick() {
 						return getPage(0);
 					} },
 				i18n('App.paging.first')
 			),
 			_react2.default.createElement(
 				'button',
-				{ disabled: !pagesBefore, onClick: function onClick() {
+				{ disabled: !amount || !pagesBefore,
+					onClick: function onClick() {
 						return getPage(currentPage - 2);
 					} },
 				i18n('App.paging.previous')
 			),
 			_react2.default.createElement(
 				'span',
-				{ className: 'pagesInfo' },
+				{ className: "pagesInfo" + (!amount ? " disabled" : "") },
 				_react2.default.createElement(
 					'span',
 					{ className: 'current' },
@@ -21354,14 +21357,16 @@
 			),
 			_react2.default.createElement(
 				'button',
-				{ disabled: !pagesAfter, onClick: function onClick() {
+				{ disabled: !amount || !pagesAfter,
+					onClick: function onClick() {
 						return getPage(currentPage);
 					} },
 				i18n('App.paging.next')
 			),
 			_react2.default.createElement(
 				'button',
-				{ disabled: !pagesAfter, onClick: function onClick() {
+				{ disabled: !amount || !pagesAfter,
+					onClick: function onClick() {
 						return getPage(pagesTotal - 1);
 					} },
 				i18n('App.paging.last')
@@ -21371,6 +21376,7 @@
 
 	SearchList.propTypes = {
 		i18n: _react.PropTypes.func.isRequired,
+		amount: _react.PropTypes.number,
 		page: _react.PropTypes.number,
 		before: _react.PropTypes.number,
 		after: _react.PropTypes.number,
