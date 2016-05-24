@@ -5,10 +5,32 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    filter = params[:searchString] || ''
-    filter = filter.tr('^A-Za-zА-Яа-я0-9', '')
-    unless filter.blank?
-      @items = Item.where('lower(name) like ?', "%#{filter.mb_chars.downcase.to_s}%").order(:name)
+    respond_to do |format|
+		filter = params[:searchString] || ''
+		filter = filter.tr('^A-Za-zА-Яа-я0-9', '')
+		limit = Integer(params[:limit], 10) || 99999
+		offset = Integer(params[:offset], 10)  || 0
+		unless filter.blank?
+
+		  @items = Item.where('lower(name) like ?', "%#{filter.mb_chars.downcase.to_s}%")
+		  countTotal = @items.count
+		  countBefore = 0
+		  countAfter = 0
+
+		  if countTotal > 0
+			  @items = @items.select("id, name").order(:name)
+
+			  if offset > 0
+				@items = @items.offset(offset)
+				countBefore = countTotal - @items.count
+			  end
+
+			  @items = @items.limit(limit)
+			  countAfter = countTotal - @items.count - countBefore
+		  end
+
+		  format.json { render json: { items: @items, before: countBefore, after: countAfter }, status: :ok }
+		end
     end
   end
 
