@@ -5,6 +5,9 @@ import Helper from './_helpers'
 let initialState = Object.assign({}, getCommonInitialState(), {
 	path: '/items',
 	receiving: false,
+	countPage: 10,
+	countBefore: 0,
+	countAfter: 0,
 	searchTagsString: '',
 	foundTags: []
 });
@@ -51,7 +54,9 @@ export default function items(state = initialState, action) {
 			stateChanges = {
 				searching: false,
 				found: action.found,
-				canAddNew: Helper.canAddNewRecord(state.searchString, action.found)
+				countBefore: action.before,
+				countAfter: action.after,
+				canAddNew: true
 			};
 			break;
 

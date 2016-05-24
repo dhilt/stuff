@@ -4,6 +4,16 @@ import getCommonActions from './common'
 import {browserHistory} from 'react-router'
 import popup from '../utils/popup'
 
+let searchItems = (dispatch, searchParams) =>
+	apiItems.search(searchParams).then(result =>
+		dispatch({
+			type: itemsActionTypes.receiveFound,
+			found: result.items,
+			before: result.before,
+			after: result.after
+		})
+	);
+
 export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {state: 'items', entity: 'Item'}), {
 
 	select: (selected) =>
@@ -31,20 +41,27 @@ export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {s
 		},
 
 	search: (searchParams) =>
-		(dispatch) => {
+		(dispatch, getState) => {
 			dispatch({
 				type: itemsActionTypes.search,
 				searchString: searchParams.searchString
 			});
 			if (searchParams.searchString) {
-				apiItems.search(searchParams).then(items =>
-					dispatch({
-						type: itemsActionTypes.receiveFound,
-						found: items
-					})
-				);
+				searchItems(dispatch, {
+					searchString: searchParams.searchString,
+					limit: getState().items.countPage,
+					offset: 0
+				});
 			}
 		},
+
+	getPage: (pageNumber) =>
+		(dispatch, getState) =>
+			searchItems(dispatch, {
+				searchString: getState().items.searchString,
+				limit: getState().items.countPage,
+				offset: getState().items.countPage * pageNumber
+			}),
 
 	addNew() {
 		return this.create((dispatch, getState, newRecord) =>

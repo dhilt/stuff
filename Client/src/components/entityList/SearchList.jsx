@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react'
 
-require('../../styles/modules/tags/searchList.scss');
+require('../../styles/modules/common/searchList.scss');
 
 const SearchList = ({i18n, searching, found, onSelect, edited, entityToken}) => (
 	<div className="searchList">

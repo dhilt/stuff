@@ -9,6 +9,9 @@ const mapStateToProps = (state) => {
 		i18n: (token) => i18n(state, token),
 		searching: state.items.searching,
 		found: state.items.found,
+		countPage: state.items.countPage,
+		countBefore: state.items.countBefore,
+		countAfter: state.items.countAfter,
 		searchString: state.items.searchString,
 		canAddNew: state.items.canAddNew,
 		origin: state.items.origin,
@@ -21,6 +24,9 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		onSearchInputChange: (searchString) => 
 			dispatch(itemsActions.search({searchString: searchString}))
+		,
+		getPage: (pageNumber) =>
+			dispatch(itemsActions.getPage(pageNumber))
 		,
 		onAddNewClick: (newName) => 
 			dispatch(itemsActions.new(newName))
