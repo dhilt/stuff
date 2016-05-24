@@ -123,6 +123,11 @@
   cursor: default; }
   .searchList li span:hover {
     color: #a00; }
+.searchPaging {
+  margin-bottom: 10px;
+  margin-left: 20px; }
+  .searchPaging button, .searchPaging .pagesInfo {
+    margin-right: 5px; }
 .tags .searchControls {
   margin-bottom: 15px; }
 
