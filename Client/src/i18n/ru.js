@@ -17,6 +17,13 @@ export default {
 				loginFail: 'Авторизация отклонена. Неверные логин или пароль.',
 				loginError: 'Авторизация отклонена. Ошибка на сервере.'
 			}
+		},
+		paging: {
+			first: 'Перв.',
+			previous: 'Пред.',
+			next: 'След.',
+			last: 'Посл.',
+			delimiter: '/'
 		}
 	},
 	Index: {

@@ -17,6 +17,13 @@ export default {
 				loginFail: 'Can\'t login. Bad credentials.',
 				loginError: 'Can\'t login. Server error.'
 			}
+		},
+		paging: {
+			first: 'First',
+			previous: 'Prev',
+			next: 'Next',
+			last: 'Last',
+			delimiter: '/'
 		}
 	},
 	Index: {
