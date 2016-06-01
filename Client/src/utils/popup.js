@@ -26,7 +26,20 @@ class Popup {
 
 	show(settings) {
 		if (settings.messageToken) {
-			settings.message = this.i18n()(settings.messageToken);
+			let str = this.i18n()(settings.messageToken);
+
+			// parametrization
+			if(settings.messageTokenParams && settings.messageTokenParams.length) {
+				let re = /\{\{\%(\d)\}\}/ig
+				str.match(re).forEach( m => {
+					let paramIndex = parseInt(m.replace(/[^\d]/g, ''), 10);
+					if(!isNaN(paramIndex) && paramIndex - 1 < settings.messageTokenParams.length) {
+						str = str.replace(m, settings.messageTokenParams[paramIndex - 1]);
+					}
+				});
+			}
+
+			settings.message = str;
 		}
 		return this.addNotificationMethod(settings);
 	}
