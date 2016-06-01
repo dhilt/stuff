@@ -4,6 +4,7 @@ export default {
 			index: 'Index',
 			items: 'Items',
 			tags: 'Tags',
+			settings: 'Settings',
 			logout: 'Logout'
 		},
 		authDialog: {
@@ -25,6 +26,9 @@ export default {
 			last: 'Last',
 			delimiter: '/'
 		}
+	},
+	Settings: {
+		title: 'Stuff Settings'
 	},
 	Index: {
 		title: 'Stuff Welcome Index',

@@ -6,7 +6,7 @@ require('../styles/modules/app.scss');
 
 const App = ({i18n, logout, languages, lang, selectLang}) => {
 	return (
-		<div>
+		<div className="header">
 			<Menu i18n={i18n} logout={logout}/>
 			<Languages languages={languages} lang={lang} selectLang={selectLang}/>
 		</div>

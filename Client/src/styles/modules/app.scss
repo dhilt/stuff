@@ -1,7 +1,11 @@
 @import '../variables';
-
+ 
 .app {
+
 	ul.menu {
+		float: left;
+		margin-right: 15px;
+
 		li {
 			float: left;
 			margin-right: 5px;
@@ -14,16 +18,10 @@
 		li:hover, li a:hover {
 			color: $hover-color;
 		}
-		li:last-child {
-			float: none;
-		}
 	}
 
 	ul.languages {
 		font-size: smaller;
-		position: absolute;
-		top: 8px;
-		left: 240px;
 
 		li {
 			cursor: default;
@@ -42,6 +40,6 @@
 	}
 
 	.content {
-		margin-top: 15px;
+		padding-top: 15px;
 	}
 }

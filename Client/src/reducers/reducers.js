@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import { routerReducer as routing } from 'react-router-redux'
 import { default as app } from './app'
+import { default as settings } from './settings'
 import { default as index } from './index'
 import { default as items } from './items'
 import { default as tags } from './tags'
@@ -16,6 +17,7 @@ export default combineReducers({
 
 	routing,
 	app,
+	settings,
 	index,
 	items,
 	tags

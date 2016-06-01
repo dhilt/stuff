@@ -11,6 +11,7 @@ import appActions from './actions/app'
 import tagsActions from './actions/tags'
 
 import App from './containers/App'
+import Settings from './containers/Settings'
 import Index from './containers/Index'
 import Items from './containers/Items'
 import Item from './containers/Item'
@@ -40,6 +41,7 @@ ReactDOM.render(
 				<Route path="items/:id" component={Item}/>
 				<Route path="tags" component={Tags}/>
 				<Route path="tags/:id" component={Tag}/>
+				<Route path="settings" component={Settings}/>
 			</Route>
 		</Router>
 	</Provider>,

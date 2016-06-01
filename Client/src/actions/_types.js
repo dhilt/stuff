@@ -4,6 +4,10 @@ export let appActionTypes = {
 	selectLanguage: 'APP_SELECT_LANGUAGE'
 };
 
+export let settingsActionTypes = {
+	change: 'CHANGE_SETTINGS'
+};
+
 export let indexActionTypes = {
 	openTagList: 'OPEN_INDEX_TAG_LIST',
 	closeTagList: 'CLOSE_INDEX_TAG_LIST',

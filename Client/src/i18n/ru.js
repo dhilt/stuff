@@ -4,6 +4,7 @@ export default {
 			index: 'Главная',
 			items: 'Предметы',
 			tags: 'Теги',
+			settings: 'Настройки',
 			logout: 'Выход'
 		},
 		authDialog: {
@@ -25,6 +26,9 @@ export default {
 			last: 'Посл.',
 			delimiter: '/'
 		}
+	},
+	Settings: {
+		title: 'Настройки'
 	},
 	Index: {
 		title: 'Добро пожаловать в dhilt/stuff',

@@ -6,6 +6,7 @@ const Menu = ({i18n, logout}) => (
 		<li><Link to="/">{i18n("App.mainMenu.index")}</Link></li>
 		<li><Link to="/items">{i18n("App.mainMenu.items")}</Link></li>
 		<li><Link to="/tags">{i18n("App.mainMenu.tags")}</Link></li>
+		<li><Link to="/settings">{i18n("App.mainMenu.settings")}</Link></li>
 		<li className="logout" onClick={logout}>{i18n("App.mainMenu.logout")}</li>
 	</ul>
 );
