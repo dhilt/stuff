@@ -237,6 +237,10 @@ app.get("/items", function (req, res) {
 	res.redirect('/');
 });
 
+app.get("/settings", function (req, res) {
+	res.redirect('/');
+});
+
 //-------start-------//
 
 app.listen(port, function (error) {
