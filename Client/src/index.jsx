@@ -8,6 +8,7 @@ import logger from 'redux-logger'
 import thunk from 'redux-thunk'
 import reducer from './reducers/reducers'
 import appActions from './actions/app'
+import settingsActions from './actions/settings'
 import tagsActions from './actions/tags'
 
 import App from './containers/App'
@@ -29,6 +30,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 store.dispatch(appActions.loadAllLanguages());
 store.dispatch(tagsActions.getAll());
+store.dispatch(settingsActions.setDefault());
 
 require('./styles/index.scss');
 

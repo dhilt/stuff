@@ -5,7 +5,10 @@ export let appActionTypes = {
 };
 
 export let settingsActionTypes = {
-	change: 'CHANGE_SETTINGS'
+	setDefault: 'SET_DEFAULT_SETTINGS',
+	change: 'CHANGE_SETTING',
+	cancel: 'CANCEL_SETTINGS',
+	apply: 'APPLY_SETTINGS'
 };
 
 export let indexActionTypes = {

@@ -7,14 +7,24 @@ import SettingsComponent from './../components/Settings'
 
 const mapStateToProps = (state) => {
 	return {
-		i18n: (token) => i18n(state, token)
+		i18n: (token) => i18n(state, token),
+		defaultSettings: state.settings.default,
+		releasedSettings: state.settings.released,
+		editedSettings: state.settings.edited,
+		apply: state.settings.apply
 	}
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onSettingChange: (settings) => {
-			dispatch(settingsActions.change(settings));
+		doChange: (token, value, options) => {
+			dispatch(settingsActions.change(token, value, options));
+		},
+		doCancel: () => {
+			dispatch(settingsActions.cancel());
+		},
+		doApply: () => {
+			dispatch(settingsActions.apply());
 		}
 	}
 };
