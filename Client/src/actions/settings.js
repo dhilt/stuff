@@ -1,4 +1,5 @@
 import {settingsActionTypes} from './_types'
+import {validate} from '../utils/validation'
 
 export default {
 	setDefault: () =>
@@ -8,16 +9,8 @@ export default {
 			}),
 
 	change: (token, value, options) => {
-		// validation
-		if(options.number) {
-			value = parseInt(value, 10);
-		}
-		if(isNaN(value)) {
-			value = 0;
-		}
-		if(options.hasOwnProperty('min') && value < options.min) {
-			value = options.min;
-		}
+
+		value = validate(value, options);
 
 		// object parsing
 		let settings = {};

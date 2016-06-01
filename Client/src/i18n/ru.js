@@ -25,6 +25,10 @@ export default {
 			next: 'След.',
 			last: 'Посл.',
 			delimiter: '/'
+		},
+		validation: {
+			numeric: 'Значение должно быть целочисленным.',
+			min: 'Значение должно превышать {{%1}}.'
 		}
 	},
 	Settings: {

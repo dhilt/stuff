@@ -25,6 +25,10 @@ export default {
 			next: 'Next',
 			last: 'Last',
 			delimiter: '/'
+		},
+		validation: {
+			numeric: 'The value must be numeric.',
+			min: 'The value can\'t be less than {{%1}}.'
 		}
 	},
 	Settings: {
