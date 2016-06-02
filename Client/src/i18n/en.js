@@ -27,12 +27,15 @@ export default {
 			delimiter: '/'
 		},
 		validation: {
+			required: 'The value can\'t be empty.',
+			illegalSymbols: 'Illegal symbol...',
 			numeric: 'The value must be numeric.',
 			min: 'The value can\'t be less than {{%1}}.'
 		}
 	},
 	Settings: {
-		title: 'Stuff Settings'
+		title: 'Stuff Settings',
+		itemsPerPage: 'Items per page'
 	},
 	Index: {
 		title: 'Stuff Welcome Index',
@@ -65,8 +68,8 @@ export default {
 		notFound: 'No tags found...'
 	},
 	Item: {
-		newItemIntro: 'Here you can create a new item',
-		editItemIntro: 'Here you can update item',
+		titleNew: 'Create new Item',
+		titleEdit: 'Update Item',
 		Tags: {
 			title: 'Tags of this item',
 			noTags: 'This item has no tags...'
@@ -84,8 +87,8 @@ export default {
 		}
 	},
 	Tag: {
-		newTagIntro: 'Here you can create a new tag',
-		editTagIntro: 'Here you can update tag',
+		titleNew: 'Create new Tag',
+		titleEdit: 'Update Tag',
 		Controls: {
 			accept: 'Accept',
 			remove: 'Delete',

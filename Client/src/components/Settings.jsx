@@ -7,12 +7,19 @@ const Settings = ({i18n, doChange, doCancel, doApply, defaultSettings, releasedS
 		<h3>{i18n('Settings.title')}</h3>
 		<div className="settingsList">
 
-			<input
-					value={editedSettings.items.itemsPerPage}
-					onChange={(e) => doChange("items.itemsPerPage", e.target.value, {number: true, min: 1})}/>
-			Items per page.
+			<ul>
+				<li>
+	<div className="description">{i18n('Settings.itemsPerPage')}</div>
+	<div className="field">
+		<input
+				value={editedSettings.items.itemsPerPage}
+				onChange={(e) => doChange("items.itemsPerPage", e.target.value, {required: true, number: true, min: 1})}/>
+	</div>
+				</li>
+			</ul>
 
 			<button onClick={doCancel}>Cancel</button>
+
 			<button onClick={doApply}>Save</button>
 
 		</div>

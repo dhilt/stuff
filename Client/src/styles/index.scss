@@ -1,7 +1,7 @@
 @import './variables';
 
 html {
-  font-family: sans-serif;
+	font-family: sans-serif;
 }
 
 input, textarea {
@@ -9,20 +9,24 @@ input, textarea {
 }
 
 ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+h3 {
+	margin: 15px 15px 5px 15px;
 }
 
 .caption {
-  font-style: italic;
-  font-size: smaller;
+	font-style: italic;
+	font-size: smaller;
 }
 
 .disabled {
-  opacity: 0.1;
+	opacity: 0.1;
 }
 
 .hide {
-  display: none;
+	display: none;
 }

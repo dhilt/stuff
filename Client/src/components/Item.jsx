@@ -8,9 +8,7 @@ require('../styles/modules/item.scss');
 const Item = ({i18n, original, edited, doLocalChange, cancelLocalChanges, create, update, remove, addNew, searchTagsString, searchTags, foundTags, selectTag, removeTag}) =>
 	original && edited ? (
 		<div className="item">
-			<div className="intro">
-				{ edited.id ? i18n('Item.editItemIntro') : i18n('Item.newItemIntro') }
-			</div>
+			<h3>{ edited.id ? i18n('Item.titleEdit') : i18n('Item.titleNew') }</h3>
 
 			<div className="content">
 				<TagProperty property="name" type="input"

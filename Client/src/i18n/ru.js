@@ -27,12 +27,15 @@ export default {
 			delimiter: '/'
 		},
 		validation: {
+			required: 'Значение должно быть непустым.',
+			illegalSymbols: 'Запрещенный символ...',
 			numeric: 'Значение должно быть целочисленным.',
 			min: 'Значение должно превышать {{%1}}.'
 		}
 	},
 	Settings: {
-		title: 'Настройки'
+		title: 'Настройки',
+		itemsPerPage: 'Количество предметов на странице'
 	},
 	Index: {
 		title: 'Добро пожаловать в dhilt/stuff',
@@ -65,8 +68,8 @@ export default {
 		notFound: 'Не найдено ни одного тега...'
 	},
 	Item: {
-		newItemIntro: 'Создание нового предмета',
-		editItemIntro: 'Редактирование предмета',
+		titleNew: 'Создание нового предмета',
+		titleEdit: 'Редактирование предмета',
 		Tags: {
 			title: 'Список тегов этого предмета',
 			noTags: 'У этого предемета нет ни одного тега...'
@@ -84,8 +87,8 @@ export default {
 		}
 	},
 	Tag: {
-		newTagIntro: 'Создание нового тега',
-		editTagIntro: 'Редактирование тега',
+		titleNew: 'Создание нового тега',
+		titleEdit: 'Редактирование тега',
 		Controls: {
 			accept: 'Сохранить',
 			remove: 'Удалить',
