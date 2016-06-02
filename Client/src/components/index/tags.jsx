@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import TagsSearchType from './TagsSearchType'
 
 require('../../styles/modules/index/tags.scss');
 
@@ -17,20 +18,7 @@ const Tags = ({i18n, isTagListOpened, onSearchInputFocus, onSearchInputChange, s
 					className={"clear" + (!canClear() ? " disabled" : "")}
 					onClick={ () =>  canClear() ? clearTags() : false }>
 				</span>
-				<div className="searchType">
-					<span className="caption">{i18n('Index.Tags.searchTypeCaption')}</span>
-					<span 
-						className={"option" + (searchType === "union" ? " selected" : "")}
-						onClick={() => searchType !== "union" ? changeSearchType("union") : null}>
-							{i18n('Index.Tags.searchTypeUnion')}
-					</span>
-					<span>{i18n('Index.Tags.searchTypeDelimiter')}</span>
-					<span 
-						className={"option" + (searchType === "intersect" ? " selected" : "")}
-						onClick={() => searchType !== "intersect" ? changeSearchType("intersect") : null}>
-							{i18n('Index.Tags.searchTypeIntersect')}
-					</span>
-				</div>
+				<TagsSearchType i18n={i18n} searchType={searchType} changeSearchType={changeSearchType}/>
 			</div>
 			<div className={"tagList" + (!isTagListOpened || (!searchString && !selectedTags.length) ? " hide" : "")}>
 				{

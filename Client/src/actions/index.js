@@ -54,7 +54,7 @@ export default {
 	getItems: () =>
 		(dispatch, getState) => {
 			let tags = getState().index.selectedTags.map(t => t.id);
-			let searchType = getState().index.searchType;
+			let searchType = getState().settings.released.index.tagsSearchType;
 			if (tags && tags.length) {
 				apiIndex.getItemsByTags(tags, searchType).then(items => dispatch({
 						type: indexActionTypes.receiveItems,

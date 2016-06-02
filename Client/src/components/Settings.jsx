@@ -29,7 +29,7 @@ const Settings = ({i18n, doChange, doCancel, doDefault, doApply, defaultSettings
 				</li>
 			</ul>
 
-			<button onClick={(e) => doApply(editedSettings)}>
+			<button onClick={doApply}>
 				{i18n('Settings.controls.save')}
 			</button>
 			<button onClick={doDefault}>

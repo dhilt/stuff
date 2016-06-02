@@ -4,13 +4,14 @@ import {connect} from 'react-redux'
 import i18n from '../utils/i18n'
 import indexActions from './../actions/index'
 import itemsActions from './../actions/items'
+import settingsActions from './../actions/settings'
 import IndexComponent from './../components/Index'
 
 const mapStateToProps = (state) => {
 	return {
 		i18n: (token) => i18n(state, token),
 		searchString: state.index.searchString,
-		searchType: state.index.searchType,
+		searchType: state.settings.released.index.tagsSearchType,
 		isTagListOpened: state.index.isTagListOpened,
 		tagsToSelect: state.index.tagsToSelect,
 		selectedTags: state.index.selectedTags,
@@ -34,7 +35,8 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(indexActions.searchTags(searchString));
 		},
 		changeSearchType: (newSearchType) => {
-			dispatch(indexActions.changeSearchType(newSearchType));
+			dispatch(settingsActions.change('index.tagsSearchType', newSearchType, { required: true, exact: ['union', 'intersect']}));
+			dispatch(settingsActions.apply(true));
 			dispatch(indexActions.getItems());
 		},
 		selectTag: (tag) => {

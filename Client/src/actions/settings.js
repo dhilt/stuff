@@ -41,16 +41,19 @@ export default {
 				type: settingsActionTypes.setDefault
 			}),
 
-	apply: (settings) => {
-		cookie.save('settings', JSON.stringify(settings), 365 * 24);
-		popup.show({
-			messageToken: 'Settings.actions.saved',
-			level: 'success'
-		});
-		return (dispatch) =>
-			dispatch({
+	apply: (silently) => 
+		(dispatch, getState) => {
+			let settings = getState().settings.edited;
+			cookie.save('settings', JSON.stringify(settings), 365 * 24);
+			if(!silently) {
+				popup.show({
+					messageToken: 'Settings.actions.saved',
+					level: 'success'
+				});	
+			}
+			return dispatch({
 				type: settingsActionTypes.apply,
 				settings: settings
-			})
-	}
+			});
+		}
 }

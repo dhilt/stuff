@@ -26,8 +26,8 @@ const mapDispatchToProps = (dispatch) => {
 		doDefault: () => {
 			dispatch(settingsActions.setDefault());
 		},
-		doApply: (settings) => {
-			dispatch(settingsActions.apply(settings));
+		doApply: () => {
+			dispatch(settingsActions.apply());
 		}
 	}
 };
