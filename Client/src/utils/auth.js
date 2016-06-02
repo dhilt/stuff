@@ -1,5 +1,8 @@
 import apiAuth from '../api/auth'
 import popup from './popup'
+import cookie from './cookie'
+
+const authCookieName = 'auth';
 
 function loginSuccessCallback (success) {
 	popup.show({
@@ -19,7 +22,7 @@ function loginFailCallback (e, fail) {
 }
 
 function logoutCallback () {
-	document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	cookie.clear(authCookieName);
 	auth.show();
 }
 
@@ -54,19 +57,13 @@ auth.close = function () {
 };
 
 auth.getToken = function () {
-	let name = 'auth';
-	let value = '; ' + document.cookie;
-	let parts = value.split('; ' + name + '=');
-	if (parts.length == 2)
-		return parts.pop().split(';').shift();
-	return '';
+	return cookie.getValue(authCookieName);
 };
 
 auth.login = function (login, pass, success, fail) {
 	apiAuth.login(login, pass).then(result => {
 			if (result && result.token) {
-				var date = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
-				document.cookie = 'auth=' + result.token + '; path=/; expires=' + date.toUTCString();
+				cookie.save(authCookieName, result.token, 7 * 24);
 				loginSuccessCallback(success);
 				auth.pending.forEach(p => p());
 				auth.close();
