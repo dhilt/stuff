@@ -32,7 +32,7 @@ export default function settings(state = initialState, action) {
 			};
 			break;
 
-		case settingsActionTypes.cancel:
+		case settingsActionTypes.reset:
 			stateChanges = {
 				released: action.settings,
 				edited: action.settings

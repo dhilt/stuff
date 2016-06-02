@@ -7,7 +7,7 @@ export let appActionTypes = {
 export let settingsActionTypes = {
 	setDefault: 'SET_DEFAULT_SETTINGS',
 	change: 'CHANGE_SETTING',
-	cancel: 'CANCEL_SETTINGS',
+	reset: 'RESET_SETTINGS',
 	apply: 'APPLY_SETTINGS'
 };
 

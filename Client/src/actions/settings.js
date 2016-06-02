@@ -4,14 +4,8 @@ import popup from '../utils/popup'
 import cookie from '../utils/cookie'
 
 export default {
-	setDefault: () =>
-		(dispatch) =>
-			dispatch({
-				type: settingsActionTypes.setDefault
-			}),
 
 	change: (token, value, options) => {
-
 		value = validate(value, options);
 
 		// object parsing
@@ -26,11 +20,25 @@ export default {
 			})
 	},
 
-	cancel: () =>
+	reset: (noPopup) => {
+		let settings = JSON.parse(cookie.getValue('settings'));
+		if(!noPopup) {
+			popup.show({
+				messageToken: 'Settings.actions.restored',
+				level: 'success'
+			});
+		}
+		return (dispatch) =>
+			dispatch({
+				type: settingsActionTypes.reset,
+				settings: settings
+			})
+	},
+
+	setDefault: () =>
 		(dispatch) =>
 			dispatch({
-				type: settingsActionTypes.cancel,
-				settings: JSON.parse(cookie.getValue('settings'))
+				type: settingsActionTypes.setDefault
 			}),
 
 	apply: (settings) => {

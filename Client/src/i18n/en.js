@@ -37,7 +37,8 @@ export default {
 		title: 'Stuff Settings',
 		itemsPerPage: 'Items per page',
 		actions: {
-			saved: 'Current settings were successfully saved.'
+			saved: 'Current settings were successfully saved.',
+			restored: 'Settings were restored successfully.'
 		}
 	},
 	Index: {

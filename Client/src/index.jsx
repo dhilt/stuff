@@ -30,7 +30,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 store.dispatch(appActions.loadAllLanguages());
 store.dispatch(tagsActions.getAll());
-store.dispatch(settingsActions.setDefault());
+store.dispatch(settingsActions.reset(true));
 
 require('./styles/index.scss');
 

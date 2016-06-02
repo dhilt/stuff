@@ -21,7 +21,10 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(settingsActions.change(token, value, options));
 		},
 		doCancel: () => {
-			dispatch(settingsActions.cancel());
+			dispatch(settingsActions.reset());
+		},
+		doDefault: () => {
+			dispatch(settingsActions.setDefault());
 		},
 		doApply: (settings) => {
 			dispatch(settingsActions.apply(settings));

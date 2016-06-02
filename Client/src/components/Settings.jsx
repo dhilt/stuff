@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 
 require('../styles/modules/settings.scss');
 
-const Settings = ({i18n, doChange, doCancel, doApply, defaultSettings, releasedSettings, editedSettings, apply}) => (
+const Settings = ({i18n, doChange, doCancel, doDefault, doApply, defaultSettings, releasedSettings, editedSettings}) => (
 	<div className="settings">
 		<h3>{i18n('Settings.title')}</h3>
 		<div className="settingsList">
@@ -20,6 +20,8 @@ const Settings = ({i18n, doChange, doCancel, doApply, defaultSettings, releasedS
 
 			<button onClick={doCancel}>Cancel</button>
 
+			<button onClick={doDefault}>Default</button>
+
 			<button onClick={(e) => doApply(editedSettings)}>Save</button>
 
 		</div>
@@ -30,8 +32,8 @@ Settings.propTypes = {
 	i18n: PropTypes.func.isRequired,
 	doChange: PropTypes.func.isRequired,
 	doCancel: PropTypes.func.isRequired,
-	doApply: PropTypes.func.isRequired,
-	apply: PropTypes.bool
+	doDefault: PropTypes.func.isRequired,
+	doApply: PropTypes.func.isRequired
 };
 
 export default Settings
