@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
 		defaultSettings: state.settings.default,
 		releasedSettings: state.settings.released,
 		editedSettings: state.settings.edited,
-		apply: state.settings.apply
+		languages: state.app.languages.map(lang => lang.token)
 	}
 };
 

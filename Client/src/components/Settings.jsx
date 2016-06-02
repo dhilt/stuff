@@ -2,12 +2,24 @@ import React, {PropTypes} from 'react'
 
 require('../styles/modules/settings.scss');
 
-const Settings = ({i18n, doChange, doCancel, doDefault, doApply, defaultSettings, releasedSettings, editedSettings}) => (
+const Settings = ({i18n, doChange, doCancel, doDefault, doApply, defaultSettings, releasedSettings, editedSettings, languages}) => (
 	<div className="settings">
 		<h3>{i18n('Settings.title')}</h3>
 		<div className="settingsList">
 
 			<ul>
+				<li>
+	<div className="description">{i18n('Settings.language')}</div>
+	<div className="field">
+		<select 
+				value={editedSettings.app.language}
+				onChange={(e) => doChange("app.language", e.target.value, {required: true, exact: languages})}>
+			{
+				languages.map(lang => <option key={lang} value={lang}>{lang}</option>)
+			}
+		</select>
+	</div>
+				</li>
 				<li>
 	<div className="description">{i18n('Settings.tagsSearchType')}</div>
 	<div className="field">
@@ -48,7 +60,8 @@ Settings.propTypes = {
 	doChange: PropTypes.func.isRequired,
 	doCancel: PropTypes.func.isRequired,
 	doDefault: PropTypes.func.isRequired,
-	doApply: PropTypes.func.isRequired
+	doApply: PropTypes.func.isRequired,
+	languages: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default Settings

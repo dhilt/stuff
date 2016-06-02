@@ -35,6 +35,7 @@ export default {
 	},
 	Settings: {
 		title: 'Stuff Settings',
+		language: 'Language',
 		tagsSearchType: 'Tags search type',
 		tagsSearchTypeUnion: 'Union',
 		tagsSearchTypeIntersect: 'Intersect',

@@ -3,6 +3,9 @@ import Helper from './_helpers'
 
 let initialState = {
 	default: {
+		app: {
+			language: "ru"
+		},
 		index: {
 			tagsSearchType: "intersect"
 		},
@@ -11,8 +14,7 @@ let initialState = {
 		}
 	},
 	released: {},
-	edited: {},
-	apply: false
+	edited: {}
 };
 
 

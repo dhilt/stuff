@@ -35,6 +35,7 @@ export default {
 	},
 	Settings: {
 		title: 'Настройки',
+		language: 'Язык',
 		tagsSearchType: 'Тип поиска по тегам',
 		tagsSearchTypeUnion: 'Объединение',
 		tagsSearchTypeIntersect: 'Пересечение',
