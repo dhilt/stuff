@@ -158,16 +158,30 @@ handle("delete", "/api/tags/:id", function (req, res) {
 
 handle("get", "/api/items", function (req, res) {
 	var searchString = req.query.searchString;
-	var result = [];
-	for (var i = mockData.items.length - 1; i >= 0; i--) {
+	var offset = parseInt(req.query.offset, 10) || 0;
+	var limit = parseInt(req.query.limit, 10) || null;
+	var result = [], j = 0, k = 0, after = 0, before = 0;
+	for (var i = 0; i < mockData.items.length; i++) {
 		if (mockData.items[i].name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1) {
+			if(j++ < offset) {
+				before = j;
+				continue;
+			}
+			if(++k && limit && k > limit) {
+				after = k - result.length;
+				continue;
+			}
 			result.push({
 				id: mockData.items[i].id,
 				name: mockData.items[i].name
 			});
 		}
 	}
-	res.send(result);
+	res.send({
+		before: before,
+		after: after,
+		items: result
+	});
 });
 
 handle("get", "/api/items/:id", function (req, res) {
