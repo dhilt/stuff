@@ -28,6 +28,7 @@ export default {
 		},
 		validation: {
 			required: 'The value can\'t be empty.',
+			exact: 'The value doesn\'t match the permitted list.',
 			illegalSymbols: 'Illegal symbol...',
 			numeric: 'The value must be numeric.',
 			min: 'The value can\'t be less than {{%1}}.'
@@ -36,6 +37,10 @@ export default {
 	Settings: {
 		title: 'Stuff Settings',
 		language: 'Language',
+		languages: {
+			en: 'en (English)',
+			ru: 'ru (Russian)'
+		},
 		tagsSearchType: 'Tags search type',
 		tagsSearchTypeUnion: 'Union',
 		tagsSearchTypeIntersect: 'Intersect',

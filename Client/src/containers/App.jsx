@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import appActions from '../actions/app'
 import popup from '../utils/popup'
 import auth from '../utils/auth'
 import i18n from '../utils/i18n'
+import settingsActions from '../actions/settings'
 import NotificationSystem from 'react-notification-system'
 import AuthModalDialog from '../components/AuthModalDialog'
 import AppComponent from '../components/App'
@@ -44,14 +44,15 @@ const mapStateToProps = (state) => {
 	return {
 		i18n: (token) => i18n(state, token),
 		languages: state.app.languages,
-		lang: state.app.lang
+		lang: state.settings.released.app.language
 	}
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		selectLang: (lang) => {
-			dispatch(appActions.selectLanguage(lang));
+		selectLang: (token) => {
+			dispatch(settingsActions.change('app.language', token, { required: true, exact: ['ru', 'en']}));
+			dispatch(settingsActions.apply(true));
 		}
 	}
 };

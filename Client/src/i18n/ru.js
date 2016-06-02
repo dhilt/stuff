@@ -28,6 +28,7 @@ export default {
 		},
 		validation: {
 			required: 'Значение должно быть непустым.',
+			exact: 'Значение не соответствует разрешенному списку.',
 			illegalSymbols: 'Запрещенный символ...',
 			numeric: 'Значение должно быть целочисленным.',
 			min: 'Значение должно превышать {{%1}}.'
@@ -36,6 +37,10 @@ export default {
 	Settings: {
 		title: 'Настройки',
 		language: 'Язык',
+		languages: {
+			en: 'en (Английский)',
+			ru: 'ru (Русский)'
+		},
 		tagsSearchType: 'Тип поиска по тегам',
 		tagsSearchTypeUnion: 'Объединение',
 		tagsSearchTypeIntersect: 'Пересечение',

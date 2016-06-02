@@ -15,7 +15,7 @@ const Settings = ({i18n, doChange, doCancel, doDefault, doApply, defaultSettings
 				value={editedSettings.app.language}
 				onChange={(e) => doChange("app.language", e.target.value, {required: true, exact: languages})}>
 			{
-				languages.map(lang => <option key={lang} value={lang}>{lang}</option>)
+				languages.map(lang => <option key={lang} value={lang}>{i18n('Settings.languages.' + lang)}</option>)
 			}
 		</select>
 	</div>

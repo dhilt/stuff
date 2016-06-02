@@ -2,7 +2,7 @@ let defaultLang = null;
 
 function getDefaultLang(state) {
 	if (!defaultLang) {
-		defaultLang = state.app.languages.find(lang => lang.token === state.app.defaultLangToken);
+		defaultLang = state.app.languages.find(lang => lang.token === state.settings.default.app.language);
 	}
 	return defaultLang;
 }
@@ -14,7 +14,7 @@ function translate(state, lang, token) {
 		let tokenItem = tokenItems[i];
 		result = result ? result[tokenItem] : lang.translations[tokenItem];
 		if (result === undefined) {
-			if (lang.token !== state.app.defaultLangToken) {
+			if (lang.token !== state.settings.default.app.language) {
 				return translate(state, getDefaultLang(state), token);
 			}
 			return tokenItems.join('-');
@@ -24,5 +24,6 @@ function translate(state, lang, token) {
 }
 
 export default function i18n(state, token) {
-	return translate(state, state.app.lang, token);
+	let language = state.app.languages.find(l => l.token === state.settings.released.app.language);
+	return translate(state, language, token);
 };

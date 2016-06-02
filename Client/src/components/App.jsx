@@ -20,10 +20,7 @@ App.propTypes = {
 		token: PropTypes.string.isRequired,
 		translations: PropTypes.object.isRequired
 	})).isRequired,
-	lang: PropTypes.shape({
-		token: PropTypes.string.isRequired,
-		translations: PropTypes.object.isRequired
-	}).isRequired,
+	lang: PropTypes.string.isRequired,
 	selectLang: PropTypes.func.isRequired
 };
 

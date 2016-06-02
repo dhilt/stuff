@@ -4,8 +4,8 @@ const Languages = ({languages, lang, selectLang}) => (
 	<ul className="languages">
 		{languages.map(langItem =>
 			<li key={langItem.token}
-					className={langItem.token === lang.token ? "selected" : ""}
-					onClick={() => (langItem.token !== lang.token) ? selectLang(langItem) : null}>
+					className={langItem.token === lang ? "selected" : ""}
+					onClick={() => (langItem.token !== lang) ? selectLang(langItem.token) : null}>
 				{langItem.token}
 			</li>
 		)}
@@ -17,10 +17,7 @@ Languages.propTypes = {
 		token: PropTypes.string.isRequired,
 		translations: PropTypes.object.isRequired
 	})).isRequired,
-	lang: PropTypes.shape({
-		token: PropTypes.string.isRequired,
-		translations: PropTypes.object.isRequired
-	}).isRequired,
+	lang: PropTypes.string.isRequired,
 	selectLang: PropTypes.func.isRequired
 };
 
