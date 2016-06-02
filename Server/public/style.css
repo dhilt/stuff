@@ -18,26 +18,21 @@
   padding: 20px;
   background: white;
   height: 200px; }
-.app ul.menu li {
+.app ul.menu {
   float: left;
-  margin-right: 5px; }
-
-.app ul.menu li, .app ul.menu li a {
-  text-decoration: underline;
-  cursor: default;
-  color: #551a8b; }
-
-.app ul.menu li:hover, .app ul.menu li a:hover {
-  color: #a00; }
-
-.app ul.menu li:last-child {
-  float: none; }
+  margin-right: 15px; }
+  .app ul.menu li {
+    float: left;
+    margin-right: 5px; }
+  .app ul.menu li, .app ul.menu li a {
+    text-decoration: underline;
+    cursor: default;
+    color: #551a8b; }
+  .app ul.menu li:hover, .app ul.menu li a:hover {
+    color: #a00; }
 
 .app ul.languages {
-  font-size: smaller;
-  position: absolute;
-  top: 8px;
-  left: 240px; }
+  font-size: smaller; }
   .app ul.languages li {
     cursor: default;
     float: left;
@@ -49,7 +44,17 @@
     font-weight: bolder; }
 
 .app .content {
-  margin-top: 15px; }
+  padding-top: 15px; }
+.settings input, .settings textarea, .settings select {
+  width: 150px; }
+
+.settings .settingsList ul {
+  margin-bottom: 15px; }
+  .settings .settingsList ul li {
+    margin-bottom: 7px; }
+
+.settings button {
+  margin-right: 7px; }
 .indexTags {
   width: 255px; }
   .indexTags .searchControls {
@@ -190,23 +195,28 @@
   .itemTags .tagsSearchList {
     margin-top: 7px; }
 .item .content {
+  padding-top: 0;
   margin-top: 0;
   margin-right: 7px;
   float: left; }
 .tag .content {
+  padding-top: 0;
   margin-top: 0;
   margin-right: 7px;
   float: left; }
 html {
   font-family: sans-serif; }
 
-input, textarea {
+input, textarea, select {
   width: 255px; }
 
 ul {
   margin: 0;
   padding: 0;
   list-style-type: none; }
+
+h3 {
+  margin: 15px 15px 7px 15px; }
 
 .caption {
   font-style: italic;

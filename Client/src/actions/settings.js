@@ -23,7 +23,8 @@ export default {
 	reset: (silently) =>
 		(dispatch, getState) => {
 			let _default = getState().settings.default;
-			let settings = JSON.parse(cookie.getValue('settings'));
+			let settingsJSON = cookie.getValue('settings') || '{}';
+			let settings = JSON.parse(settingsJSON);
 			// missied settings should be set by default
 			settings = Object.assign({}, _default, settings);
 			if(!silently) {
