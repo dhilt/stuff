@@ -36,7 +36,14 @@ export default {
 	Settings: {
 		title: 'Stuff Settings',
 		tagsSearchType: 'Tags search type',
+		tagsSearchTypeUnion: 'Union',
+		tagsSearchTypeIntersect: 'Intersect',
 		itemsPerPage: 'Items per page',
+		controls: {
+			cancel: 'Cancel',
+			default: 'Default',
+			save: 'Save'
+		},
 		actions: {
 			saved: 'Current settings were successfully saved.',
 			restored: 'Settings were restored successfully.'

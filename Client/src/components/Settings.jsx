@@ -14,8 +14,8 @@ const Settings = ({i18n, doChange, doCancel, doDefault, doApply, defaultSettings
 		<select 
 				value={editedSettings.index.tagsSearchType}
 				onChange={(e) => doChange("index.tagsSearchType", e.target.value, {required: true, exact: ['union', 'intersect']})}>
-			<option value="union">union</option>
-			<option value="intersect">intersect</option>
+			<option value="union">{i18n('Settings.tagsSearchTypeUnion')}</option>
+			<option value="intersect">{i18n('Settings.tagsSearchTypeIntersect')}</option>
 		</select>
 	</div>
 				</li>
@@ -29,11 +29,15 @@ const Settings = ({i18n, doChange, doCancel, doDefault, doApply, defaultSettings
 				</li>
 			</ul>
 
-			<button onClick={doCancel}>Cancel</button>
-
-			<button onClick={doDefault}>Default</button>
-
-			<button onClick={(e) => doApply(editedSettings)}>Save</button>
+			<button onClick={(e) => doApply(editedSettings)}>
+				{i18n('Settings.controls.save')}
+			</button>
+			<button onClick={doDefault}>
+				{i18n('Settings.controls.default')}
+			</button>
+			<button onClick={doCancel}>
+				{i18n('Settings.controls.cancel')}
+			</button>
 
 		</div>
 	</div>

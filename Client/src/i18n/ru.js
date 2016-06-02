@@ -36,7 +36,14 @@ export default {
 	Settings: {
 		title: 'Настройки',
 		tagsSearchType: 'Тип поиска по тегам',
+		tagsSearchTypeUnion: 'Объединение',
+		tagsSearchTypeIntersect: 'Пересечение',
 		itemsPerPage: 'Количество предметов на странице',
+		controls: {
+			cancel: 'Отмена',
+			default: 'Умолчания',
+			save: 'Сохранить'
+		},
 		actions: {
 			saved: 'Настройки сохранены.',
 			restored: 'Настройки восстановлены.'
