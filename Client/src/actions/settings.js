@@ -1,5 +1,7 @@
 import {settingsActionTypes} from './_types'
 import {validate} from '../utils/validation'
+import popup from '../utils/popup'
+import cookie from '../utils/cookie'
 
 export default {
 	setDefault: () =>
@@ -27,12 +29,20 @@ export default {
 	cancel: () =>
 		(dispatch) =>
 			dispatch({
-				type: settingsActionTypes.cancel
+				type: settingsActionTypes.cancel,
+				settings: JSON.parse(cookie.getValue('settings'))
 			}),
 
-	apply: () =>
-		(dispatch) =>
+	apply: (settings) => {
+		cookie.save('settings', JSON.stringify(settings), 365 * 24);
+		popup.show({
+			messageToken: 'Settings.actions.saved',
+			level: 'success'
+		});
+		return (dispatch) =>
 			dispatch({
-				type: settingsActionTypes.apply
+				type: settingsActionTypes.apply,
+				settings: settings
 			})
+	}
 }

@@ -35,7 +35,10 @@ export default {
 	},
 	Settings: {
 		title: 'Stuff Settings',
-		itemsPerPage: 'Items per page'
+		itemsPerPage: 'Items per page',
+		actions: {
+			saved: 'Current settings were successfully saved.'
+		}
 	},
 	Index: {
 		title: 'Stuff Welcome Index',

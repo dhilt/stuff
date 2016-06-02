@@ -35,7 +35,10 @@ export default {
 	},
 	Settings: {
 		title: 'Настройки',
-		itemsPerPage: 'Количество предметов на странице'
+		itemsPerPage: 'Количество предметов на странице',
+		actions: {
+			saved: 'Настройки сохранены.'
+		}
 	},
 	Index: {
 		title: 'Добро пожаловать в dhilt/stuff',

@@ -23,8 +23,8 @@ const mapDispatchToProps = (dispatch) => {
 		doCancel: () => {
 			dispatch(settingsActions.cancel());
 		},
-		doApply: () => {
-			dispatch(settingsActions.apply());
+		doApply: (settings) => {
+			dispatch(settingsActions.apply(settings));
 		}
 	}
 };
