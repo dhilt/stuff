@@ -3,6 +3,9 @@ import Helper from './_helpers'
 
 let initialState = {
 	default: {
+		index: {
+			tagsSearchType: "intersect"
+		},
 		items: {
 			itemsPerPage: 10
 		}

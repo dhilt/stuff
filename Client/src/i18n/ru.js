@@ -35,6 +35,7 @@ export default {
 	},
 	Settings: {
 		title: 'Настройки',
+		tagsSearchType: 'Тип поиска по тегам',
 		itemsPerPage: 'Количество предметов на странице',
 		actions: {
 			saved: 'Настройки сохранены.',

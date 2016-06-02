@@ -35,6 +35,7 @@ export default {
 	},
 	Settings: {
 		title: 'Stuff Settings',
+		tagsSearchType: 'Tags search type',
 		itemsPerPage: 'Items per page',
 		actions: {
 			saved: 'Current settings were successfully saved.',

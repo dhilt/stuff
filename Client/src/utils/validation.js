@@ -11,6 +11,14 @@ export function validate(_value, options) {
 		}
 	}
 
+	if(options.exact && options.exact.length && options.exact.indexOf(value) === -1) {
+		message = {
+			messageToken: 'App.validation.exact',
+			level: 'warning'
+		}
+		value = options.exact[0];
+	}
+
 	if (options.number) {
 		value = value.replace(/[^\d]/g, '');
 		value = parseInt(value, 10);

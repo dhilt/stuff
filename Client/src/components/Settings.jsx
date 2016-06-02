@@ -9,6 +9,17 @@ const Settings = ({i18n, doChange, doCancel, doDefault, doApply, defaultSettings
 
 			<ul>
 				<li>
+	<div className="description">{i18n('Settings.tagsSearchType')}</div>
+	<div className="field">
+		<select 
+				value={editedSettings.index.tagsSearchType}
+				onChange={(e) => doChange("index.tagsSearchType", e.target.value, {required: true, exact: ['union', 'intersect']})}>
+			<option value="union">union</option>
+			<option value="intersect">intersect</option>
+		</select>
+	</div>
+				</li>
+				<li>
 	<div className="description">{i18n('Settings.itemsPerPage')}</div>
 	<div className="field">
 		<input
