@@ -20,20 +20,23 @@ export default {
 			})
 	},
 
-	reset: (noPopup) => {
-		let settings = JSON.parse(cookie.getValue('settings'));
-		if(!noPopup) {
-			popup.show({
-				messageToken: 'Settings.actions.restored',
-				level: 'success'
-			});
-		}
-		return (dispatch) =>
-			dispatch({
+	reset: (silently) =>
+		(dispatch, getState) => {
+			let _default = getState().settings.default;
+			let settings = JSON.parse(cookie.getValue('settings'));
+			// missied settings should be set by default
+			settings = Object.assign({}, _default, settings);
+			if(!silently) {
+				popup.show({
+					messageToken: 'Settings.actions.restored',
+					level: 'success'
+				});
+			}
+			return dispatch({
 				type: settingsActionTypes.reset,
 				settings: settings
-			})
-	},
+			});
+		},
 
 	setDefault: () =>
 		(dispatch) =>
