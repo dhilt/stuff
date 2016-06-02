@@ -6,7 +6,7 @@ import SearchPaging from './entityList/SearchPaging'
 
 require('../styles/modules/tags.scss');
 
-const Items = ({i18n, searching, found, countPage, countBefore, countAfter, searchString, onSearchInputChange, getPage, canAddNew, onAddNewClick, onSelect, justEditedId}) => (
+const Items = ({i18n, searching, found, countPerPage, countBefore, countAfter, searchString, onSearchInputChange, getPage, canAddNew, onAddNewClick, onSelect, justEditedId}) => (
 	<div className="tags">
 		<h3>{i18n('Items.title')}</h3>
 		<div className="searchControls">
@@ -16,7 +16,7 @@ const Items = ({i18n, searching, found, countPage, countBefore, countAfter, sear
 		{
 			searchString ? (
 				<div>
-					<SearchPaging i18n={i18n} amount={found.length} page={countPage} before={countBefore} after={countAfter} getPage={getPage}/>
+					<SearchPaging i18n={i18n} amount={found.length} page={countPerPage} before={countBefore} after={countAfter} getPage={getPage}/>
 					<SearchList i18n={i18n} entityToken="Items"
 											searching={searching} found={found} 
 											onSelect={onSelect} edited={justEditedId}/>
@@ -34,7 +34,7 @@ Items.propTypes = {
 		name: PropTypes.string,
 		description: PropTypes.string
 	})).isRequired,
-	countPage: PropTypes.number,
+	countPerPage: PropTypes.number,
 	countBefore: PropTypes.number,
 	countAfter: PropTypes.number,
 	searchString: PropTypes.string,

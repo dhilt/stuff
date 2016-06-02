@@ -5,7 +5,6 @@ import Helper from './_helpers'
 let initialState = Object.assign({}, getCommonInitialState(), {
 	path: '/items',
 	receiving: false,
-	countPage: 10,
 	countBefore: 0,
 	countAfter: 0,
 	searchTagsString: '',

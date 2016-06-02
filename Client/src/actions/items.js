@@ -49,7 +49,7 @@ export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {s
 			if (searchParams.searchString) {
 				searchItems(dispatch, {
 					searchString: searchParams.searchString,
-					limit: getState().items.countPage,
+					limit: getState().settings.released.items.itemsPerPage,
 					offset: 0
 				});
 			}
@@ -59,8 +59,8 @@ export default Object.assign({}, getCommonActions(itemsActionTypes, apiItems, {s
 		(dispatch, getState) =>
 			searchItems(dispatch, {
 				searchString: getState().items.searchString,
-				limit: getState().items.countPage,
-				offset: getState().items.countPage * pageNumber
+				limit: getState().settings.released.items.itemsPerPage,
+				offset: getState().settings.released.items.itemsPerPage * pageNumber
 			}),
 
 	addNew() {
